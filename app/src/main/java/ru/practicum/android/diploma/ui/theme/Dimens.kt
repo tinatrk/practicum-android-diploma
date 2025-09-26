@@ -8,6 +8,8 @@ val FontSize22 = 22.sp
 val FontSize16 = 16.sp
 val FontSize12 = 12.sp
 
+val LetterSpacing = 0.sp
+
 val Padding46 = 46.dp
 val Padding32 = 32.dp
 val Padding28 = 28.dp
