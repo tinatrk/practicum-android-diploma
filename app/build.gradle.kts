@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
+    id("kotlin-parcelize")
+    alias(libs.plugins.devtoolsKsp)
 }
 
 android {
@@ -36,16 +38,48 @@ android {
 
     buildFeatures {
         buildConfig = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 }
 
 dependencies {
-    implementation(libs.androidX.core)
-    implementation(libs.androidX.appCompat)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appCompat)
 
     // UI layer libraries
-    implementation(libs.ui.material)
     implementation(libs.ui.constraintLayout)
+    implementation(libs.ui.material)
+
+    // Jetpack Compose
+    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    implementation(libs.material3)
+    implementation(libs.ui)
+    implementation(libs.ui.tooling.preview)
+    debugImplementation(libs.ui.tooling)
+    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.activity.compose)
+
+    // Navigation Compose
+    implementation(libs.navigation.compose)
+
+    // Koin
+    implementation(libs.koin.androidx.compose)
+
+    // Retrofit
+    implementation(libs.retrofit)
+
+    // Room
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.room.ktx)
+
+    // Coil
+    implementation(libs.coil.compose)
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
