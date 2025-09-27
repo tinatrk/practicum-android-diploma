@@ -36,6 +36,10 @@ android {
 
     buildFeatures {
         buildConfig = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 }
 
@@ -59,5 +63,7 @@ dependencies {
     // region compose
     implementation(libs.ui)
     implementation(libs.material3)
+    debugImplementation(libs.ui.tooling)
+    implementation(libs.runtime)
     // endregion
 }

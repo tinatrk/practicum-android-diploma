@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Practicum-Android-Diploma</string>
+
+    <string name="theme_use_example_topbar_title">Настройки фильтрации</string>
+    <string name="theme_use_example_btn_name">Выбрать</string>
+
 </resources>

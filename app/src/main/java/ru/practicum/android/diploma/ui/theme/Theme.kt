@@ -290,6 +290,32 @@ private val DarkCustomColors = CustomColors(
 )
 // endregion
 
+// region CustomTypograpty
+private val customTypography = CustomTypography(
+    topBarTitle = AppTypography.title22Medium,
+    bottomNavigationText = AppTypography.body12Regular,
+    searchEditTextText = AppTypography.body16Regular,
+    searchCountResultChipText = AppTypography.body16Regular,
+    vacancyListItemTitle = AppTypography.title22Medium,
+    vacancyListItemText = AppTypography.body16Regular,
+    filterListItemText = AppTypography.body16Regular,
+    filterListItemLabel = AppTypography.body12Regular,
+    textFieldText = AppTypography.body16Regular,
+    textFieldLabel = AppTypography.body12Regular,
+    vacancyInfoCardTitle = AppTypography.title22Medium,
+    vacancyInfoCardText = AppTypography.body16Regular,
+    buttonText = AppTypography.body16Medium,
+    toastText = AppTypography.body16Regular,
+    errorMessageText = AppTypography.title22Medium,
+    vacancyDetailBigTitle = AppTypography.title32Bold,
+    vacancyDetailTitle = AppTypography.title22Medium,
+    vacancyDetailSmallTitle = AppTypography.body16Medium,
+    vacancyDetailText = AppTypography.body16Regular,
+    teamTitle = AppTypography.title32Bold,
+    teamText = AppTypography.body16Medium
+)
+// endregion
+
 val LocalCustomColors = staticCompositionLocalOf<CustomColors> {
     error("No CustomColors provided")
 }
@@ -318,7 +344,7 @@ fun AppTheme(
 
     CompositionLocalProvider(
         LocalCustomColors provides customColors,
-        LocalTypography provides AppTypography
+        LocalTypography provides customTypography
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
