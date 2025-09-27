@@ -56,6 +56,8 @@ dependencies {
     androidTestImplementation(libs.uiTests.espressoCore)
     // endregion
 
-    // compose
+    // region compose
     implementation(libs.ui)
+    implementation(libs.material3)
+    // endregion
 }

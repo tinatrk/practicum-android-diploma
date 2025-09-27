@@ -3,6 +3,7 @@
 java = "VERSION_1_8"
 
 # Build constants
+material3 = "1.4.0"
 minSdk = "26"
 compileSdk = "34"
 targetSdk = "33"
@@ -15,6 +16,7 @@ ui = "1.9.2"
 [libraries]
 
 # Detekt
+material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 staticAnalysis-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
 staticAnalysis-detektApi = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }

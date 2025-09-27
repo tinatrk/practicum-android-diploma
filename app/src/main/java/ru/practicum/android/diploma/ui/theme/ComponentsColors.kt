@@ -4,26 +4,26 @@ import androidx.compose.ui.graphics.Color
 
 data class CustomColors(
     val screenBackground: Color,
-    val searchEditTextColors: SearchEditTextColors,
-    val bottomNavigationColors: BottomNavigationColors,
-    val progressBarColor: Color,
-    val searchCountResultMessageColors: SearchCountResultMessageColors,
-    val vacancyListItemColors: VacancyListItemColors,
-    val filterTextWithIconBlockColors: FilterTextWithIconBlockColors,
-    val salaryEditTextColors: SalaryEditTextColors,
+    val commonTextColor: Color,
     val topBarColors: TopBarColors,
-    val buttonColors: ButtonColors,
+    val bottomNavigationColors: BottomNavigationColors,
+    val searchEditTextColors: SearchEditTextColors,
+    val progressBarColor: Color,
+    val searchCountResultChipColors: SearchCountResultChipColors,
+    val vacancyListItemColors: VacancyListItemColors,
+    val filterListItemColors: FilterListItemColors,
+    val textFieldColors: TextFieldColors,
     // плашка на странице деталей вакансии
     val vacancyInfoCard: VacancyInfoCard,
+    val buttonColors: ButtonColors,
     val bottomSheetColors: BottomSheetColors,
-    val commonTextColor: Color
+    val toastColors: ToastColors
 )
 
 data class SearchEditTextColors(
     val background: Color,
     val hint: Color,
     val text: Color,
-    val label: Color,
     val cursor: Color,
     val iconTint: Color
 )
@@ -31,10 +31,11 @@ data class SearchEditTextColors(
 data class BottomNavigationColors(
     val background: Color,
     val activeIconAndText: Color,
-    val inactiveIconAndText: Color
+    val inactiveIconAndText: Color,
+    val divider: Color
 )
 
-data class SearchCountResultMessageColors(
+data class SearchCountResultChipColors(
     val background: Color,
     val text: Color
 )
@@ -46,30 +47,32 @@ data class VacancyListItemColors(
 )
 
 // Блоки с текстом и иконкой на экранах фильтрации
-data class FilterTextWithIconBlockColors(
-    // это текст, нажатие на который ведет на экран для выбора страны/региона/отрасли (на макетах в светлой теме он сервый)
-    val defaultFilterItem: FilterTextWithIconBlockStateColors,
-    // текст с флагом "не показывать без зарплаты"
-    val showWithoutSalaryStateColors: FilterTextWithIconBlockStateColors,
-    // это текст с конкретным выбором пользователя (на макетах в светлой теме он черный)
-    val userChoiceAddressState: FilterTextWithIconBlockStateColors,
-    val userChoiceIndustryState: FilterTextWithIconBlockStateColors,
+data class FilterListItemColors(
+    // это текст, нажатие на который ведет на экран для выбора страны/региона/отрасли
+    // (на макетах в светлой теме он сервый с иконкой >)
+    val defaultFilterItem: FilterListItemStateColors,
+    // это текст с экранов "выбор страны/региона" (на макетах в светлой теме он черный с иконкой >)
+    val addressItem: FilterListItemStateColors,
+    // это текст с конкретным выбором пользователя (на макетах в светлой теме он черный с иконкой X)
+    val userChoice: FilterListItemStateColors,
+    // текст с флагом "не показывать без зарплаты" или выбор отрасли
+    val filterItemWithCheckBox: FilterListItemStateColors
 )
 
-data class FilterTextWithIconBlockStateColors(
+data class FilterListItemStateColors(
     val background: Color,
     val text: Color,
     val iconTint: Color
 )
 
-data class SalaryEditTextColors(
+data class TextFieldColors(
     val background: Color,
     val hint: Color,
     val text: Color,
-    val labelState: SalaryEditTextLabelStateColors
+    val labelState: TextFieldLabelStateColors
 )
 
-data class SalaryEditTextLabelStateColors(
+data class TextFieldLabelStateColors(
     val unfocusedAndTextEmpty: Color,
     val unfocusedAndTextNotEmpty: Color,
     val focused: Color
@@ -116,4 +119,9 @@ data class VacancyInfoCard(
 data class BottomSheetColors(
     val background: Color,
     val screenBlackout: Color
+)
+
+data class ToastColors(
+    val background: Color,
+    val text: Color
 )
