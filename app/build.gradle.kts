@@ -3,7 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
     id("kotlin-parcelize")
+    alias(libs.plugins.androidx.room)
     alias(libs.plugins.devtoolsKsp)
+
 }
 
 android {
@@ -20,6 +22,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField(type = "String", name = "API_ACCESS_TOKEN", value = "\"${developProperties.apiAccessToken}\"")
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 
     buildTypes {
@@ -72,14 +78,13 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit)
 
-    // Room
-    implementation(libs.room.runtime)
-    ksp(libs.room.compiler)
-    annotationProcessor(libs.room.compiler)
-    implementation(libs.room.ktx)
-
     // Coil
     implementation(libs.coil.compose)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.kotlinx.collections.immutable)
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
