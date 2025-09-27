@@ -6,6 +6,9 @@ import ru.practicum.android.diploma.data.dto.request.FilterAreaRequest
 import ru.practicum.android.diploma.data.dto.request.FilterIndustryRequest
 import ru.practicum.android.diploma.data.dto.request.VacancyDetailRequest
 import ru.practicum.android.diploma.data.dto.request.VacancyRequest
+import java.net.HttpURLConnection.HTTP_BAD_REQUEST
+import java.net.HttpURLConnection.HTTP_INTERNAL_ERROR
+import java.net.HttpURLConnection.HTTP_OK
 
 class RetrofitNetworkClient(
     private val diplomaApi: DiplomaApi
@@ -13,36 +16,38 @@ class RetrofitNetworkClient(
 
     override suspend fun doRequest(dto: Request): Response {
         return withContext(Dispatchers.IO) {
-            try {
-                when (dto) {
-                    FilterAreaRequest -> {
-                        diplomaApi.getAreas().apply { resultCode = 200 }
-                    }
+            runCatching {
+                fetchResponse(dto)
+            }.getOrElse {
+                Response().apply { resultCode = HTTP_INTERNAL_ERROR }
+            }
+        }
+    }
 
-                    FilterIndustryRequest -> {
-                        diplomaApi.getIndustries().apply { resultCode = 200 }
-                    }
+    private suspend fun fetchResponse(dto: Request): Response {
+        return when (dto) {
+            FilterAreaRequest -> {
+                diplomaApi.getAreas().apply { resultCode = HTTP_OK }
+            }
 
-                    is VacancyRequest -> {
-                        diplomaApi.getVacancy(
-                            options = dto.options,
-                            text = dto.text,
-                            onlyWithSalary = dto.onlyWithSalary
-                        ).apply { resultCode = 200 }
-                    }
+            FilterIndustryRequest -> {
+                diplomaApi.getIndustries().apply { resultCode = HTTP_OK }
+            }
 
-                    is VacancyDetailRequest -> {
-                        diplomaApi.getVacancyById(id = dto.id).apply { resultCode = 200 }
-                    }
+            is VacancyRequest -> {
+                diplomaApi.getVacancy(
+                    options = dto.options,
+                    text = dto.text,
+                    onlyWithSalary = dto.onlyWithSalary
+                ).apply { resultCode = HTTP_OK }
+            }
 
-                    else -> {
-                        Response().apply { resultCode = 400 }
-                    }
-                }
-            } catch (e: Exception) {
-                Response().apply {
-                    resultCode = 500
-                }
+            is VacancyDetailRequest -> {
+                diplomaApi.getVacancyById(id = dto.id).apply { resultCode = HTTP_OK }
+            }
+
+            else -> {
+                Response().apply { resultCode = HTTP_BAD_REQUEST }
             }
         }
     }
