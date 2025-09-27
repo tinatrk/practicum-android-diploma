@@ -36,7 +36,6 @@ val AppTypography = BaseTypography(
     ),
 )
 
-
 data class BaseTypography(
     val title32Bold: TextStyle,
     val title22Medium: TextStyle,

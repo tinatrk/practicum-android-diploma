@@ -352,5 +352,3 @@ fun AppTheme(
         )
     }
 }
-
-

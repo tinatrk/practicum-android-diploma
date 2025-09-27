@@ -18,7 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import ru.practicum.android.diploma.R
 
-
 @Composable
 fun ScreenExample() {
     Scaffold(
@@ -37,7 +36,8 @@ fun ScreenExample() {
                 contentColor = LocalCustomColors.current.buttonColors.commonButtonColors.text
             ),
             shape = RoundedCornerShape(dimens.cornerRadius12),
-            onClick = {}) {
+            onClick = {}
+        ) {
             Text(
                 text = stringResource(R.string.theme_use_example_btn_name),
                 style = LocalTypography.current.buttonText
@@ -45,7 +45,6 @@ fun ScreenExample() {
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
