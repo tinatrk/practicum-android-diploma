@@ -62,12 +62,9 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
-    // Core-ktx — последняя без требований API 35+
     implementation("androidx.core:core-ktx:1.12.0")
 
-    // (не обязательно, но часто нужно)
     implementation("androidx.annotation:annotation:1.7.1")
-
 
     implementation(libs.androidX.core)
     implementation(libs.androidX.appCompat)
