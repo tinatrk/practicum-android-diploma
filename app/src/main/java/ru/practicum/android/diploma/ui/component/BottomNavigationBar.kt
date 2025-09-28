@@ -113,11 +113,14 @@ fun LightBottomNavigationBarPreview() {
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-
         ) { innerPadding ->
-            Box(Modifier
-                .fillMaxSize()
-                .padding(innerPadding)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Hello World")
             }
         }
     }
@@ -142,11 +145,14 @@ fun DarkBottomNavigationBarPreview() {
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-
         ) { innerPadding ->
-            Box(Modifier
-                .fillMaxSize()
-                .padding(innerPadding)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Hello World")
             }
         }
     }
