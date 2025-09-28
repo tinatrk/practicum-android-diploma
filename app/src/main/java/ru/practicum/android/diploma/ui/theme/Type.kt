@@ -31,7 +31,7 @@ val AppTypography = BaseTypography(
     body12Regular = TextStyle(
         fontFamily = ysDisplayFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = dimens.fontSize16,
+        fontSize = dimens.fontSize12,
         letterSpacing = dimens.letterSpacing
     ),
 )

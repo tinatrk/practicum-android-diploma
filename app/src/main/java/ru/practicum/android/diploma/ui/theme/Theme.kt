@@ -77,7 +77,7 @@ private val LightCustomColors = CustomColors(
     bottomNavigationColors = BottomNavigationColors(
         background = PrimaryLight,
         activeIconAndText = Tertiary,
-        inactiveIconAndText = Tertiary,
+        inactiveIconAndText = OnPrimaryContainer,
         divider = LightGray
     ),
 
@@ -203,7 +203,7 @@ private val DarkCustomColors = CustomColors(
     bottomNavigationColors = BottomNavigationColors(
         background = PrimaryDark,
         activeIconAndText = Tertiary,
-        inactiveIconAndText = Tertiary,
+        inactiveIconAndText = OnPrimaryContainer,
         divider = LightGray
     ),
 

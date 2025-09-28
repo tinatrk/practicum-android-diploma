@@ -65,5 +65,6 @@ dependencies {
     implementation(libs.material3)
     debugImplementation(libs.ui.tooling)
     implementation(libs.runtime)
+    implementation(libs.navigation.compose)
     // endregion
 }
