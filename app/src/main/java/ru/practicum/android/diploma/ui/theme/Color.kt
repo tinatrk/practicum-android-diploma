@@ -31,6 +31,7 @@ val OnSecondaryLight = Gray
 val OnSecondaryDark = White
 
 val OnPrimaryContainer = Gray
+val SecondaryContainer = LightGray
 val OnSecondaryContainer = Black
 val Tertiary = Blue
 val OnTertiary = White

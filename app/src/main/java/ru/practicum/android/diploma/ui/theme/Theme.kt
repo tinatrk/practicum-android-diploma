@@ -19,6 +19,7 @@ private val DarkColorScheme = darkColorScheme(
     onPrimaryContainer = OnPrimaryContainer,
     secondary = SecondaryDark,
     onSecondary = OnSecondaryDark,
+    secondaryContainer = SecondaryContainer,
     onSecondaryContainer = OnSecondaryContainer,
     tertiary = Tertiary,
     onTertiary = OnTertiary,
@@ -31,6 +32,7 @@ private val LightColorScheme = lightColorScheme(
     onPrimaryContainer = OnPrimaryContainer,
     secondary = SecondaryLight,
     onSecondary = OnSecondaryLight,
+    secondaryContainer = SecondaryContainer,
     onSecondaryContainer = OnSecondaryContainer,
     tertiary = Tertiary,
     onTertiary = OnTertiary,
@@ -78,7 +80,7 @@ private val LightCustomColors = CustomColors(
         background = PrimaryLight,
         activeIconAndText = Tertiary,
         inactiveIconAndText = OnPrimaryContainer,
-        divider = LightGray
+        divider = SecondaryContainer
     ),
 
     searchEditTextColors = SearchEditTextColors(
@@ -137,8 +139,8 @@ private val LightCustomColors = CustomColors(
     ),
 
     vacancyInfoCard = VacancyInfoCard(
-        background = PrimaryLight,
-        text = OnPrimaryLight,
+        background = SecondaryContainer,
+        text = OnSecondaryContainer,
     ),
 
     buttonColors = ButtonColors(
@@ -204,7 +206,7 @@ private val DarkCustomColors = CustomColors(
         background = PrimaryDark,
         activeIconAndText = Tertiary,
         inactiveIconAndText = OnPrimaryContainer,
-        divider = LightGray
+        divider = SecondaryContainer
     ),
 
     searchEditTextColors = SearchEditTextColors(
@@ -263,8 +265,8 @@ private val DarkCustomColors = CustomColors(
     ),
 
     vacancyInfoCard = VacancyInfoCard(
-        background = PrimaryDark,
-        text = OnPrimaryDark,
+        background = SecondaryContainer,
+        text = OnSecondaryContainer,
     ),
 
     buttonColors = ButtonColors(
