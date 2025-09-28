@@ -20,6 +20,6 @@ interface VacancyDao {
     @Query("SELECT * FROM vacancy WHERE vacancyId = :vacancyId")
     fun getVacancyById(vacancyId: String): Flow<VacancyEntity?>
 
-    @Query("SELECT * FROM vacancy ORDER BY addedTime DESC")
-    fun getAllVacancies(): Flow<List<VacancyEntity>?>
+    @Query("SELECT vacancyId, name, address_city, employer_name, employer_logo, salary_from, salary_to, salary_currency FROM vacancy ORDER BY addedTime DESC")
+    fun getVacanciesPreview(): Flow<List<VacancyEntity>?>
 }
