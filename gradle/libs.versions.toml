@@ -33,6 +33,8 @@ roomRuntime = "2.6.1"
 composeBom = "2024.09.00"
 lifecycleViewmodelCompose = "2.8.5"
 activityCompose = "1.8.0"
+material3 = "1.3.0"
+runtime = "1.7.8"
 
 # Coroutines
 kotlinxCoroutinesAndroid = "1.8.0"
@@ -84,7 +86,8 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose"
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
-material3 = { module = "androidx.compose.material3:material3" }
+material3 = { module = "androidx.compose.material3:material3", version.ref = "material3"}
+runtime = { module = "androidx.compose.runtime:runtime", version.ref = "runtime" }
 
 # Coroutines
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }

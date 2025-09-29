@@ -94,4 +94,12 @@ dependencies {
     androidTestImplementation(libs.uiTests.junitExt)
     androidTestImplementation(libs.uiTests.espressoCore)
     // endregion
+
+    // region compose
+    implementation(libs.ui)
+    implementation(libs.material3)
+    debugImplementation(libs.ui.tooling)
+    implementation(libs.runtime)
+    implementation(libs.navigation.compose)
+    // endregion
 }
