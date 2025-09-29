@@ -2,37 +2,38 @@ package ru.practicum.android.diploma.ui.theme
 
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 val AppTypography = BaseTypography(
     title32Bold = TextStyle(
         fontFamily = ysDisplayFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = dimens.fontSize32,
-        letterSpacing = dimens.letterSpacing
+        fontSize = 32.sp,
+        letterSpacing = 0.sp
     ),
     title22Medium = TextStyle(
         fontFamily = ysDisplayFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = dimens.fontSize22,
-        letterSpacing = dimens.letterSpacing
+        fontSize = 22.sp,
+        letterSpacing = 0.sp
     ),
     body16Medium = TextStyle(
         fontFamily = ysDisplayFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = dimens.fontSize16,
-        letterSpacing = dimens.letterSpacing
+        fontSize = 16.sp,
+        letterSpacing = 0.sp
     ),
     body16Regular = TextStyle(
         fontFamily = ysDisplayFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = dimens.fontSize16,
-        letterSpacing = dimens.letterSpacing
+        fontSize = 16.sp,
+        letterSpacing = 0.sp
     ),
     body12Regular = TextStyle(
         fontFamily = ysDisplayFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = dimens.fontSize12,
-        letterSpacing = dimens.letterSpacing
+        fontSize = 12.sp,
+        letterSpacing = 0.sp
     ),
 )
 

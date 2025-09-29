@@ -39,14 +39,14 @@ fun ScreenExample() {
         Button(
             modifier = Modifier
                 .padding(it)
-                .padding(horizontal = dimens.padding16)
+                .padding(horizontal = 16.dp)
                 .fillMaxWidth()
-                .height(dimens.componentSize60),
+                .height(60.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = LocalCustomColors.current.buttonColors.commonButtonColors.background,
                 contentColor = LocalCustomColors.current.buttonColors.commonButtonColors.text
             ),
-            shape = RoundedCornerShape(dimens.cornerRadius12),
+            shape = RoundedCornerShape(12.dp),
             onClick = {}
         ) {
             Text(
