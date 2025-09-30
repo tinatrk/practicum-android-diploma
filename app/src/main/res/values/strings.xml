@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Practicum-Android-Diploma</string>
+
+    <string name="theme_use_example_topbar_title">Настройки фильтрации</string>
+    <string name="theme_use_example_btn_name">Выбрать</string>
+    <string name="theme_use_example_bottom_bor_label_main">Главная</string>
+    <string name="theme_use_example_bottom_bor_label_favorite">Избранное</string>
+    <string name="theme_use_example_bottom_bor_label_team">Команда</string>
+    <string name="theme_use_example_image_content_description"> </string>
+
 </resources>
