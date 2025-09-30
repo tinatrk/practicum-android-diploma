@@ -7,9 +7,6 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import ru.practicum.android.diploma.ui.screen.FavoriteScreen
 
-@Serializable
-object Favorite
-
 fun NavGraphBuilder.favoriteDestination() {
     composable<Favorite> { FavoriteScreen() }
 }
@@ -23,3 +20,6 @@ fun NavHostController.navigateToFavorite() {
         restoreState = true
     }
 }
+
+@Serializable
+object Favorite
