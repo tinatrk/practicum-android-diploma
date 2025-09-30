@@ -3,6 +3,10 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.21"
+    id("kotlin-parcelize")
+    alias(libs.plugins.androidx.room)
+    alias(libs.plugins.devtoolsKsp)
+
 }
 
 android {
@@ -19,6 +23,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField(type = "String", name = "API_ACCESS_TOKEN", value = "\"${developProperties.apiAccessToken}\"")
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 
     buildTypes {
@@ -39,42 +47,45 @@ android {
         buildConfig = true
         compose = true
     }
-
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.7"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.06.00"))
-
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-
-    implementation("androidx.activity:activity-compose:1.8.2")
-
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-
-    implementation("androidx.navigation:navigation-compose:2.8.0")
-
-    implementation("androidx.core:core-ktx:1.12.0")
-
-    implementation("androidx.annotation:annotation:1.7.1")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-
-    implementation(libs.androidX.core)
-    implementation(libs.androidX.appCompat)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appCompat)
 
     // UI layer libraries
-    implementation(libs.ui.material)
     implementation(libs.ui.constraintLayout)
+    implementation(libs.ui.material)
+
+    // Jetpack Compose
+    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    implementation(libs.material3)
+    implementation(libs.ui)
+    implementation(libs.ui.tooling.preview)
+    debugImplementation(libs.ui.tooling)
+    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.activity.compose)
+
+    // Navigation Compose
+    implementation(libs.navigation.compose)
+
+    // Koin
+    implementation(libs.koin.androidx.compose)
+
+    // Retrofit
+    implementation(libs.retrofit)
+
+    // Coil
+    implementation(libs.coil.compose)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.kotlinx.collections.immutable)
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
@@ -83,5 +94,13 @@ dependencies {
     // region UI tests
     androidTestImplementation(libs.uiTests.junitExt)
     androidTestImplementation(libs.uiTests.espressoCore)
+    // endregion
+
+    // region compose
+    implementation(libs.ui)
+    implementation(libs.material3)
+    debugImplementation(libs.ui.tooling)
+    implementation(libs.runtime)
+    implementation(libs.navigation.compose)
     // endregion
 }

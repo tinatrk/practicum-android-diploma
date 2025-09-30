@@ -36,4 +36,3 @@ val OnSecondaryContainer = Black
 val Tertiary = Blue
 val OnTertiary = White
 val SurfaceTint = Red
-
