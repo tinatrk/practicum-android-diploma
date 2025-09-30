@@ -24,9 +24,6 @@ navigationCompose = "2.7.7"
 # Retrofit
 retrofit = "2.9.0"
 
-#Gson
-gson = "2.13.2"
-
 # Coil
 coilCompose = "2.6.0"
 
