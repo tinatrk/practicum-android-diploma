@@ -100,6 +100,10 @@ dependencies {
     implementation(libs.gson)
     // endregion
 
+    // region Gson
+    implementation(libs.gson)
+    // endregion
+
     // region compose
     implementation(libs.ui)
     implementation(libs.material3)
