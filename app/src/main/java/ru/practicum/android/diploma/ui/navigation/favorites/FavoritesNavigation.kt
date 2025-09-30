@@ -1,4 +1,5 @@
 package ru.practicum.android.diploma.ui.navigation.favorites
+
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
