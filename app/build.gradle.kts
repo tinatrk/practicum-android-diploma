@@ -57,7 +57,6 @@ dependencies {
     androidTestImplementation(libs.uiTests.espressoCore)
     // endregion
     implementation(libs.koin.androidx.compose)
-    implementation(libs.retrofit)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     annotationProcessor(libs.room.compiler)
