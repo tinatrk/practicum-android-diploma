@@ -77,6 +77,7 @@ dependencies {
 
     // Retrofit
     implementation(libs.retrofit)
+    implementation(libs.retrofit.converter)
 
     // Coil
     implementation(libs.coil.compose)
@@ -93,6 +94,10 @@ dependencies {
     // region UI tests
     androidTestImplementation(libs.uiTests.junitExt)
     androidTestImplementation(libs.uiTests.espressoCore)
+    // endregion
+
+    // region Gson
+    implementation(libs.gson)
     // endregion
 
     // region compose
