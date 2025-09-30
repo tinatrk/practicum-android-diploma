@@ -13,7 +13,7 @@ class RootActivity : AppCompatActivity() {
         setContent {
             AppTheme {
                 KoinAndroidContext {
-                    //TODO
+                    // ...
                 }
             }
         }
