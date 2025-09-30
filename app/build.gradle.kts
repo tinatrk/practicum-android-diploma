@@ -41,8 +41,8 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidX.core)
-    implementation(libs.androidX.appCompat)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appCompat)
 
     // UI layer libraries
     implementation(libs.ui.material)
