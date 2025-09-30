@@ -16,17 +16,17 @@ val bottomTabs = listOf(
     BottomTab(
         Home::class,
         R.drawable.main_24px,
-        R.string.label_home
+        R.string.theme_use_example_bottom_bor_label_main
     ),
     BottomTab(
         Favorite::class,
         R.drawable.favorites_24px,
-        R.string.label_fav
+        R.string.theme_use_example_bottom_bor_label_favorite
     ),
     BottomTab(
         Team::class,
         R.drawable.team_24px,
-        R.string.label_team
+        R.string.theme_use_example_bottom_bor_label_team
     )
 )
 
