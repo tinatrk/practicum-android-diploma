@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,17 +24,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.practicum.android.diploma.ui.navigation.AppScreen
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
+import ru.practicum.android.diploma.ui.navigation.BottomTab
 import ru.practicum.android.diploma.ui.navigation.bottomTabs
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 import ru.practicum.android.diploma.ui.theme.LocalTypography
+import kotlin.reflect.KClass
 
+@SuppressLint("RestrictedApi")
 @Composable
 fun BottomNavigationBar(
-    tabs: List<AppScreen>,
-    currentRoute: String?,
-    onItemSelected: (String) -> Unit,
+    tabs: List<BottomTab<out Any>>,
+    currentDestination: NavDestination?,
+    onItemSelected: (KClass<out Any>) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -48,23 +54,25 @@ fun BottomNavigationBar(
             containerColor = LocalCustomColors.current.bottomNavigationColors.background,
             tonalElevation = 0.dp,
         ) {
-            tabs.forEach { screen ->
-                val selected: Boolean = currentRoute == screen.route
+            tabs.forEach { tab ->
+                val selected: Boolean = currentDestination?.hierarchy?.any {
+                    it.hasRoute(tab.destination)
+                } == true
 
                 NavigationBarItem(
                     selected = selected,
-                    onClick = { onItemSelected(screen.route) },
+                    onClick = { if (!selected) onItemSelected(tab.destination) },
                     icon = {
                         Column(
                             verticalArrangement = Arrangement.spacedBy(0.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                painter = painterResource(screen.iconRes),
-                                contentDescription = stringResource(screen.labelRes)
+                                painter = painterResource(tab.iconRes),
+                                contentDescription = stringResource(tab.labelRes)
                             )
                             Text(
-                                text = stringResource(id = screen.labelRes),
+                                text = stringResource(id = tab.labelRes),
                                 style = LocalTypography.current.bottomNavigationText
                             )
                         }
@@ -108,7 +116,7 @@ fun LightBottomNavigationBarPreview() {
             bottomBar = {
                 BottomNavigationBar(
                     tabs = bottomTabs,
-                    currentRoute = "Home",
+                    currentDestination = null,
                     onItemSelected = { },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -140,7 +148,7 @@ fun DarkBottomNavigationBarPreview() {
             bottomBar = {
                 BottomNavigationBar(
                     tabs = bottomTabs,
-                    currentRoute = "Home",
+                    currentDestination = null,
                     onItemSelected = { },
                     modifier = Modifier.fillMaxWidth()
                 )

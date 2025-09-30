@@ -7,38 +7,36 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.practicum.android.diploma.ui.component.BottomNavigationBar
-import ru.practicum.android.diploma.ui.navigation.AppScreen
 import ru.practicum.android.diploma.ui.navigation.bottomTabs
-import ru.practicum.android.diploma.ui.screen.FavoriteScreen
-import ru.practicum.android.diploma.ui.screen.HomeScreen
-import ru.practicum.android.diploma.ui.screen.TeamScreen
+import ru.practicum.android.diploma.ui.navigation.favorites.Favorite
+import ru.practicum.android.diploma.ui.navigation.favorites.navigateToFavorite
+import ru.practicum.android.diploma.ui.navigation.home.Home
+import ru.practicum.android.diploma.ui.navigation.home.navigateToHome
+import ru.practicum.android.diploma.ui.navigation.team.Team
+import ru.practicum.android.diploma.ui.navigation.team.navigateToTeam
+import ru.practicum.android.diploma.ui.navigation.util.appGraph
 
 @Composable
 fun AppRoot(
     modifier: Modifier = Modifier
 ) {
     val navController: NavHostController = rememberNavController()
-    val currentBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute: String? = currentBackStackEntry?.destination?.route
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
                 tabs = bottomTabs,
-                currentRoute = currentRoute,
-                onItemSelected = { route ->
-                    if (route != currentRoute) {
-                        navController.navigate(route) {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
+                currentDestination = currentDestination,
+                onItemSelected = { tab ->
+                    when (tab) {
+                        Home::class -> navController.navigateToHome()
+                        Favorite::class -> navController.navigateToFavorite()
+                        Team::class -> navController.navigateToTeam()
                     }
                 },
                 modifier = modifier
@@ -47,12 +45,10 @@ fun AppRoot(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = AppScreen.Home.route,
+            startDestination = Home,
             modifier = modifier.padding(innerPadding)
         ) {
-            composable(AppScreen.Home.route) { HomeScreen() }
-            composable(AppScreen.Favorite.route) { FavoriteScreen() }
-            composable(AppScreen.Team.route) { TeamScreen() }
+            appGraph()
         }
     }
 }
