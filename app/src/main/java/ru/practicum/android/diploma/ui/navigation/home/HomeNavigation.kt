@@ -23,3 +23,4 @@ fun NavHostController.navigateToHome() {
 
 @Serializable
 object Home
+
