@@ -19,7 +19,7 @@ ksp = "1.9.0-1.0.13"
 koinAndroidxCompose = "4.0.2"
 
 # Navigation Compose
-navigationCompose = "2.7.7"
+navigationCompose = "2.8.0"
 
 # Retrofit
 retrofit = "2.9.0"
@@ -41,6 +41,9 @@ runtime = "1.7.8"
 kotlinxCoroutinesAndroid = "1.8.0"
 
 kotlinxCollectionsImmutable = "0.3.7"
+
+# Serialization
+kotlinx-serialization-json = "1.6.0"
 
 [libraries]
 
@@ -85,6 +88,9 @@ navigation-compose = { module = "androidx.navigation:navigation-compose", versio
 # Retrofit
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-converter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+
+# Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json"}
 
 # Gson
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }

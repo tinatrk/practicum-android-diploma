@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.24"
     id("kotlin-parcelize")
     alias(libs.plugins.androidx.room)
     alias(libs.plugins.devtoolsKsp)
@@ -95,6 +96,9 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.kotlinx.collections.immutable)
+
+    // Serialization
+    implementation(libs.kotlinx.serialization.json)
 
     // region Gson
     implementation(libs.gson)

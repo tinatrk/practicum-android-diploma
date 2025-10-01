@@ -1,19 +1,19 @@
 package ru.practicum.android.diploma.ui.root
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import org.koin.androidx.compose.KoinAndroidContext
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.ui.theme.AppTheme
 
-class RootActivity : AppCompatActivity() {
+class RootActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
                 KoinAndroidContext {
-                    // ...
+                    AppRoot()
                 }
             }
         }
