@@ -7,9 +7,6 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import ru.practicum.android.diploma.ui.screen.TeamScreen
 
-@Serializable
-object Team
-
 fun NavGraphBuilder.teamDestination() {
     composable<Team> { TeamScreen() }
 }
@@ -23,3 +20,6 @@ fun NavHostController.navigateToTeam() {
         restoreState = true
     }
 }
+
+@Serializable
+object Team

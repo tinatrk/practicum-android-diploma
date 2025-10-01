@@ -7,9 +7,6 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import ru.practicum.android.diploma.ui.screen.HomeScreen
 
-@Serializable
-object Home
-
 fun NavGraphBuilder.homeDestination() {
     composable<Home> { HomeScreen() }
 }
@@ -23,3 +20,6 @@ fun NavHostController.navigateToHome() {
         restoreState = true
     }
 }
+
+@Serializable
+object Home
