@@ -5,6 +5,8 @@ import ru.practicum.android.diploma.domain.favorites.api.interactor.FavoritesInt
 import ru.practicum.android.diploma.domain.favorites.api.repository.FavoritesRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyBrief
+import ru.practicum.android.diploma.util.common.Failure
+import ru.practicum.android.diploma.util.common.Resource
 
 class FavoritesInteractorImpl(
     private val favoritesRepository: FavoritesRepository
@@ -17,7 +19,7 @@ class FavoritesInteractorImpl(
         return favoritesRepository.deleteFavoriteVacancy(vacancy)
     }
 
-    override fun getAllFavoriteVacancies(): Flow<List<VacancyBrief>> {
+    override fun getAllFavoriteVacancies(): Flow<Resource<List<VacancyBrief>, Failure>> {
         return favoritesRepository.getAllFavoriteVacancies()
     }
 
@@ -25,7 +27,7 @@ class FavoritesInteractorImpl(
         return favoritesRepository.markFavoriteVacancies(vacancies)
     }
 
-    override fun getFavoriteVacancyById(vacancyId: Int): Flow<Vacancy> {
+    override fun getFavoriteVacancyById(vacancyId: Int): Flow<Resource<Flow<Vacancy>, Failure>> {
         return favoritesRepository.getFavoriteVacancyById(vacancyId)
     }
 }
