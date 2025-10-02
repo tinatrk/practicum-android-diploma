@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.domain.search.models
+package ru.practicum.android.diploma.domain.models
 
 data class VacancyPage(
     val found: Int,
