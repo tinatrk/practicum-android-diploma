@@ -10,6 +10,7 @@ targetSdk = "33"
 # Detekt
 detekt = "1.23.3"
 detektTwitterComposeRules ="0.0.26"
+gson = "2.13.2"
 
 # KSP
 ksp = "1.9.0-1.0.13"
@@ -18,7 +19,7 @@ ksp = "1.9.0-1.0.13"
 koinAndroidxCompose = "4.0.2"
 
 # Navigation Compose
-navigationCompose = "2.7.7"
+navigationCompose = "2.8.0"
 
 # Retrofit
 retrofit = "2.9.0"
@@ -41,6 +42,9 @@ kotlinxCoroutinesAndroid = "1.8.0"
 
 kotlinxCollectionsImmutable = "0.3.7"
 
+# Serialization
+kotlinx-serialization-json = "1.6.0"
+
 [libraries]
 
 # Detekt
@@ -51,6 +55,11 @@ staticAnalysis-detektTest = { module = "io.gitlab.arturbosch.detekt:detekt-test"
 staticAnalysis-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 staticAnalysis-detektLibraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
 staticAnalysis-detektTwitterComposeRules = { module = "com.twitter.compose.rules:detekt", version.ref = "detektTwitterComposeRules" }
+
+# Room
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 
 # AndroidX
 androidx-core = "androidx.core:core-ktx:1.10.0"
@@ -78,6 +87,13 @@ navigation-compose = { module = "androidx.navigation:navigation-compose", versio
 
 # Retrofit
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+
+# Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json"}
+
+# Gson
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 # Coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
