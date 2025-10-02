@@ -18,10 +18,10 @@ fun CustomTopBar(
     title: String,
     navigationIcon:
     @Composable
-        () -> Unit = {},
+    () -> Unit = {},
     actions:
-    @Composable
-        () (RowScope.() -> Unit) = {},
+    @Composable()
+    (RowScope.() -> Unit) = {},
 ) {
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
