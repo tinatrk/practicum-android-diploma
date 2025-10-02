@@ -17,10 +17,10 @@ import ru.practicum.android.diploma.ui.theme.LocalTypography
 fun CustomTopBar(
     title: String,
     navigationIcon:
-        @Composable
+    @Composable
         () -> Unit = {},
     actions:
-        @Composable
+    @Composable
         () (RowScope.() -> Unit) = {},
 ) {
     val colors = LocalCustomColors.current
