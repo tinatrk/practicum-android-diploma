@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.components.topBar
+package ru.practicum.android.diploma.ui.components.topbar
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -17,7 +17,7 @@ import ru.practicum.android.diploma.ui.theme.LocalTypography
 fun CustomTopBar(
     title: String,
     navigationIcon: @Composable () -> Unit = {},
-    actions: @Composable() (RowScope.() -> Unit) = {},
+    actions: @Composable () (RowScope.() -> Unit) = {},
 ) {
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current

@@ -20,16 +20,6 @@ import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 import ru.practicum.android.diploma.ui.theme.LocalTypography
 
-// Временная тестовая модель
-data class VacancyPreviewInfo(
-    val vacancyId: String,
-    val name: String,
-    val city: String,
-    val employerName: String,
-    val employerLogo: String?,
-    val salary: String
-)
-
 @Composable
 fun VacancyListItem(
     // заменить VacancyPreviewInfo на реальную модель, описывающую элемент списка вакансий на уровне UI слоя
@@ -86,6 +76,16 @@ fun getVacancyPreviewItem(): VacancyPreviewInfo {
         salary = "Зарплата не указана"
     )
 }
+
+// Временная тестовая модель
+data class VacancyPreviewInfo(
+    val vacancyId: String,
+    val name: String,
+    val city: String,
+    val employerName: String,
+    val employerLogo: String?,
+    val salary: String
+)
 
 @Preview(name = "lightTheme", showSystemUi = true)
 @Composable

@@ -25,8 +25,12 @@ fun CustomButton(
     onClick: () -> Unit
 ) {
     val colors =
-        if (isPositiveType) LocalCustomColors.current.buttonColors.commonButtonColors
-        else LocalCustomColors.current.buttonColors.resetFilterButtonColors
+        if (isPositiveType) {
+            LocalCustomColors.current.buttonColors.commonButtonColors
+        }
+        else {
+            LocalCustomColors.current.buttonColors.resetFilterButtonColors
+        }
 
     Button(
         onClick = onClick,
@@ -35,8 +39,7 @@ fun CustomButton(
             contentColor = colors.text,
             disabledContainerColor = colors.background,
             disabledContentColor = colors.text,
-
-            ),
+        ),
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .padding(horizontal = 16.dp)

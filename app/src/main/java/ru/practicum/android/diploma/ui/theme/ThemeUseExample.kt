@@ -27,7 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.ui.components.topBar.CustomTopBar
+import ru.practicum.android.diploma.ui.components.topbar.CustomTopBar
 import ru.practicum.android.diploma.ui.components.ToggleIcon
 
 @Composable

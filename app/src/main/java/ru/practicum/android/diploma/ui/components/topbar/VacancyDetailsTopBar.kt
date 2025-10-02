@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.components.topBar
+package ru.practicum.android.diploma.ui.components.topbar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
