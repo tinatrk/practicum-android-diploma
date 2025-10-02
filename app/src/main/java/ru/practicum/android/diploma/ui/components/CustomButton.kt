@@ -27,8 +27,7 @@ fun CustomButton(
     val colors =
         if (isPositiveType) {
             LocalCustomColors.current.buttonColors.commonButtonColors
-        }
-        else {
+        } else {
             LocalCustomColors.current.buttonColors.resetFilterButtonColors
         }
 

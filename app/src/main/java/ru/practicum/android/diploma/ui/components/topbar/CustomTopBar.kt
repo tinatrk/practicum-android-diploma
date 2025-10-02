@@ -16,8 +16,12 @@ import ru.practicum.android.diploma.ui.theme.LocalTypography
 @Composable
 fun CustomTopBar(
     title: String,
-    navigationIcon: @Composable () -> Unit = {},
-    actions: @Composable () (RowScope.() -> Unit) = {},
+    navigationIcon:
+        @Composable
+        () -> Unit = {},
+    actions:
+        @Composable
+        () (RowScope.() -> Unit) = {},
 ) {
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
