@@ -10,13 +10,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.practicum.android.diploma.ui.component.BottomNavigationBar
+import ru.practicum.android.diploma.ui.navigation.bottom.BottomNavDestination
+import ru.practicum.android.diploma.ui.navigation.bottom.navigateToFavorite
+import ru.practicum.android.diploma.ui.navigation.bottom.navigateToHome
+import ru.practicum.android.diploma.ui.navigation.bottom.navigateToTeam
 import ru.practicum.android.diploma.ui.navigation.bottomTabs
-import ru.practicum.android.diploma.ui.navigation.favorites.Favorite
-import ru.practicum.android.diploma.ui.navigation.favorites.navigateToFavorite
-import ru.practicum.android.diploma.ui.navigation.home.Home
-import ru.practicum.android.diploma.ui.navigation.home.navigateToHome
-import ru.practicum.android.diploma.ui.navigation.team.Team
-import ru.practicum.android.diploma.ui.navigation.team.navigateToTeam
 import ru.practicum.android.diploma.ui.navigation.util.appGraph
 
 @Composable
@@ -34,9 +32,9 @@ fun AppRoot(
                 currentDestination = currentDestination,
                 onItemSelected = { tab ->
                     when (tab) {
-                        Home::class -> navController.navigateToHome()
-                        Favorite::class -> navController.navigateToFavorite()
-                        Team::class -> navController.navigateToTeam()
+                        BottomNavDestination.Home::class -> navController.navigateToHome()
+                        BottomNavDestination.Favorite::class -> navController.navigateToFavorite()
+                        BottomNavDestination.Team::class -> navController.navigateToTeam()
                     }
                 },
                 modifier = modifier
@@ -45,7 +43,7 @@ fun AppRoot(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Home,
+            startDestination = BottomNavDestination.Home,
             modifier = modifier.padding(innerPadding)
         ) {
             appGraph()
