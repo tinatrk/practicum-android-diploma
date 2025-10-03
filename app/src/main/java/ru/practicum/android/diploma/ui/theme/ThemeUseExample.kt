@@ -1,16 +1,14 @@
 package ru.practicum.android.diploma.ui.theme
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -21,17 +19,16 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.ui.components.topbar.CustomTopBar
+import ru.practicum.android.diploma.ui.components.ToggleIcon
 
 @Composable
 fun ScreenExample() {
@@ -62,61 +59,35 @@ fun ScreenExample() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToolbarExample() {
-    TopAppBar(
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Text(
-                    text = stringResource(R.string.theme_use_example_topbar_title),
-                    style = LocalTypography.current.topBarTitle,
-                    textAlign = TextAlign.Center,
-                )
-            }
-        },
-
-        colors = TopAppBarDefaults.topAppBarColors(
-            // Тут используется красный цвет (текст кнопки для сброса фильтра) для наглядности
-            // (на самом деле тут нужен: LocalCustomColors.current.topBarColors.background)
-            containerColor = LocalCustomColors.current.buttonColors.resetFilterButtonColors.text,
-            titleContentColor = LocalCustomColors.current.topBarColors.text,
-            navigationIconContentColor = LocalCustomColors.current.topBarColors.iconType.commonIconTint,
-            actionIconContentColor = LocalCustomColors.current.topBarColors.iconType.filterStateColors.inactiveIcon.tint
-        ),
-
-        modifier = Modifier
-            .statusBarsPadding()
-            .height(64.dp),
-
+    CustomTopBar(
+        title = stringResource(id = R.string.search_screen_title),
         navigationIcon = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_arrow_back_24px),
-                    contentDescription = stringResource(R.string.theme_use_example_image_content_description),
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
+            Icon(
+                painter = painterResource(R.drawable.ic_arrow_back_24px),
+                contentDescription = stringResource(R.string.ic_arrow_back_description),
+                modifier = Modifier.padding(horizontal = 16.dp).clickable { }
+            )
         },
-
         actions = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_filter_off_24px),
-                    contentDescription = stringResource(R.string.theme_use_example_image_content_description),
-                    modifier = Modifier.padding(start = 16.dp, end = 20.dp)
-                )
-            }
-        },
+            ToggleIcon(
+                checkedIconId = R.drawable.ic_favorites_on_24px,
+                uncheckedIconId = R.drawable.ic_favorites_off_24px,
+                iconDescription = stringResource(R.string.ic_arrow_back_description),
+                onIconClick = { },
+                iconUncheckedTint = LocalCustomColors.current.topBarColors.iconBaseTint,
+                modifier = Modifier.padding(start = 8.dp, end = 4.dp)
+            )
+            ToggleIcon(
+                checkedIconId = R.drawable.ic_filter_on_24px,
+                uncheckedIconId = R.drawable.ic_filter_off_24px,
+                iconDescription = stringResource(R.string.ic_arrow_back_description),
+                onIconClick = { },
+                iconUncheckedTint = LocalCustomColors.current.topBarColors.iconBaseTint,
+                modifier = Modifier.padding(start = 4.dp, end = 12.dp)
+            )
+        }
     )
 }
 
@@ -148,7 +119,6 @@ fun BottomBarExample() {
                         style = LocalTypography.current.bottomNavigationText,
                     )
                 }
-
             },
             selected = true,
             colors = NavigationBarItemColors(
@@ -174,7 +144,7 @@ fun BottomBarExample() {
                     modifier = Modifier.background(LocalCustomColors.current.buttonColors.resetFilterButtonColors.text)
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_favorites_on_24),
+                        painter = painterResource(R.drawable.ic_favorites_on_24px),
                         contentDescription = stringResource(R.string.theme_use_example_image_content_description),
                     )
                     Text(

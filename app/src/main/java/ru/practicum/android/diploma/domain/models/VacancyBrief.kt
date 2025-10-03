@@ -1,6 +1,6 @@
-package ru.practicum.android.diploma.domain.search.models
+package ru.practicum.android.diploma.domain.models
 
-data class Vacancy(
+data class VacancyBrief(
     val id: String,
     val name: String?,
     val salary: Salary?,
