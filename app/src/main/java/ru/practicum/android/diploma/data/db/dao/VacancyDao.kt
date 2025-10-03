@@ -19,7 +19,7 @@ interface VacancyDao {
     suspend fun deleteVacancy(vacancy: VacancyEntity)
 
     @Query("SELECT * FROM vacancy WHERE vacancyId = :vacancyId")
-    fun getVacancyById(vacancyId: String): Flow<VacancyEntity?>
+    suspend fun getVacancyById(vacancyId: String): VacancyEntity?
 
     @Query(
         """
@@ -36,5 +36,5 @@ interface VacancyDao {
                 ORDER BY addedTime DESC
                 """
     )
-    fun getVacanciesPreview(): Flow<List<VacancyBriefDto>?>
+    suspend fun getVacanciesPreview(): List<VacancyBriefDto>?
 }
