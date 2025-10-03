@@ -18,7 +18,6 @@ class RetrofitNetworkClient(
 ) : NetworkClient {
 
     override suspend fun doRequest(dto: Request): Response {
-
         if (!networkInfoProvider.isConnected()) {
             return Response().apply { resultCode = HTTP_UNAVAILABLE }
         }
