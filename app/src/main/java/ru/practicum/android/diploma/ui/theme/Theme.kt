@@ -46,34 +46,12 @@ private val LightCustomColors = CustomColors(
 
     commonTextColor = OnPrimaryLight,
 
+    commonIconColor = OnPrimaryLight,
+
     topBarColors = TopBarColors(
         background = PrimaryLight,
         text = OnPrimaryLight,
-        iconType = IconTypeColors(
-            commonIconTint = OnPrimaryLight,
-
-            filterStateColors = IconState(
-                activeIcon = IconStateColors(
-                    background = Tertiary,
-                    tint = OnTertiary,
-                ),
-                inactiveIcon = IconStateColors(
-                    background = PrimaryLight,
-                    tint = OnPrimaryLight,
-                ),
-            ),
-
-            favoriteStateColors = IconState(
-                activeIcon = IconStateColors(
-                    background = PrimaryLight,
-                    tint = SurfaceTint,
-                ),
-                inactiveIcon = IconStateColors(
-                    background = PrimaryLight,
-                    tint = OnPrimaryLight,
-                ),
-            ),
-        )
+        iconBaseTint = OnPrimaryLight,
     ),
 
     bottomNavigationColors = BottomNavigationColors(
@@ -102,6 +80,7 @@ private val LightCustomColors = CustomColors(
         background = PrimaryLight,
         title = OnPrimaryLight,
         textInfo = OnPrimaryLight,
+        logoBorder = SecondaryContainer
     ),
 
     filterListItemColors = FilterListItemColors(
@@ -172,34 +151,12 @@ private val DarkCustomColors = CustomColors(
 
     commonTextColor = OnPrimaryDark,
 
+    commonIconColor = OnPrimaryDark,
+
     topBarColors = TopBarColors(
         background = PrimaryDark,
         text = OnPrimaryDark,
-        iconType = IconTypeColors(
-            commonIconTint = OnPrimaryDark,
-
-            filterStateColors = IconState(
-                activeIcon = IconStateColors(
-                    background = Tertiary,
-                    tint = OnTertiary,
-                ),
-                inactiveIcon = IconStateColors(
-                    background = PrimaryDark,
-                    tint = OnPrimaryDark,
-                ),
-            ),
-
-            favoriteStateColors = IconState(
-                activeIcon = IconStateColors(
-                    background = PrimaryDark,
-                    tint = SurfaceTint,
-                ),
-                inactiveIcon = IconStateColors(
-                    background = PrimaryDark,
-                    tint = OnPrimaryDark,
-                ),
-            ),
-        )
+        iconBaseTint = OnPrimaryDark,
     ),
 
     bottomNavigationColors = BottomNavigationColors(
@@ -228,6 +185,7 @@ private val DarkCustomColors = CustomColors(
         background = PrimaryDark,
         title = OnPrimaryDark,
         textInfo = OnPrimaryDark,
+        logoBorder = SecondaryContainer
     ),
 
     filterListItemColors = FilterListItemColors(
