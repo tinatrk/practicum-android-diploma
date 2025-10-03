@@ -13,7 +13,7 @@ interface FavoritesRepository {
 
     fun getAllFavoriteVacancies(): Flow<Resource<List<VacancyBrief>, Failure>>
 
-    fun markFavoriteVacancies(vacancies: List<VacancyBrief>): Flow<List<VacancyBrief>>
-
     fun getFavoriteVacancyById(vacancyId: String): Flow<Resource<Vacancy, Failure>>
+
+    fun isVacancyFavorite(vacancyId: String): Boolean
 }

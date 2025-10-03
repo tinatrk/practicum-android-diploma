@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.data.db.dto.VacancyBriefDto
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 
@@ -37,4 +36,7 @@ interface VacancyDao {
                 """
     )
     suspend fun getVacanciesPreview(): List<VacancyBriefDto>?
+
+    @Query("SELECT EXISTS (SELECT 1 FROM vacancy WHERE vacancyId = :id)")
+    fun exists(id: String): Boolean
 }

@@ -71,6 +71,7 @@ class VacancyDbConverter(private val gson: Gson) {
             skills = vacancy.skills?.let { getListFromString(it) },
             url = vacancy.url,
             industry = vacancy.industry,
+            isFavorite = true
         )
     }
 
