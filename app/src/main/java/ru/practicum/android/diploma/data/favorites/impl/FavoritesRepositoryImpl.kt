@@ -5,7 +5,7 @@ import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.data.db.AppDatabase
-import ru.practicum.android.diploma.data.favorites.converter.VacancyDbConverter
+import ru.practicum.android.diploma.data.coverter.VacancyConverter
 import ru.practicum.android.diploma.domain.favorites.api.repository.FavoritesRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyBrief
@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.util.common.Resource
 
 class FavoritesRepositoryImpl(
     private val appDatabase: AppDatabase,
-    private val vacancyConverter: VacancyDbConverter
+    private val vacancyConverter: VacancyConverter
 ) : FavoritesRepository {
 
     override suspend fun saveFavoriteVacancy(vacancy: Vacancy) {
