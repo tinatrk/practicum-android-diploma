@@ -28,11 +28,9 @@ class VacancyDbConverter(private val gson: Gson) {
             city = vacancyBrief.city,
             employerName = vacancyBrief.employerName,
             employerLogo = vacancyBrief.employerLogo,
-            salary = Salary(
-                from = vacancyBrief.salaryFrom,
-                to = vacancyBrief.salaryTo,
-                currency = vacancyBrief.salaryCurrency
-            ),
+            salaryFrom = vacancyBrief.salaryFrom,
+            salaryTo = vacancyBrief.salaryTo,
+            salaryCurrency = vacancyBrief.salaryCurrency,
         )
     }
 

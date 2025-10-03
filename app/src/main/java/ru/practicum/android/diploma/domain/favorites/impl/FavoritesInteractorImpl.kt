@@ -23,11 +23,11 @@ class FavoritesInteractorImpl(
         return favoritesRepository.getAllFavoriteVacancies()
     }
 
-    override fun markFavoriteVacancies(vacancies: List<VacancyBrief>): Flow<List<VacancyBrief>> {
-        return favoritesRepository.markFavoriteVacancies(vacancies)
+    override fun getFavoriteVacancyById(vacancyId: String): Flow<Resource<Vacancy, Failure>> {
+        return favoritesRepository.getFavoriteVacancyById(vacancyId)
     }
 
-    override fun getFavoriteVacancyById(vacancyId: Int): Flow<Resource<Flow<Vacancy>, Failure>> {
-        return favoritesRepository.getFavoriteVacancyById(vacancyId)
+    override fun isVacancyFavorite(vacancyId: String): Boolean {
+        return favoritesRepository.isVacancyFavorite(vacancyId)
     }
 }
