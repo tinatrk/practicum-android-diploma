@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.domain.details.models
+package ru.practicum.android.diploma.domain.models
 
 data class VacancyDetail(
     val id: String,
@@ -6,13 +6,13 @@ data class VacancyDetail(
     val description: String?,
     val salary: Salary?,
     val address: Address?,
-    val experience: Experience?,
-    val schedule: Schedule?,
-    val employment: Employment?,
+    val experience: String?,
+    val schedule: String?,
+    val employment: String?,
     val contacts: Contacts?,
     val employer: Employer?,
     val area: FilterArea?,
     val skills: List<String>?,
     val url: String?,
-    val industry: FilterIndustry?
+    val industry: String?
 )

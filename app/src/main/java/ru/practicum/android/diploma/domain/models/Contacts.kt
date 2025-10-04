@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.domain.details.models
+package ru.practicum.android.diploma.domain.models
 
 data class Contacts(
     val id: String,
