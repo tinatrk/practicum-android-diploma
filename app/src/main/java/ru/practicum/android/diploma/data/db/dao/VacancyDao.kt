@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.data.db.dto.VacancyBriefDto
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 
@@ -18,7 +19,7 @@ interface VacancyDao {
     suspend fun deleteVacancy(vacancy: VacancyEntity)
 
     @Query("SELECT * FROM vacancy WHERE vacancyId = :vacancyId")
-    suspend fun getVacancyById(vacancyId: String): VacancyEntity?
+    fun getVacancyById(vacancyId: String): Flow<VacancyEntity?>
 
     @Query(
         """
@@ -35,7 +36,7 @@ interface VacancyDao {
                 ORDER BY addedTime DESC
                 """
     )
-    suspend fun getVacanciesPreview(): List<VacancyBriefDto>?
+    fun getVacanciesPreview(): Flow<List<VacancyBriefDto>?>
 
     @Query("SELECT EXISTS (SELECT 1 FROM vacancy WHERE vacancyId = :id)")
     fun exists(id: String): Boolean
