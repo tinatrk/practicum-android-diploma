@@ -7,11 +7,13 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.practicum.android.diploma.data.convertor.VacancyConverter
 import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.data.network.AuthInterceptor
 import ru.practicum.android.diploma.data.network.DiplomaApi
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
+import ru.practicum.android.diploma.util.NetworkInfoProvider
 
 val dataModule = module {
 
@@ -35,7 +37,10 @@ val dataModule = module {
     }
 
     single<NetworkClient> {
-        RetrofitNetworkClient(get())
+        RetrofitNetworkClient(
+            diplomaApi = get(),
+            networkInfoProvider = get()
+        )
     }
 
     factory {
@@ -44,5 +49,15 @@ val dataModule = module {
 
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database")
+    }
+
+    single {
+        NetworkInfoProvider(
+            context = androidContext()
+        )
+    }
+
+    single {
+        VacancyConverter()
     }
 }
