@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.coverter
+package ru.practicum.android.diploma.data.converter
 
 import android.util.Log
 import com.google.gson.Gson
@@ -11,6 +11,7 @@ import ru.practicum.android.diploma.data.db.embedd.EmployerEmbeddable
 import ru.practicum.android.diploma.data.db.embedd.FilterAreaEmbeddable
 import ru.practicum.android.diploma.data.db.embedd.SalaryEmbeddable
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
+import ru.practicum.android.diploma.data.dto.response.VacancyResponse
 import ru.practicum.android.diploma.domain.models.Address
 import ru.practicum.android.diploma.domain.models.Contacts
 import ru.practicum.android.diploma.domain.models.Employer
@@ -18,9 +19,30 @@ import ru.practicum.android.diploma.domain.models.FilterArea
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyBrief
+import ru.practicum.android.diploma.domain.models.VacancyPage
 import java.lang.reflect.Type
 
 class VacancyConverter(private val gson: Gson) {
+
+    fun map(vacancyResponse: VacancyResponse): VacancyPage {
+        return VacancyPage(
+            found = vacancyResponse.found,
+            pages = vacancyResponse.pages,
+            page = vacancyResponse.page,
+            vacancies = vacancyResponse.vacancies.map { vacancyDto ->
+                VacancyBrief(
+                    id = vacancyDto.id,
+                    name = vacancyDto.name,
+                    city = vacancyDto.address?.city,
+                    employerName = vacancyDto.employer?.name,
+                    employerLogo = vacancyDto.employer?.logo,
+                    salaryFrom = vacancyDto.salary?.from,
+                    salaryTo = vacancyDto.salary?.to,
+                    salaryCurrency = vacancyDto.salary?.currency
+                )
+            }
+        )
+    }
 
     fun map(vacancyBrief: VacancyBriefDto): VacancyBrief {
         return VacancyBrief(
