@@ -8,5 +8,5 @@ data class VacancyBriefDto(
     val employerLogo: String?,
     val salaryFrom: Int?,
     val salaryTo: Int?,
-    val salaryCurrency: String?
+    val salaryCurrency: String?,
 )
