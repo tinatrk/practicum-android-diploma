@@ -38,7 +38,7 @@ class FavoritesRepositoryImpl(
     override fun getAllFavoriteVacancies(): Flow<Resource<List<VacancyBrief>, Failure>> =
         appDatabase.vacancyDao().getVacanciesPreview()
             .map { vacancies ->
-                if (vacancies != null) {
+                if (!vacancies.isNullOrEmpty()) {
                     Resource.Success(data = vacancies.map { vacancyConverter.map(it) })
                 } else {
                     Resource.Error(error = Failure.NotFound as Failure)
