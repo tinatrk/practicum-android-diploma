@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.domain.details.impl
 
-import ru.practicum.android.diploma.domain.details.api.repository.ExternalNavigatorRepository
 import ru.practicum.android.diploma.domain.details.api.interactor.ShareInteractor
+import ru.practicum.android.diploma.domain.details.api.repository.ExternalNavigatorRepository
 
 class ShareInteractorImpl(
     private val externalNavigator: ExternalNavigatorRepository

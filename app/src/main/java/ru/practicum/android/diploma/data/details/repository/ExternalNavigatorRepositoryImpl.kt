@@ -2,8 +2,8 @@ package ru.practicum.android.diploma.data.details.repository
 
 import android.content.Context
 import android.content.Intent
-import ru.practicum.android.diploma.domain.details.api.repository.ExternalNavigatorRepository
 import androidx.core.net.toUri
+import ru.practicum.android.diploma.domain.details.api.repository.ExternalNavigatorRepository
 
 class ExternalNavigatorRepositoryImpl(
     private val context: Context
