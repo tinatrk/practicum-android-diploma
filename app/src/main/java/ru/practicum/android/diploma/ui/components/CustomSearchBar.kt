@@ -2,18 +2,22 @@ package ru.practicum.android.diploma.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,10 +33,12 @@ fun CustomSearchBar(
     text: String,
     placeholderText: String,
     onTextChanged: (String) -> Unit,
-    onClearTextClick: () -> Unit
+    onClearTextClick: () -> Unit,
+    onSearch: (String) -> Unit
 ) {
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     SearchBar(
         inputField = {
@@ -42,7 +48,10 @@ fun CustomSearchBar(
                     onQueryChange = {
                         onTextChanged(it)
                     },
-                    onSearch = {},
+                    onSearch = {
+                        onSearch(it.trim())
+                        keyboardController?.hide()
+                    },
                     expanded = false,
                     onExpandedChange = {},
 
@@ -85,6 +94,7 @@ fun CustomSearchBar(
                 )
             }
         },
+        windowInsets = WindowInsets(top = 0),
         expanded = false,
         onExpandedChange = {},
         shape = RoundedCornerShape(12.dp),
@@ -94,7 +104,7 @@ fun CustomSearchBar(
         modifier = Modifier
             .background(colors.screenBackground)
             .padding(horizontal = 16.dp)
-            .padding(bottom = 8.dp)
+            // .padding(bottom = 8.dp)
             .fillMaxWidth()
     ) {}
 }
@@ -107,7 +117,8 @@ fun CustomSearchBarPreviewLight() {
             text = "",
             placeholderText = stringResource(R.string.search_bar_hint),
             onTextChanged = {},
-            onClearTextClick = {}
+            onClearTextClick = {},
+            onSearch = {}
         )
     }
 }
@@ -120,7 +131,8 @@ fun CustomSearchBarPreviewDark() {
             text = "",
             placeholderText = stringResource(R.string.search_bar_hint),
             onTextChanged = {},
-            onClearTextClick = {}
+            onClearTextClick = {},
+            onSearch = {}
         )
     }
 }

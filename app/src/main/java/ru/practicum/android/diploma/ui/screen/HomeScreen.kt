@@ -1,24 +1,250 @@
 package ru.practicum.android.diploma.ui.screen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.collections.immutable.toImmutableList
+import org.koin.androidx.compose.koinViewModel
+import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.domain.models.VacancyBrief
+import ru.practicum.android.diploma.presentation.search.SearchUiState
+import ru.practicum.android.diploma.presentation.search.SearchViewModel
+import ru.practicum.android.diploma.ui.components.CustomSearchBar
+import ru.practicum.android.diploma.ui.components.ProgressBar
+import ru.practicum.android.diploma.ui.components.ScreenMessage
+import ru.practicum.android.diploma.ui.components.VacancyList
+import ru.practicum.android.diploma.ui.components.topbar.SearchScreenTopBar
+import ru.practicum.android.diploma.ui.theme.AppTheme
+import ru.practicum.android.diploma.ui.theme.Blue
+import ru.practicum.android.diploma.ui.theme.LocalCustomColors
+import ru.practicum.android.diploma.ui.theme.LocalTypography
+import ru.practicum.android.diploma.ui.theme.White
+import ru.practicum.android.diploma.util.common.Failure
+import ru.practicum.android.diploma.util.debounce
+
+private const val SEARCH_DEBOUNCE_DELAY = 2000L
 
 @Composable
-fun HomeScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Главная",
-            fontSize = 48.sp,
-            textAlign = TextAlign.Center
+fun HomeScreen(
+    modifier: Modifier,
+) {
+    val vm: SearchViewModel = koinViewModel()
+    val state by vm.ui.collectAsStateWithLifecycle()
+
+    val onSearch = vm::searchVacancies
+    val onLoadNextPage = vm::loadNextPage
+
+    Scaffold(
+        containerColor = LocalCustomColors.current.screenBackground,
+        topBar = {
+            SearchScreenTopBar { }
+        }
+    ) { innerPadding ->
+        HomeScreen(
+            state = state,
+            onSearch = onSearch,
+            onLoadNextPage = onLoadNextPage,
+            modifier = modifier.padding(innerPadding)
         )
     }
 }
+
+@Composable
+fun HomeScreen(
+    state: SearchUiState,
+    onSearch: (String) -> Unit,
+    onLoadNextPage: () ->  Unit,
+    modifier: Modifier,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        SearchField(onSearch = onSearch)
+
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            when (state) {
+                SearchUiState.Idle -> SearchIdleContent()
+                SearchUiState.Loading -> ProgressBar()
+                is SearchUiState.Success -> {
+                    if (state.data.isEmpty()) {
+                        InfoLabel(
+                            count = state.count,
+                            modifier = Modifier.align(Alignment.TopCenter)
+                        )
+                        SearchNoResultsContent()
+                    } else {
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            InfoLabel(state.count)
+                            FoundVacanciesList(
+                                vacancies = state.data,
+                                onLoadNextPage = onLoadNextPage
+                            )
+                        }
+                    }
+                }
+                is SearchUiState.Error -> {
+                    val s = state.error
+                    if (state.error == Failure.Network) {
+                        ErrorMessage()
+                    } else {
+                        SearchNoResultsContent()
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SearchField(onSearch: (String) -> Unit) {
+    var query by rememberSaveable { mutableStateOf("") }
+    val latestOnSearch by rememberUpdatedState(onSearch)
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    val scope = rememberCoroutineScope()
+    val onSearchClickDebounce: (String) -> Unit = remember(SEARCH_DEBOUNCE_DELAY, scope) {
+        debounce(
+            SEARCH_DEBOUNCE_DELAY,
+            scope,
+            true
+        ) { query ->
+            if (query.isNotEmpty()) {
+                latestOnSearch(query.trim())
+                keyboardController?.hide()
+            }
+        }
+    }
+
+    CustomSearchBar(
+        text = query,
+        placeholderText = stringResource(R.string.search_bar_hint),
+        onTextChanged = { newText ->
+            query = newText
+            onSearchClickDebounce(newText)
+        },
+        onClearTextClick = { query = ""},
+        onSearch = latestOnSearch
+    )
+}
+
+@Composable
+fun InfoLabel(
+    count: Int,
+    modifier: Modifier = Modifier
+) {
+    val text = if (count == 0) {
+        stringResource(R.string.no_vacancies_label)
+    } else {
+        stringResource(R.string.vacancies_count_text, count)
+    }
+
+    Surface(
+        modifier = modifier
+            .padding(start = 16.dp, top = 3.dp, end = 16.dp),
+        shape = RoundedCornerShape(12.dp),
+        color = Blue
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+            color = White,
+            style = LocalTypography.current.vacancyInfoCardText
+        )
+    }
+}
+
+@Composable
+fun FoundVacanciesList(
+    vacancies: List<VacancyBrief>,
+    onLoadNextPage: () -> Unit
+) {
+    VacancyList(
+        vacancies.toImmutableList(),
+        {},
+        onLoadNextPage
+    )
+}
+
+@Composable
+fun SearchIdleContent() {
+    ScreenMessage(
+        imageId = R.drawable.im_search_vacancy
+    )
+}
+
+@Composable
+fun SearchNoResultsContent() {
+    ScreenMessage(
+        title = stringResource(R.string.vacancies_load_failed),
+        imageId = R.drawable.im_lack_of_list_cat
+    )
+}
+
+@Composable
+fun ErrorMessage() {
+    ScreenMessage(
+        title = stringResource(R.string.im_bad_connection_description),
+        imageId = R.drawable.im_bad_connection
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    name = "Text Field",
+    showBackground = true,
+    showSystemUi = true
+)
+@Composable
+fun SearchFieldPreview() {
+    AppTheme(darkTheme = true) {
+        Scaffold(
+            containerColor = LocalCustomColors.current.screenBackground,
+            topBar = {
+                SearchScreenTopBar { }
+            }
+        ) { innerPadding ->
+            HomeScreen(
+                state = SearchUiState.Idle,
+                {},
+                {},
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            )
+        }
+    }
+}
+

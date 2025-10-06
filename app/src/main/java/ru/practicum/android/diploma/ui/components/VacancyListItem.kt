@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.components
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -14,17 +15,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.domain.models.VacancyBrief
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 import ru.practicum.android.diploma.ui.theme.LocalTypography
 
 @Composable
 fun VacancyListItem(
-    // заменить VacancyPreviewInfo на реальную модель, описывающую элемент списка вакансий на уровне UI слоя
-    vacancyInfo: VacancyPreviewInfo,
-    onVacancyClick: (VacancyPreviewInfo) -> Unit
+    vacancyInfo: VacancyBrief,
+    onVacancyClick: (VacancyBrief) -> Unit
 ) {
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
@@ -53,12 +56,17 @@ fun VacancyListItem(
                 color = colors.vacancyListItemColors.title
             )
             Text(
-                text = vacancyInfo.employerName,
+                text = vacancyInfo.employerName!!, // тут в доках не nullable
                 style = typography.vacancyListItemText,
                 color = colors.vacancyListItemColors.textInfo
             )
             Text(
-                text = vacancyInfo.salary,
+                text = formatSalary(
+                    context = LocalContext.current,
+                    from = vacancyInfo.salaryFrom,
+                    to = vacancyInfo.salaryTo,
+                    currency = vacancyInfo.salaryCurrency
+                ),
                 style = typography.vacancyListItemText,
                 color = colors.vacancyListItemColors.textInfo
             )
@@ -66,26 +74,47 @@ fun VacancyListItem(
     }
 }
 
-fun getVacancyPreviewItem(): VacancyPreviewInfo {
-    return VacancyPreviewInfo(
-        vacancyId = "-1",
+private fun formatSalary(
+    context: Context,
+    from: Int?, to: Int?,
+    currency: String?
+): String {
+    val safeCurrency = currency ?: ""
+
+    return when {
+        from != null && to == null -> context.getString(
+            R.string.salary_from,
+            from,
+            safeCurrency
+        )
+        from == null && to != null -> context.getString(
+            R.string.salary_to,
+            to,
+            safeCurrency
+        )
+        from != null && to != null -> {
+            if (from == to) {
+                context.getString(R.string.salary, from, safeCurrency)
+            } else {
+                context.getString(R.string.salary_from_to, from, to, safeCurrency)
+            }
+        }
+        else -> context.getString(R.string.salary_unknown)
+    }
+}
+
+fun getVacancyPreviewItem(): VacancyBrief {
+    return VacancyBrief(
+        id = "-1",
         name = "Андроид-разработчик",
         city = "Москва",
         employerName = "Яндекс",
         employerLogo = null,
-        salary = "Зарплата не указана"
+        salaryFrom = 0,
+        salaryTo = 1000,
+        salaryCurrency = "$"
     )
 }
-
-// Временная тестовая модель
-data class VacancyPreviewInfo(
-    val vacancyId: String,
-    val name: String,
-    val city: String,
-    val employerName: String,
-    val employerLogo: String?,
-    val salary: String
-)
 
 @Preview(name = "lightTheme", showSystemUi = true)
 @Composable

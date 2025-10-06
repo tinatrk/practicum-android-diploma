@@ -18,6 +18,10 @@
     <string name="favorites_screen_title">Избранное</string>
     <string name="filter_settings_screen_title">Настройки фильтрации</string>
 
+    <string name="no_vacancies_label">Таких вакансий нет</string>
+    <string name="vacancies_load_failed">Не удалось получить\nсписок вакансий</string>
+    <string name="vacancies_count_text">Найдено %1$d вакансий</string>
+
     <string name="search_bar_hint">Введите запрос</string>
     <string name="search_bar_clear_btn_description">Очистить поле ввода</string>
 
@@ -25,7 +29,12 @@
     <string name="im_search_vacancy_description">Поисковый запрос не задан</string>
 
     <string name="logo_description">Логотип работодателя</string>
+    <string name="salary">%1$d %2$s</string>
+    <string name="salary_from">от %1$d %2$s</string>
+    <string name="salary_to">до %1$d %2$s</string>
+    <string name="salary_from_to">от %1$d до %2$d %3$s</string>
     <string name="salary_unknown">Зарплата не указана</string>
+
 
     <string name="btn_choose">Выбрать</string>
     <string name="btn_apply">Применить</string>
