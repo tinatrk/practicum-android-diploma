@@ -38,7 +38,8 @@
     <string name="vacancy_city_unknown">Город вакансии не указан</string>
     <string name="vacancy_employer_name_unknown">Название компании работодателя не указано</string>
     <string name="salary_unknown">Зарплата не указана</string>
-    <string name="salary_from">от</string>
-    <string name="salary_to">до</string>
+    <string name="salary_from">от %1$s %2$s</string>
+    <string name="salary_to">%1$s %2$s</string>
+    <string name="salary_from_to">от %1$s до %2$s %3$s</string>
 
 </resources>

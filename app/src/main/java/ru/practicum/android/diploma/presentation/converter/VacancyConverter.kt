@@ -20,25 +20,28 @@ class VacancyConverter(
     }
 
     private fun getSalaryString(from: Int?, to: Int?, currency: String?): String {
+        if (currency == null) return resourceProvider.getString(R.string.salary_unknown)
 
-        if (from != null && to != null) {
-            return resourceProvider.getString(R.string.salary_from) + DELIMITER + getNumberStr(from) + DELIMITER +
-                resourceProvider.getString(R.string.salary_to) + DELIMITER + getNumberStr(to) + DELIMITER + currency
-        } else if (from != null) {
-            return resourceProvider.getString(R.string.salary_from) + DELIMITER + getNumberStr(from) + DELIMITER +
-                currency
-        } else if (to != null ){
-            return getNumberStr(to) + DELIMITER + currency
+        return when {
+            from != null && to != null -> {
+                resourceProvider.getString(R.string.salary_from_to, getNumberStr(from), getNumberStr(to), currency)
+            }
+
+            from != null && to == null -> {
+                resourceProvider.getString(R.string.salary_from, getNumberStr(from), currency)
+            }
+
+            from == null && to != null -> {
+                resourceProvider.getString(R.string.salary_to, getNumberStr(to), currency)
+            }
+
+            else -> {
+                resourceProvider.getString(R.string.salary_unknown)
+            }
         }
-
-        return resourceProvider.getString(R.string.salary_unknown)
     }
 
     private fun getNumberStr(number: Int): String {
         return String.format(null, "%,d", number).replace(',', ' ')
-    }
-
-    companion object {
-        private const val DELIMITER = ' '
     }
 }
