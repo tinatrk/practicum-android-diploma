@@ -16,15 +16,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 import ru.practicum.android.diploma.ui.theme.LocalTypography
 
 @Composable
 fun VacancyListItem(
-    // заменить VacancyPreviewInfo на реальную модель, описывающую элемент списка вакансий на уровне UI слоя
-    vacancyInfo: VacancyPreviewInfo,
-    onVacancyClick: (VacancyPreviewInfo) -> Unit
+    vacancyInfo: VacancyBriefInfo,
+    onVacancyClick: (String) -> Unit
 ) {
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
@@ -37,7 +37,7 @@ fun VacancyListItem(
             .background(colors.vacancyListItemColors.background)
             .padding(horizontal = 16.dp, vertical = 9.dp)
             .wrapContentHeight()
-            .clickable { onVacancyClick(vacancyInfo) }
+            .clickable { onVacancyClick(vacancyInfo.id) }
     ) {
         Logo(vacancyInfo.employerLogo)
         Spacer(modifier = Modifier.width(12.dp))
@@ -66,9 +66,9 @@ fun VacancyListItem(
     }
 }
 
-fun getVacancyPreviewItem(): VacancyPreviewInfo {
-    return VacancyPreviewInfo(
-        vacancyId = "-1",
+fun getVacancyPreviewItem(): VacancyBriefInfo {
+    return VacancyBriefInfo(
+        id = "-1",
         name = "Андроид-разработчик",
         city = "Москва",
         employerName = "Яндекс",
@@ -76,16 +76,6 @@ fun getVacancyPreviewItem(): VacancyPreviewInfo {
         salary = "Зарплата не указана"
     )
 }
-
-// Временная тестовая модель
-data class VacancyPreviewInfo(
-    val vacancyId: String,
-    val name: String,
-    val city: String,
-    val employerName: String,
-    val employerLogo: String?,
-    val salary: String
-)
 
 @Preview(name = "lightTheme", showSystemUi = true)
 @Composable

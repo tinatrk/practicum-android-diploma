@@ -11,13 +11,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.ui.theme.AppTheme
 
 @Composable
 fun VacancyList(
-    // заменить VacancyPreviewInfo на реальную модель, описывающую элемент списка вакансий на уровне UI слоя
-    vacancies: ImmutableList<VacancyPreviewInfo>,
-    onVacancyClick: (VacancyPreviewInfo) -> Unit,
+    vacancies: ImmutableList<VacancyBriefInfo>,
+    onVacancyClick: (String) -> Unit,
     topPadding: Dp
 ) {
     LazyColumn(
