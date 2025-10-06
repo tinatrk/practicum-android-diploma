@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.domain.details.api.interactor
 
-interface ShareInteractor {
+interface ExternalNavigatorInteractor {
 
     fun shareVacancy(vacancyUrl: String)
 

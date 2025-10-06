@@ -1,11 +1,11 @@
 package ru.practicum.android.diploma.domain.details.impl
 
-import ru.practicum.android.diploma.domain.details.api.interactor.ShareInteractor
+import ru.practicum.android.diploma.domain.details.api.interactor.ExternalNavigatorInteractor
 import ru.practicum.android.diploma.domain.details.api.repository.ExternalNavigatorRepository
 
-class ShareInteractorImpl(
+class ExternalNavigatorInteractorImpl(
     private val externalNavigator: ExternalNavigatorRepository
-) : ShareInteractor {
+) : ExternalNavigatorInteractor {
 
     override fun shareVacancy(vacancyUrl: String) {
         externalNavigator.shareUrl(vacancyUrl)
