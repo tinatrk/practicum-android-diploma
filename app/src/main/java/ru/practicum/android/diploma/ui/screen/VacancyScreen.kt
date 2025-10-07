@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.ui.screen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,18 +10,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, onVacancyClick: (String) -> Unit) {
+fun VacancyScreen(
+    vacancyId: String
+) {
     Box(
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Главная",
+            text = "Вакансия",
             fontSize = 48.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.clickable {
-                onVacancyClick("vacancyId")
-            }
+            textAlign = TextAlign.Center
         )
     }
 }
