@@ -38,8 +38,7 @@ fun NavGraphBuilder.homeDestination(
     }
 }
 
-fun NavHostController.navigateToHome(
-) {
+fun NavHostController.navigateToHome() {
     navigate(AppNavDestination.Home) {
         popUpTo(graph.findStartDestination().id) {
             saveState = true
