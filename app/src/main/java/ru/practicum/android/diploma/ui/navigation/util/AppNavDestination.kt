@@ -29,12 +29,12 @@ sealed interface AppNavDestination {
 
 /** Навигация для экрана: «Главная» */
 fun NavGraphBuilder.homeDestination(
-    onVacancyClick: (String) -> Unit
+    navigateToVacancy: (String) -> Unit
 ) {
     composable<AppNavDestination.Home> {
         HomeScreen(
             modifier = Modifier.fillMaxSize(),
-            onVacancyClick = onVacancyClick
+            navigateToVacancy = navigateToVacancy
         )
     }
 }
@@ -51,10 +51,10 @@ fun NavHostController.navigateToHome() {
 
 /** Навигация для экрана: «Избранное» */
 fun NavGraphBuilder.favoriteDestination(
-    onVacancyClick: (String) -> Unit
+    navigateToVacancy: (String) -> Unit
 ) {
     composable<AppNavDestination.Favorite> {
-        FavoriteScreen(onVacancyClick = onVacancyClick)
+        FavoriteScreen(navigateToVacancy = navigateToVacancy)
     }
 }
 

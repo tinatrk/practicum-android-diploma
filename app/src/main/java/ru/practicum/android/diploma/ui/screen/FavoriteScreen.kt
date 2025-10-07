@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -26,19 +25,15 @@ import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 @Composable
 fun FavoriteScreen(
     viewModel: FavoritesViewModel = koinViewModel(),
-    // navigationEvent
+    navigateToVacancy: (String) -> Unit
 ) {
     val screenState by viewModel.screenStateFlow.collectAsStateWithLifecycle()
     val navigationState =
         viewModel.navigationEvent.collectAsStateWithLifecycle(initialValue = NavigationEventToVacancy.Idle)
 
     LaunchedEffect(navigationState.value) {
-        when (navigationState.value) {
-            is NavigationEventToVacancy.OpenVacancyDetails -> {
-                // navigateToVacancyDetails(vacancyId)
-            }
-
-            else -> {}
+        if (navigationState.value is NavigationEventToVacancy.OpenVacancyDetails) {
+            navigateToVacancy((navigationState.value as NavigationEventToVacancy.OpenVacancyDetails).vacancyId)
         }
     }
 
@@ -50,15 +45,12 @@ fun FavoriteScreen(
         },
         containerColor = LocalCustomColors.current.screenBackground
     ) {
-
         when (screenState) {
             is FavoritesScreenState.Loading -> {
-                Log.d("MyTag", "favoritesScreen -> loading")
                 ProgressBar()
             }
 
             is FavoritesScreenState.Empty -> {
-                Log.d("MyTag", "favoritesScreen -> empty")
                 ErrorMessage(
                     title = stringResource(R.string.im_favorites_empty_description),
                     imageId = R.drawable.im_favorites_empty,
@@ -69,7 +61,6 @@ fun FavoriteScreen(
             }
 
             is FavoritesScreenState.Error -> {
-                Log.d("MyTag", "favoritesScreen -> error")
                 ErrorMessage(
                     title = stringResource(R.string.im_lack_of_list_cat_description),
                     imageId = R.drawable.im_lack_of_list_cat,
@@ -80,7 +71,6 @@ fun FavoriteScreen(
             }
 
             is FavoritesScreenState.Content -> {
-                Log.d("MyTag", "favoritesScreen -> content")
                 SimpleVacancyList(
                     vacancies = (screenState as FavoritesScreenState.Content).data.toImmutableList(),
                     onVacancyClick = viewModel::onVacancyClick,

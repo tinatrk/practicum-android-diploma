@@ -10,7 +10,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, onVacancyClick: (String) -> Unit) {
+fun HomeScreen(modifier: Modifier = Modifier, navigateToVacancy: (String) -> Unit) {
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
@@ -20,7 +20,7 @@ fun HomeScreen(modifier: Modifier = Modifier, onVacancyClick: (String) -> Unit) 
             fontSize = 48.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.clickable {
-                onVacancyClick("vacancyId")
+                navigateToVacancy("vacancyId")
             }
         )
     }

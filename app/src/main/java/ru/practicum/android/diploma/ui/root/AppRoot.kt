@@ -48,7 +48,7 @@ fun AppRoot(
             modifier = modifier.padding(innerPadding)
         ) {
             appGraph(
-                onVacancyClick = { vacancyId ->
+                navigateToVacancy = { vacancyId ->
                     navController.navigateToVacancy(vacancyId)
                 }
             )
