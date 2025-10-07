@@ -17,6 +17,7 @@
     <string name="vacancy_details_screen_title">Вакансия</string>
     <string name="favorites_screen_title">Избранное</string>
     <string name="filter_settings_screen_title">Настройки фильтрации</string>
+    <string name="team_screen_title">Команда</string>
 
     <string name="search_bar_hint">Введите запрос</string>
     <string name="search_bar_clear_btn_description">Очистить поле ввода</string>
@@ -41,5 +42,13 @@
     <string name="salary_from">от %1$s %2$s</string>
     <string name="salary_to">%1$s %2$s</string>
     <string name="salary_from_to">от %1$s до %2$s %3$s</string>
+
+    <string name="persons_title">Над приложением работали</string>
+    <string-array name="persons_working" translatable="false">
+        <item>Сергей Такт</item>
+        <item>Татьяна Соловьева</item>
+        <item>Иван Дробитько</item>
+        <item>Дмитрий Иванов</item>
+    </string-array>
 
 </resources>
