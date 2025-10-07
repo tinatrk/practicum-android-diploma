@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.details.repository
+package ru.practicum.android.diploma.data.details.impl
 
 import android.content.Context
 import android.content.Intent
