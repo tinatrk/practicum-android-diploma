@@ -6,6 +6,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 import ru.practicum.android.diploma.ui.screen.FavoriteScreen
 import ru.practicum.android.diploma.ui.screen.HomeScreen
@@ -85,7 +86,7 @@ fun NavHostController.navigateToTeam() {
 /** Навигация для экрана: «Вакансия» */
 fun NavGraphBuilder.vacancyDestination() {
     composable<AppNavDestination.Vacancy> { navBackStackEntry ->
-        val vacancyId = navBackStackEntry.arguments?.getString("vacancyId") ?: ""
+        val vacancyId = navBackStackEntry.toRoute<AppNavDestination.Vacancy>().vacancyId
         VacancyScreen(vacancyId = vacancyId)
     }
 }
