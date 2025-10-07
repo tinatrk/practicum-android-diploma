@@ -35,7 +35,6 @@ fun TeamScreen() {
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
         ) {
-
             Text(
                 modifier = Modifier.padding(bottom = 32.dp),
                 text = stringResource(R.string.persons_title),
