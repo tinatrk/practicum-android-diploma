@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.ui.theme.AppTheme
 
 @Composable
-fun VacancyList(
+fun SimpleVacancyList(
     vacancies: ImmutableList<VacancyBriefInfo>,
     onVacancyClick: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -31,7 +31,7 @@ fun VacancyList(
 
 @Preview(name = "lightTheme", showSystemUi = true)
 @Composable
-fun VacancyListPreviewLight() {
+private fun SimpleVacancyListPreviewLight() {
     val list = listOf(
         getVacancyPreviewItem(),
         getVacancyPreviewItem(),
@@ -45,7 +45,7 @@ fun VacancyListPreviewLight() {
 
 @Preview(name = "darkTheme", showSystemUi = true)
 @Composable
-fun VacancyListPreviewDark() {
+private fun SimpleVacancyListPreviewDark() {
     val list = listOf(
         getVacancyPreviewItem(),
         getVacancyPreviewItem(),

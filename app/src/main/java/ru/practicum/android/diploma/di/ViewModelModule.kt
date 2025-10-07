@@ -6,6 +6,7 @@ import ru.practicum.android.diploma.presentation.converter.VacancyConverter
 import ru.practicum.android.diploma.presentation.favorites.viewmodel.FavoritesViewModel
 
 val viewModelModule = module {
+
     viewModel {
         FavoritesViewModel(
             favoritesInteractor = get(),

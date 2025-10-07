@@ -84,6 +84,7 @@ dependencies {
 
     // Koin
     implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.android)
 
     // Retrofit
     implementation(libs.retrofit)

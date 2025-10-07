@@ -23,6 +23,8 @@
 
     <string name="im_bad_connection_description">Нет интернета</string>
     <string name="im_search_vacancy_description">Поисковый запрос не задан</string>
+    <string name="im_favorites_empty_description">Список пуст</string>
+    <string name="im_lack_of_list_cat_description">Не удалось получить список вакансий</string>
 
     <string name="logo_description">Логотип работодателя</string>
 

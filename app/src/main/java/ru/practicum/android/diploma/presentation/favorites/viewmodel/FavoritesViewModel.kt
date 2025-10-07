@@ -70,7 +70,7 @@ class FavoritesViewModel(
 
     fun onVacancyClick(vacancyId: String) {
         viewModelScope.launch {
-            _navigationEvent.emit(NavigationEventToVacancy.Default)
+            _navigationEvent.emit(NavigationEventToVacancy.Idle)
         }
         onVacancyClickDebounce(vacancyId)
     }
