@@ -5,7 +5,7 @@ import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import ru.practicum.android.diploma.data.coverter.VacancyConverter
+import ru.practicum.android.diploma.data.converter.VacancyConverter
 import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.domain.favorites.api.repository.FavoritesRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
@@ -38,7 +38,7 @@ class FavoritesRepositoryImpl(
     override fun getAllFavoriteVacancies(): Flow<Resource<List<VacancyBrief>, Failure>> =
         appDatabase.vacancyDao().getVacanciesPreview()
             .map { vacancies ->
-                if (vacancies != null) {
+                if (!vacancies.isNullOrEmpty()) {
                     Resource.Success(data = vacancies.map { vacancyConverter.map(it) })
                 } else {
                     Resource.Error(error = Failure.NotFound as Failure)
