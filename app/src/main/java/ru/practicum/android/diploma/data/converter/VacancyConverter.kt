@@ -11,6 +11,12 @@ import ru.practicum.android.diploma.data.db.embedd.EmployerEmbeddable
 import ru.practicum.android.diploma.data.db.embedd.FilterAreaEmbeddable
 import ru.practicum.android.diploma.data.db.embedd.SalaryEmbeddable
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
+import ru.practicum.android.diploma.data.dto.models.AddressDto
+import ru.practicum.android.diploma.data.dto.models.ContactsDto
+import ru.practicum.android.diploma.data.dto.models.EmployerDto
+import ru.practicum.android.diploma.data.dto.models.FilterAreaDto
+import ru.practicum.android.diploma.data.dto.models.SalaryDto
+import ru.practicum.android.diploma.data.dto.response.VacancyDetailResponse
 import ru.practicum.android.diploma.data.dto.response.VacancyResponse
 import ru.practicum.android.diploma.domain.models.Address
 import ru.practicum.android.diploma.domain.models.Contacts
@@ -44,6 +50,26 @@ class VacancyConverter(private val gson: Gson) {
         )
     }
 
+    fun map(vacancyDetailsResponse: VacancyDetailResponse): Vacancy {
+        return Vacancy(
+            id = vacancyDetailsResponse.id,
+            name = vacancyDetailsResponse.name,
+            description = vacancyDetailsResponse.description,
+            salary = mapSalary(vacancyDetailsResponse.salary),
+            address = mapAddress(vacancyDetailsResponse.address),
+            experience = vacancyDetailsResponse.experience?.name,
+            schedule = vacancyDetailsResponse.schedule?.name,
+            employment = vacancyDetailsResponse.employment?.name,
+            contacts = mapContacts(vacancyDetailsResponse.contacts),
+            employer = mapEmployer(vacancyDetailsResponse.employer),
+            area = mapFilterArea(vacancyDetailsResponse.area),
+            skills = vacancyDetailsResponse.skills,
+            url = vacancyDetailsResponse.url,
+            industry = vacancyDetailsResponse.industry?.name,
+            isFavorite = false
+        )
+    }
+
     fun map(vacancyBrief: VacancyBriefDto): VacancyBrief {
         return VacancyBrief(
             id = vacancyBrief.vacancyId,
@@ -62,14 +88,14 @@ class VacancyConverter(private val gson: Gson) {
             vacancyId = vacancy.id,
             name = vacancy.name,
             description = vacancy.description,
-            salary = getSalary(vacancy.salary),
-            address = getAddress(vacancy.address),
+            salary = mapSalary(vacancy.salary),
+            address = mapAddress(vacancy.address),
             experience = vacancy.experience,
             schedule = vacancy.schedule,
             employment = vacancy.employment,
-            contacts = getContacts(vacancy.contacts),
-            employer = getEmployer(vacancy.employer),
-            area = getFilterArea(vacancy.area),
+            contacts = mapContacts(vacancy.contacts),
+            employer = mapEmployer(vacancy.employer),
+            area = mapFilterArea(vacancy.area),
             skills = convertListToString(vacancy.skills),
             url = vacancy.url,
             industry = vacancy.industry,
@@ -81,14 +107,14 @@ class VacancyConverter(private val gson: Gson) {
             id = vacancy.vacancyId,
             name = vacancy.name,
             description = vacancy.description,
-            salary = getSalary(vacancy.salary),
-            address = getAddress(vacancy.address),
+            salary = mapSalary(vacancy.salary),
+            address = mapAddress(vacancy.address),
             experience = vacancy.experience,
             schedule = vacancy.schedule,
             employment = vacancy.employment,
-            contacts = getContacts(vacancy.contacts),
-            employer = getEmployer(vacancy.employer),
-            area = getFilterArea(vacancy.area),
+            contacts = mapContacts(vacancy.contacts),
+            employer = mapEmployer(vacancy.employer),
+            area = mapFilterArea(vacancy.area),
             skills = vacancy.skills?.let { getListFromString(it) },
             url = vacancy.url,
             industry = vacancy.industry,
@@ -96,7 +122,17 @@ class VacancyConverter(private val gson: Gson) {
         )
     }
 
-    private fun getSalary(salary: Salary?): SalaryEmbeddable? {
+    private fun mapSalary(salaryDto: SalaryDto?): Salary? {
+        return salaryDto?.let {
+            Salary(
+                from = it.from,
+                to = it.to,
+                currency = it.currency
+            )
+        }
+    }
+
+    private fun mapSalary(salary: Salary?): SalaryEmbeddable? {
         return salary?.let {
             SalaryEmbeddable(
                 from = it.from,
@@ -106,7 +142,7 @@ class VacancyConverter(private val gson: Gson) {
         }
     }
 
-    private fun getSalary(salary: SalaryEmbeddable?): Salary? {
+    private fun mapSalary(salary: SalaryEmbeddable?): Salary? {
         return salary?.let {
             Salary(
                 from = it.from,
@@ -116,7 +152,18 @@ class VacancyConverter(private val gson: Gson) {
         }
     }
 
-    private fun getAddress(address: Address?): AddressEmbeddable? {
+    private fun mapAddress(addressDto: AddressDto?): Address? {
+        return addressDto?.let {
+            Address(
+                city = it.city,
+                street = it.street,
+                building = it.building,
+                fullAddress = it.fullAddress
+            )
+        }
+    }
+
+    private fun mapAddress(address: Address?): AddressEmbeddable? {
         return address?.let {
             AddressEmbeddable(
                 city = address.city ?: EMPTY_STRING,
@@ -127,7 +174,7 @@ class VacancyConverter(private val gson: Gson) {
         }
     }
 
-    private fun getAddress(address: AddressEmbeddable?): Address? {
+    private fun mapAddress(address: AddressEmbeddable?): Address? {
         return address?.let {
             Address(
                 city = address.city,
@@ -138,7 +185,18 @@ class VacancyConverter(private val gson: Gson) {
         }
     }
 
-    private fun getContacts(contacts: ContactsEmbeddable?): Contacts? {
+    private fun mapContacts(contactsDto: ContactsDto?): Contacts? {
+        return contactsDto?.let {
+            Contacts(
+                id = it.id,
+                name = it.name,
+                email = it.email,
+                phone = it.phone
+            )
+        }
+    }
+
+    private fun mapContacts(contacts: ContactsEmbeddable?): Contacts? {
         return contacts?.let {
             Contacts(
                 id = contacts.id,
@@ -149,7 +207,7 @@ class VacancyConverter(private val gson: Gson) {
         }
     }
 
-    private fun getContacts(contacts: Contacts?): ContactsEmbeddable? {
+    private fun mapContacts(contacts: Contacts?): ContactsEmbeddable? {
         return contacts?.let {
             ContactsEmbeddable(
                 id = contacts.id,
@@ -160,7 +218,17 @@ class VacancyConverter(private val gson: Gson) {
         }
     }
 
-    private fun getEmployer(employer: EmployerEmbeddable?): Employer? {
+    private fun mapEmployer(employerDto: EmployerDto?): Employer? {
+        return employerDto?.let {
+            Employer(
+                id = it.id,
+                name = it.name,
+                logo = it.logo
+            )
+        }
+    }
+
+    private fun mapEmployer(employer: EmployerEmbeddable?): Employer? {
         return employer?.let {
             Employer(
                 id = employer.id,
@@ -170,7 +238,7 @@ class VacancyConverter(private val gson: Gson) {
         }
     }
 
-    private fun getEmployer(employer: Employer?): EmployerEmbeddable? {
+    private fun mapEmployer(employer: Employer?): EmployerEmbeddable? {
         return employer?.let {
             EmployerEmbeddable(
                 id = employer.id,
@@ -180,7 +248,20 @@ class VacancyConverter(private val gson: Gson) {
         }
     }
 
-    private fun getFilterArea(filterArea: FilterAreaEmbeddable?): FilterArea? {
+    private fun mapFilterArea(areaDto: FilterAreaDto?): FilterArea? {
+        return areaDto?.let {
+            FilterArea(
+                id = it.id,
+                name = it.name,
+                parentId = it.parentId,
+                areas = it.areas?.mapNotNull { areaDto ->
+                    mapFilterArea(areaDto)
+                }
+            )
+        }
+    }
+
+    private fun mapFilterArea(filterArea: FilterAreaEmbeddable?): FilterArea? {
         return filterArea?.let {
             FilterArea(
                 id = filterArea.id,
@@ -191,7 +272,7 @@ class VacancyConverter(private val gson: Gson) {
         }
     }
 
-    private fun getFilterArea(filterArea: FilterArea?): FilterAreaEmbeddable? {
+    private fun mapFilterArea(filterArea: FilterArea?): FilterAreaEmbeddable? {
         return filterArea?.let {
             FilterAreaEmbeddable(
                 id = filterArea.id,
