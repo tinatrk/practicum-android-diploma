@@ -17,6 +17,7 @@
     <string name="vacancy_details_screen_title">Вакансия</string>
     <string name="favorites_screen_title">Избранное</string>
     <string name="filter_settings_screen_title">Настройки фильтрации</string>
+    <string name="team_screen_title">Команда</string>
 
     <string name="no_vacancies_label">Таких вакансий нет</string>
     <string name="vacancies_load_failed">Не удалось получить\nсписок вакансий</string>
@@ -61,5 +62,13 @@
     <string name="contact_name">Контактное лицо</string>
     <string name="email">E-mail</string>
     <string name="phone">Телефон</string>
+
+    <string name="persons_title">Над приложением работали</string>
+    <string-array name="persons_working" translatable="false">
+        <item>Сергей Такт</item>
+        <item>Татьяна Соловьева</item>
+        <item>Иван Дробитько</item>
+        <item>Дмитрий Иванов</item>
+    </string-array>
 
 </resources>
