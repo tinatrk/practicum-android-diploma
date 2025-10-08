@@ -20,6 +20,7 @@ fun VacancyList(
     vacancies: ImmutableList<VacancyBrief>,
     onVacancyClick: (VacancyBrief) -> Unit,
     onLoadNextPage: () -> Unit,
+    isLastPage: Boolean
 ) {
     val listState = rememberLazyListState()
 
@@ -46,8 +47,10 @@ fun VacancyList(
         items(vacancies) { vacancy ->
             VacancyListItem(vacancy, onVacancyClick)
         }
-        item {
-            ProgressBar()
+        if (!isLastPage) {
+            item {
+                ProgressBar()
+            }
         }
     }
 }
@@ -62,7 +65,7 @@ fun VacancyListPreviewLight() {
     )
 
     AppTheme(darkTheme = false) {
-        VacancyList(vacancies = list.toImmutableList(), onVacancyClick = {}, {})
+        VacancyList(vacancies = list.toImmutableList(), onVacancyClick = {}, {}, false)
     }
 }
 
@@ -76,6 +79,6 @@ fun VacancyListPreviewDark() {
     )
 
     AppTheme(darkTheme = true) {
-        VacancyList(vacancies = list.toImmutableList(), onVacancyClick = {}, {})
+        VacancyList(vacancies = list.toImmutableList(), onVacancyClick = {}, {}, false)
     }
 }

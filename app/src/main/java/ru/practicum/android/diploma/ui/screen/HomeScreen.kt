@@ -13,8 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -42,19 +40,17 @@ import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 import ru.practicum.android.diploma.ui.theme.LocalTypography
 import ru.practicum.android.diploma.ui.theme.White
 import ru.practicum.android.diploma.util.common.Failure
-import ru.practicum.android.diploma.util.debounce
-
-private const val SEARCH_DEBOUNCE_DELAY = 2000L
 
 @Composable
 fun HomeScreen(
     modifier: Modifier,
 ) {
     val vm: SearchViewModel = koinViewModel()
-    val state by vm.ui.collectAsStateWithLifecycle()
+    val state by vm.searchUiState.collectAsStateWithLifecycle()
 
     val onSearch = vm::searchVacancies
     val onLoadNextPage = vm::loadNextPage
+    val setTypedQuery = vm::setTypedQuery
 
     Scaffold(
         containerColor = LocalCustomColors.current.screenBackground,
@@ -66,6 +62,7 @@ fun HomeScreen(
             state = state,
             onSearch = onSearch,
             onLoadNextPage = onLoadNextPage,
+            setTypedQuery = setTypedQuery,
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -75,7 +72,8 @@ fun HomeScreen(
 fun HomeScreen(
     state: SearchUiState,
     onSearch: (String) -> Unit,
-    onLoadNextPage: () ->  Unit,
+    onLoadNextPage: () -> Unit,
+    setTypedQuery: (String) -> Unit,
     modifier: Modifier,
 ) {
     Column(
@@ -83,7 +81,11 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SearchField(onSearch = onSearch)
+        SearchField(
+            state = state,
+            onSearch = onSearch,
+            setTypedQuery = setTypedQuery
+        )
 
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -110,11 +112,13 @@ fun HomeScreen(
                             InfoLabel(state.count)
                             FoundVacanciesList(
                                 vacancies = state.data,
+                                isLastPage = state.isLastPage,
                                 onLoadNextPage = onLoadNextPage
                             )
                         }
                     }
                 }
+
                 is SearchUiState.Error -> {
                     val s = state.error
                     if (state.error == Failure.Network) {
@@ -129,33 +133,25 @@ fun HomeScreen(
 }
 
 @Composable
-fun SearchField(onSearch: (String) -> Unit) {
+fun SearchField(
+    state: SearchUiState,
+    onSearch: (String) -> Unit,
+    setTypedQuery: (String) -> Unit
+) {
     var query by rememberSaveable { mutableStateOf("") }
     val latestOnSearch by rememberUpdatedState(onSearch)
-    val keyboardController = LocalSoftwareKeyboardController.current
 
-    val scope = rememberCoroutineScope()
-    val onSearchClickDebounce: (String) -> Unit = remember(SEARCH_DEBOUNCE_DELAY, scope) {
-        debounce(
-            SEARCH_DEBOUNCE_DELAY,
-            scope,
-            true
-        ) { query ->
-            if (query.isNotEmpty()) {
-                latestOnSearch(query.trim())
-                keyboardController?.hide()
-            }
-        }
-    }
+    val keyboardController = LocalSoftwareKeyboardController.current
+    if (state is SearchUiState.Loading) keyboardController?.hide()
 
     CustomSearchBar(
         text = query,
         placeholderText = stringResource(R.string.search_bar_hint),
         onTextChanged = { newText ->
             query = newText
-            onSearchClickDebounce(newText)
+            setTypedQuery(newText)
         },
-        onClearTextClick = { query = ""},
+        onClearTextClick = { query = "" },
         onSearch = latestOnSearch
     )
 }
@@ -189,12 +185,14 @@ fun InfoLabel(
 @Composable
 fun FoundVacanciesList(
     vacancies: List<VacancyBrief>,
+    isLastPage: Boolean,
     onLoadNextPage: () -> Unit
 ) {
     VacancyList(
-        vacancies.toImmutableList(),
-        {},
-        onLoadNextPage
+        vacancies = vacancies.toImmutableList(),
+        onVacancyClick = {},
+        onLoadNextPage = onLoadNextPage,
+        isLastPage = isLastPage
     )
 }
 
@@ -238,6 +236,7 @@ fun SearchFieldPreview() {
         ) { innerPadding ->
             HomeScreen(
                 state = SearchUiState.Idle,
+                {},
                 {},
                 {},
                 modifier = Modifier
