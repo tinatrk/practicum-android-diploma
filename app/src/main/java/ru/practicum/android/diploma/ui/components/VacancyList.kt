@@ -50,7 +50,8 @@ fun VacancyList(
             Toast.makeText(
                 context,
                 context.getString(R.string.pagination_load_error),
-                Toast.LENGTH_LONG)
+                Toast.LENGTH_LONG
+            )
                 .show()
         }
     }
