@@ -17,7 +17,7 @@ interface DiplomaApi {
     @GET("/industries")
     suspend fun getIndustries(): FilterIndustryResponse
 
-    @GET("/vacancies")
+    @GET("vacancies") // Тут мне кажется не надо палку ставить в начале. А то 2 получится в итоге
     suspend fun getVacancy(
         @QueryMap options: Map<String, Int>,
         @Query("text") text: String,

@@ -23,7 +23,7 @@ fun ProgressBar() {
             modifier = Modifier
                 .width(36.dp)
                 .padding(vertical = 22.dp),
-            color = LocalCustomColors.current.progressBarColor,
+            color = LocalCustomColors.current.progressBarColor
         )
     }
 }

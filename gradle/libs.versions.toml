@@ -26,6 +26,7 @@ retrofit = "2.9.0"
 
 # Coil
 coilCompose = "2.6.0"
+coilSvg = "2.6.0"
 
 # Room
 roomRuntime = "2.6.1"
@@ -97,6 +98,7 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 # Coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg"}
 
 # Jetpack Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }

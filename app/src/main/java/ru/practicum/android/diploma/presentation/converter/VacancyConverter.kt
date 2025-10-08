@@ -19,12 +19,29 @@ class VacancyConverter(
         )
     }
 
+    fun map(vacancies: List<VacancyBrief>): List<VacancyBriefInfo> {
+        return vacancies.map { map(it) }
+    }
+
     private fun getSalaryString(from: Int?, to: Int?, currency: String?): String {
         if (currency == null) return resourceProvider.getString(R.string.salary_unknown)
 
         return when {
             from != null && to != null -> {
-                resourceProvider.getString(R.string.salary_from_to, getNumberStr(from), getNumberStr(to), currency)
+                if (from == to) {
+                    resourceProvider.getString(
+                        R.string.salary,
+                        getNumberStr(from),
+                        currency
+                    )
+                } else {
+                    resourceProvider.getString(
+                        R.string.salary_from_to,
+                        getNumberStr(from),
+                        getNumberStr(to),
+                        currency
+                    )
+                }
             }
 
             from != null && to == null -> {
