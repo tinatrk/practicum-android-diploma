@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import ru.practicum.android.diploma.ui.component.BottomNavigationBar
+import ru.practicum.android.diploma.ui.components.BottomNavigationBar
 import ru.practicum.android.diploma.ui.navigation.bottomTabs
 import ru.practicum.android.diploma.ui.navigation.util.AppNavDestination
 import ru.practicum.android.diploma.ui.navigation.util.appGraph

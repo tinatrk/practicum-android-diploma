@@ -44,7 +44,7 @@ import ru.practicum.android.diploma.util.common.Failure
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    onVacancyClick: (String) -> Unit
+    navigateToVacancy: (String) -> Unit
 ) {
     val vm: SearchViewModel = koinViewModel()
     val state by vm.searchUiState.collectAsStateWithLifecycle()
@@ -66,7 +66,7 @@ fun HomeScreen(
             onSearch = onSearch,
             onLoadNextPage = onLoadNextPage,
             isNextPageError = isNextPageError,
-            onVacancyClick = onVacancyClick,
+            onVacancyClick = navigateToVacancy,
             onQueryChanged = onQueryChanged,
             onClearQueryClick = onClearQueryClick,
             modifier = modifier.padding(innerPadding)

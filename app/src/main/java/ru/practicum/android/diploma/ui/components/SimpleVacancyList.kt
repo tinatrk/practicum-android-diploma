@@ -1,13 +1,11 @@
 package ru.practicum.android.diploma.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
@@ -39,7 +37,13 @@ private fun SimpleVacancyListPreviewLight() {
     )
 
     AppTheme(darkTheme = false) {
-        VacancyList(vacancies = list.toImmutableList(), onVacancyClick = {}, Modifier.padding(top = 8.dp))
+        VacancyList(
+            vacancies = list.toImmutableList(),
+            onVacancyClick = {},
+            onLoadNextPage = {},
+            isNextPageError = false,
+            isLastPage = true
+        )
     }
 }
 
@@ -53,6 +57,12 @@ private fun SimpleVacancyListPreviewDark() {
     )
 
     AppTheme(darkTheme = true) {
-        VacancyList(vacancies = list.toImmutableList(), onVacancyClick = {}, Modifier.padding(top = 8.dp))
+        VacancyList(
+            vacancies = list.toImmutableList(),
+            onVacancyClick = {},
+            onLoadNextPage = {},
+            isNextPageError = false,
+            isLastPage = true
+        )
     }
 }
