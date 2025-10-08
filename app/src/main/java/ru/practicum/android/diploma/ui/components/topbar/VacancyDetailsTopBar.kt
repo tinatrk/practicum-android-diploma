@@ -16,6 +16,7 @@ import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 
 @Composable
 fun VacancyDetailsTopBar(
+    isFavorite: Boolean,
     onNavigationIconClick: () -> Unit,
     onShareIconClick: () -> Unit,
     onFavoriteIconClick: () -> Unit,
@@ -41,6 +42,7 @@ fun VacancyDetailsTopBar(
                     .clickable { onShareIconClick() }
             )
             ToggleIcon(
+                isChecked = isFavorite,
                 checkedIconId = R.drawable.ic_favorites_on_24px,
                 uncheckedIconId = R.drawable.ic_favorites_off_24px,
                 iconDescription = stringResource(R.string.ic_arrow_back_description),
@@ -57,6 +59,7 @@ fun VacancyDetailsTopBar(
 fun VacancyDetailsTopBarPreviewLight() {
     AppTheme(darkTheme = false) {
         VacancyDetailsTopBar(
+            isFavorite = false,
             onNavigationIconClick = {},
             onShareIconClick = {},
             onFavoriteIconClick = {}
@@ -69,6 +72,7 @@ fun VacancyDetailsTopBarPreviewLight() {
 fun VacancyDetailsTopBarPreviewDark() {
     AppTheme(darkTheme = true) {
         VacancyDetailsTopBar(
+            isFavorite = true,
             onNavigationIconClick = {},
             onShareIconClick = {},
             onFavoriteIconClick = {}

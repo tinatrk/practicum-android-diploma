@@ -20,7 +20,7 @@ fun HomeScreen(modifier: Modifier = Modifier, onVacancyClick: (String) -> Unit) 
             fontSize = 48.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.clickable {
-                onVacancyClick("vacancyId")
+                onVacancyClick("b4cb93e5-1266-45b1-a1dd-43d193bd0631")
             }
         )
     }

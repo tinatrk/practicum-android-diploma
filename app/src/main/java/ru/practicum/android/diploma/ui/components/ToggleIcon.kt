@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 
 @Composable
 fun ToggleIcon(
+    isChecked: Boolean? = null,
     checkedIconId: Int,
     uncheckedIconId: Int,
     onIconClick: () -> Unit,
@@ -22,6 +23,7 @@ fun ToggleIcon(
     modifier: Modifier = Modifier
 ) {
     var checked by remember { mutableStateOf(false) }
+    val currentChecked = isChecked ?: checked
 
     // размером 40*40 (имеет внутренние отступы 8.dp?)
     IconButton(
@@ -29,10 +31,13 @@ fun ToggleIcon(
         modifier = modifier
     ) {
         IconToggleButton(
-            checked = checked,
-            onCheckedChange = { checked = it },
+            checked = currentChecked,
+            onCheckedChange = {
+                checked = it
+                onIconClick()
+            },
         ) {
-            if (checked) {
+            if (currentChecked) {
                 Icon(
                     painter = painterResource(id = checkedIconId),
                     contentDescription = iconDescription,

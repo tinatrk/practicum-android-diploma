@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteException
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import ru.practicum.android.diploma.data.converter.VacancyConverter
 import ru.practicum.android.diploma.data.db.AppDatabase
@@ -49,13 +50,12 @@ class FavoritesRepositoryImpl(
                 emit(Resource.Error(error = Failure.BadRequest as Failure))
             }
 
-    override fun isVacancyFavorite(vacancyId: String): Boolean {
-        try {
-            return appDatabase.vacancyDao().exists(vacancyId)
-        } catch (e: SQLiteException) {
-            Log.e(DATABASE_TAG, "Ошибка при проверке наличия вакансии в избранных")
-            return false
-        }
+    override fun isVacancyFavorite(vacancyId: String): Flow<Boolean> {
+        return appDatabase.vacancyDao().exists(vacancyId)
+            .catch {
+                Log.e(DATABASE_TAG, "Ошибка при проверке наличия вакансии в избранных")
+                emit(false)
+            }
     }
 
     override fun getFavoriteVacancyById(vacancyId: String): Flow<Resource<Vacancy, Failure>> =

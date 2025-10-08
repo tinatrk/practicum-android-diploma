@@ -18,7 +18,8 @@ data class CustomColors(
     val vacancyInfoCard: VacancyInfoCard,
     val buttonColors: ButtonColors,
     val bottomSheetColors: BottomSheetColors,
-    val toastColors: ToastColors
+    val toastColors: ToastColors,
+    val vacancyDetailsColors: VacancyDetailsColors
 )
 
 data class SearchEditTextColors(
@@ -108,6 +109,11 @@ data class BottomSheetColors(
 )
 
 data class ToastColors(
+    val background: Color,
+    val text: Color
+)
+
+data class VacancyDetailsColors(
     val background: Color,
     val text: Color
 )

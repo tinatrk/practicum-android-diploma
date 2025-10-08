@@ -141,6 +141,11 @@ private val LightCustomColors = CustomColors(
     toastColors = ToastColors(
         background = SurfaceTint,
         text = OnTertiary
+    ),
+
+    vacancyDetailsColors = VacancyDetailsColors(
+        background = PrimaryLight,
+        text = OnPrimaryLight
     )
 )
 // endregion
@@ -246,6 +251,11 @@ private val DarkCustomColors = CustomColors(
     toastColors = ToastColors(
         background = SurfaceTint,
         text = OnTertiary
+    ),
+
+    vacancyDetailsColors = VacancyDetailsColors(
+        background = PrimaryDark,
+        text = OnPrimaryDark
     )
 )
 // endregion

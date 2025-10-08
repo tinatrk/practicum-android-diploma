@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.ui.navigation.util
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -84,10 +85,12 @@ fun NavHostController.navigateToTeam() {
 }
 
 /** Навигация для экрана: «Вакансия» */
-fun NavGraphBuilder.vacancyDestination() {
+fun NavGraphBuilder.vacancyDestination(
+    onBackClick: () -> Unit
+) {
     composable<AppNavDestination.Vacancy> { navBackStackEntry ->
         val vacancyId = navBackStackEntry.toRoute<AppNavDestination.Vacancy>().vacancyId
-        VacancyScreen(vacancyId = vacancyId)
+        VacancyScreen(vacancyId = vacancyId, onBackClick)
     }
 }
 
