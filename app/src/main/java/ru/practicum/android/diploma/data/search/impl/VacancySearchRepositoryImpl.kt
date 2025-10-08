@@ -12,6 +12,7 @@ import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource
 import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 import java.net.HttpURLConnection.HTTP_INTERNAL_ERROR
+import java.net.HttpURLConnection.HTTP_NOT_FOUND
 import java.net.HttpURLConnection.HTTP_OK
 import java.net.HttpURLConnection.HTTP_UNAVAILABLE
 
@@ -37,13 +38,12 @@ class VacancySearchRepositoryImpl(
             HTTP_OK -> {
                 with(response as VacancyResponse) {
                     val vacancyPage = vacancyConverter.map(response)
-
-                    if (vacancyPage.vacancies.isEmpty()) {
-                        emit(Resource.Error(Failure.NotFound))
-                    } else {
-                        emit(Resource.Success(vacancyPage))
-                    }
+                    emit(Resource.Success(vacancyPage))
                 }
+            }
+
+            HTTP_NOT_FOUND -> {
+                emit(Resource.Error(Failure.NotFound))
             }
 
             HTTP_BAD_REQUEST -> {
