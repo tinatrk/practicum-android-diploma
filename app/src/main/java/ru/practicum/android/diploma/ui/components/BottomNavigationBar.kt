@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.component
+package ru.practicum.android.diploma.ui.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
