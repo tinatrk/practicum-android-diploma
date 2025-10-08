@@ -11,6 +11,8 @@ import ru.practicum.android.diploma.presentation.search.viewmodel.SearchViewMode
 val viewModelModule = module {
     viewModelOf(::SearchViewModel)
 
+    viewModelOf(::FavoritesViewModel)
+
     single { (vacancyId: String) ->
         VacancyDetailsViewModel(
             vacancyId = vacancyId,
