@@ -20,14 +20,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.VacancyBrief
+import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 import ru.practicum.android.diploma.ui.theme.LocalTypography
 
 @Composable
 fun VacancyListItem(
-    vacancyInfo: VacancyBrief,
-    onVacancyClick: (VacancyBrief) -> Unit
+    vacancyInfo: VacancyBriefInfo,
+    onVacancyClick: (String) -> Unit
 ) {
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
@@ -40,7 +41,7 @@ fun VacancyListItem(
             .background(colors.vacancyListItemColors.background)
             .padding(horizontal = 16.dp, vertical = 9.dp)
             .wrapContentHeight()
-            .clickable { onVacancyClick(vacancyInfo) }
+            .clickable { onVacancyClick(vacancyInfo.id) }
     ) {
         Logo(vacancyInfo.employerLogo)
         Spacer(modifier = Modifier.width(12.dp))
@@ -56,7 +57,7 @@ fun VacancyListItem(
                 color = colors.vacancyListItemColors.title
             )
             Text(
-                text = vacancyInfo.employerName!!, // тут в доках не nullable
+                text = vacancyInfo.employerName,
                 style = typography.vacancyListItemText,
                 color = colors.vacancyListItemColors.textInfo
             )

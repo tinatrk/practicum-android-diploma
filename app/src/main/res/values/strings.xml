@@ -29,12 +29,6 @@
     <string name="im_search_vacancy_description">Поисковый запрос не задан</string>
 
     <string name="logo_description">Логотип работодателя</string>
-    <string name="salary">%1$d %2$s</string>
-    <string name="salary_from">от %1$d %2$s</string>
-    <string name="salary_to">до %1$d %2$s</string>
-    <string name="salary_from_to">от %1$d до %2$d %3$s</string>
-    <string name="salary_unknown">Зарплата не указана</string>
-
 
     <string name="btn_choose">Выбрать</string>
     <string name="btn_apply">Применить</string>
@@ -43,5 +37,14 @@
     <string name="ic_arrow_back_description">Вернуться на предыдущий экран</string>
     <string name="ic_share_description">Поделиться вакансией</string>
     <string name="ic_favorite_vacancy_description">Добавить вакансию в избранные</string>
+
+    <string name="vacancy_name_unknown">Название вакансии не указано</string>
+    <string name="vacancy_city_unknown">Город вакансии не указан</string>
+    <string name="vacancy_employer_name_unknown">Название компании работодателя не указано</string>
+    <string name="salary">%1$d %2$s</string>
+    <string name="salary_from">от %1$d %2$s</string>
+    <string name="salary_to">до %1$d %2$s</string>
+    <string name="salary_from_to">от %1$d до %2$d %3$s</string>
+    <string name="salary_unknown">Зарплата не указана</string>
 
 </resources>

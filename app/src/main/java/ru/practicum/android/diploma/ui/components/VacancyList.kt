@@ -13,12 +13,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import ru.practicum.android.diploma.domain.models.VacancyBrief
+import ru.practicum.android.diploma.domain.models.VacancyBrief
+import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.ui.theme.AppTheme
 
 @Composable
 fun VacancyList(
-    vacancies: ImmutableList<VacancyBrief>,
-    onVacancyClick: (VacancyBrief) -> Unit,
+    vacancies: ImmutableList<VacancyBriefInfo>,
+    onVacancyClick: (VacancyBriefInfo) -> Unit, // у Тани String. Возможно нужен Int
     onLoadNextPage: () -> Unit,
     isLastPage: Boolean
 ) {

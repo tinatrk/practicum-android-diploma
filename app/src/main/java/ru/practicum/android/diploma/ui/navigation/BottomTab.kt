@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.ui.navigation
 
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.ui.navigation.bottom.BottomNavDestination
+import ru.practicum.android.diploma.ui.navigation.util.AppNavDestination
 import kotlin.reflect.KClass
 
 data class BottomTab<T : Any>(
@@ -12,19 +12,18 @@ data class BottomTab<T : Any>(
 
 val bottomTabs = listOf(
     BottomTab(
-        BottomNavDestination.Home::class,
+        AppNavDestination.Home::class,
         R.drawable.main_24px,
         R.string.theme_use_example_bottom_bor_label_main
     ),
     BottomTab(
-        BottomNavDestination.Favorite::class,
+        AppNavDestination.Favorite::class,
         R.drawable.favorites_24px,
         R.string.theme_use_example_bottom_bor_label_favorite
     ),
     BottomTab(
-        BottomNavDestination.Team::class,
+        AppNavDestination.Team::class,
         R.drawable.team_24px,
         R.string.theme_use_example_bottom_bor_label_team
     )
 )
-

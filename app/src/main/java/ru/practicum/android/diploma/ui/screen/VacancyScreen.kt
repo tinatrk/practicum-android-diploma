@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.screen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -11,20 +10,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun FavoriteScreen(
-    onVacancyClick: (String) -> Unit
+fun VacancyScreen(
+    vacancyId: String
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Избранное",
+            text = "Вакансия",
             fontSize = 48.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.clickable {
-                onVacancyClick("vacancyId")
-            }
+            textAlign = TextAlign.Center
         )
     }
 }
