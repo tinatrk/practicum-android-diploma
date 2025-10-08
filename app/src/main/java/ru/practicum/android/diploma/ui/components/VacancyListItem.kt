@@ -73,7 +73,7 @@ fun getVacancyPreviewItem(): VacancyBriefInfo {
         city = "Москва",
         employerName = "Яндекс",
         employerLogo = null,
-        salary = "Зарплата не указана"
+        salary = "1000 $"
     )
 }
 
