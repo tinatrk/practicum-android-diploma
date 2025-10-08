@@ -1,8 +1,10 @@
 package ru.practicum.android.diploma.presentation.converter
 
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyBrief
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
+import ru.practicum.android.diploma.presentation.models.VacancyInfo
 import ru.practicum.android.diploma.util.ResourceProvider
 
 class VacancyConverter(
@@ -16,6 +18,27 @@ class VacancyConverter(
             employerName = vacancy.employerName ?: resourceProvider.getString(R.string.vacancy_employer_name_unknown),
             employerLogo = vacancy.employerLogo,
             salary = getSalaryString(vacancy.salaryFrom, vacancy.salaryTo, vacancy.salaryCurrency),
+        )
+    }
+
+    fun map(vacancy: Vacancy): VacancyInfo {
+        return VacancyInfo(
+            id = vacancy.id,
+            name = vacancy.name ?: resourceProvider.getString(R.string.vacancy_name_unknown),
+            description = vacancy.description,
+            salary = getSalaryString(vacancy.salary?.from, vacancy.salary?.to, vacancy.salary?.currency),
+            address = vacancy.address?.fullAddress,
+            experience = vacancy.experience ?: resourceProvider.getString(R.string.no_experience),
+            schedule = vacancy.schedule,
+            employment = vacancy.employment,
+            contacts = vacancy.contacts,
+            employerName = vacancy.employer?.name ?: resourceProvider.getString(R.string.vacancy_employer_name_unknown),
+            employerLogo = vacancy.employer?.logo,
+            area = vacancy.area?.name ?: resourceProvider.getString(R.string.vacancy_city_unknown),
+            skills = vacancy.skills,
+            url = vacancy.url,
+            industry = vacancy.industry,
+            isFavorite = vacancy.isFavorite
         )
     }
 

@@ -22,6 +22,7 @@ import ru.practicum.android.diploma.domain.models.Address
 import ru.practicum.android.diploma.domain.models.Contacts
 import ru.practicum.android.diploma.domain.models.Employer
 import ru.practicum.android.diploma.domain.models.FilterArea
+import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyBrief
@@ -158,7 +159,7 @@ class VacancyConverter(private val gson: Gson) {
                 city = it.city,
                 street = it.street,
                 building = it.building,
-                fullAddress = it.fullAddress
+                fullAddress = it.raw
             )
         }
     }
@@ -191,7 +192,12 @@ class VacancyConverter(private val gson: Gson) {
                 id = it.id,
                 name = it.name,
                 email = it.email,
-                phone = it.phone
+                phone = it.phones?.map { phone ->
+                    Phone(
+                        phone.comment,
+                        phone.formatted
+                    )
+                }
             )
         }
     }
