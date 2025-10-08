@@ -48,10 +48,12 @@ fun HomeScreen(
 ) {
     val vm: SearchViewModel = koinViewModel()
     val state by vm.searchUiState.collectAsStateWithLifecycle()
+    val isNextPageError by vm.isNextPageError.collectAsStateWithLifecycle()
 
     val onSearch = vm::searchVacancies
     val onLoadNextPage = vm::loadNextPage
-    val setTypedQuery = vm::setTypedQuery
+    val onQueryChanged = vm::setTypedQuery
+    val onClearQueryClick = vm::clearTextClick
 
     Scaffold(
         containerColor = LocalCustomColors.current.screenBackground,
@@ -63,8 +65,10 @@ fun HomeScreen(
             state = state,
             onSearch = onSearch,
             onLoadNextPage = onLoadNextPage,
+            isNextPageError = isNextPageError,
             onVacancyClick = onVacancyClick,
-            setTypedQuery = setTypedQuery,
+            onQueryChanged = onQueryChanged,
+            onClearQueryClick = onClearQueryClick,
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -75,8 +79,10 @@ fun HomeScreen(
     state: SearchUiState,
     onSearch: (String) -> Unit,
     onLoadNextPage: () -> Unit,
+    isNextPageError: Boolean,
     onVacancyClick: (String) -> Unit,
-    setTypedQuery: (String) -> Unit,
+    onQueryChanged: (String) -> Unit,
+    onClearQueryClick: () -> Unit,
     modifier: Modifier
 ) {
     Column(
@@ -87,7 +93,8 @@ fun HomeScreen(
         SearchField(
             state = state,
             onSearch = onSearch,
-            setTypedQuery = setTypedQuery
+            onQueryChanged = onQueryChanged,
+            onClearQueryClick = onClearQueryClick
         )
 
         Box(
@@ -117,6 +124,7 @@ fun HomeScreen(
                                 vacancies = state.data,
                                 isLastPage = state.isLastPage,
                                 onLoadNextPage = onLoadNextPage,
+                                isNextPageError = isNextPageError,
                                 onVacancyClick = onVacancyClick
                             )
                         }
@@ -135,7 +143,8 @@ fun HomeScreen(
 fun SearchField(
     state: SearchUiState,
     onSearch: (String) -> Unit,
-    setTypedQuery: (String) -> Unit
+    onQueryChanged: (String) -> Unit,
+    onClearQueryClick: () -> Unit
 ) {
     var query by rememberSaveable { mutableStateOf("") }
     val latestOnSearch by rememberUpdatedState(onSearch)
@@ -148,9 +157,15 @@ fun SearchField(
         placeholderText = stringResource(R.string.search_bar_hint),
         onTextChanged = { newText ->
             query = newText
-            setTypedQuery(newText)
+            if (query.isEmpty()) {
+                onClearQueryClick()
+            }
+            onQueryChanged(newText)
         },
-        onClearTextClick = { query = "" },
+        onClearTextClick = {
+            query = ""
+            onClearQueryClick()
+        },
         onSearch = latestOnSearch
     )
 }
@@ -186,12 +201,14 @@ fun FoundVacanciesList(
     vacancies: List<VacancyBriefInfo>,
     isLastPage: Boolean,
     onLoadNextPage: () -> Unit,
+    isNextPageError: Boolean,
     onVacancyClick: (String) -> Unit
 ) {
     VacancyList(
         vacancies = vacancies.toImmutableList(),
         onVacancyClick = onVacancyClick,
         onLoadNextPage = onLoadNextPage,
+        isNextPageError = isNextPageError,
         isLastPage = isLastPage
     )
 }
@@ -252,10 +269,12 @@ fun SearchFieldPreview() {
         ) { innerPadding ->
             HomeScreen(
                 state = SearchUiState.Idle,
-                {},
-                {},
-                {},
-                {},
+                { },
+                { },
+                false,
+                { },
+                { },
+                { },
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)

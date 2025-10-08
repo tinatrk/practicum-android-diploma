@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.search.api.interactor.VacancySearchInteractor
 import ru.practicum.android.diploma.presentation.converter.VacancyConverter
@@ -23,9 +22,10 @@ class SearchViewModel(
 ) : ViewModel() {
     private val _searchUiState = MutableStateFlow<SearchUiState>(SearchUiState.Idle)
     val searchUiState = _searchUiState.asStateFlow()
-
-    private val typedQuery = MutableStateFlow("")
+    private val _isNextPageError = MutableStateFlow(false)
+    val isNextPageError = _isNextPageError.asStateFlow()
     private var debounceJob: Job? = null
+    private val typedQuery = MutableStateFlow("")
     private var currentPage = 0
     private var maxPages = Int.MAX_VALUE
     private var lastQuery: String? = null
@@ -37,14 +37,18 @@ class SearchViewModel(
         const val PAGE_PARAM = "page"
     }
 
-    fun setTypedQuery(newQuery: String) {
-        typedQuery.value = newQuery
-        startDebounceWatcher()
-    }
-
     fun searchVacancies(query: String) {
         // Если поиск выполняется через кнопку на клавиатуре, то debounce не запустит поиск повторно.
         debounceJob?.cancel()
+
+        if (query.isEmpty()) {
+            _searchUiState.value = SearchUiState.Idle
+            return
+        }
+
+        if (query == lastQuery && _searchUiState.value is SearchUiState.Success) {
+            return
+        }
 
         currentPage = 0
         lastQuery = query
@@ -68,8 +72,9 @@ class SearchViewModel(
 
                         maxPages = resource.data.pages
                         val isLastPage = currentPage == maxPages
-
                         vacanciesInfoList = (vacanciesInfoList + vacanciesBriefInfo).toMutableList()
+
+                        _isNextPageError.value = false
                         _searchUiState.value = SearchUiState.Success(
                             vacanciesInfoList,
                             resource.data.found,
@@ -79,7 +84,11 @@ class SearchViewModel(
                     }
 
                     is Resource.Error -> {
-                        _searchUiState.value = SearchUiState.Error(resource.error)
+                        if (currentPage > 0) {
+                            _isNextPageError.value = true
+                        } else {
+                            _searchUiState.value = SearchUiState.Error(resource.error)
+                        }
                     }
                 }
                 isNextPageLoading = false
@@ -87,12 +96,21 @@ class SearchViewModel(
         }
     }
 
+    fun setTypedQuery(newQuery: String) {
+        typedQuery.value = newQuery
+        startDebounceWatcher()
+    }
+
+    fun clearTextClick() {
+        lastQuery = ""
+        _searchUiState.value = SearchUiState.Idle
+    }
+
     @OptIn(FlowPreview::class)
     private fun startDebounceWatcher() {
         debounceJob?.cancel()
         debounceJob = viewModelScope.launch {
             typedQuery
-                .filter { it.isNotEmpty() }
                 .debounce(PAGE_LOAD_DEBOUNCE)
                 .distinctUntilChanged()
                 .collectLatest { query ->

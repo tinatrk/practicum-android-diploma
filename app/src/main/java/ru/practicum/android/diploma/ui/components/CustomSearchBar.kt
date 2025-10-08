@@ -47,8 +47,10 @@ fun CustomSearchBar(
                         onTextChanged(it)
                     },
                     onSearch = {
-                        onSearch(it.trim())
-                        keyboardController?.hide()
+                        if (it.isNotEmpty()) {
+                            onSearch(it.trim())
+                            keyboardController?.hide()
+                        }
                     },
                     expanded = false,
                     onExpandedChange = {},
