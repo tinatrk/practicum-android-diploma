@@ -30,7 +30,7 @@ class SearchViewModel(
     private var maxPages = Int.MAX_VALUE
     private var lastQuery: String? = null
     private var isNextPageLoading = false
-    var vacanciesInfoList = mutableListOf<VacancyBriefInfo>()
+    private var vacanciesInfoList = mutableListOf<VacancyBriefInfo>()
 
     private companion object {
         const val PAGE_LOAD_DEBOUNCE = 2000L
