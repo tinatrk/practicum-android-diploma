@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.presentation.models
 
 import ru.practicum.android.diploma.domain.models.Contacts
-import ru.practicum.android.diploma.domain.models.Employer
 
 data class VacancyInfo(
     val id: String,

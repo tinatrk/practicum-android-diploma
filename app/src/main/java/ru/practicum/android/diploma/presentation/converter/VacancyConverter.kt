@@ -41,7 +41,7 @@ class VacancyConverter(
             isFavorite = vacancy.isFavorite
         )
     }
-    
+
     fun map(vacancies: List<VacancyBrief>): List<VacancyBriefInfo> {
         return vacancies.map { map(it) }
     }

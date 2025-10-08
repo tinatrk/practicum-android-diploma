@@ -31,7 +31,7 @@ class VacancyDetailsViewModel(
     private val vacancyConverter: VacancyConverter
 ) : ViewModel() {
 
-    private lateinit var vacancy: Vacancy
+    private var vacancy: Vacancy? = null
 
     private val detailsState: Flow<DetailsScreenState> =
         detailsInteractor.getVacancyDetails(vacancyId)
@@ -45,7 +45,6 @@ class VacancyDetailsViewModel(
         favoritesInteractor.isVacancyFavorite(vacancyId)
             .catch { emit(false) }
 
-
     val screenState: StateFlow<DetailsScreenState> =
         combine(
             detailsState.onStart { emit(DetailsScreenState.Loading) },
@@ -55,6 +54,7 @@ class VacancyDetailsViewModel(
                 is DetailsScreenState.Content -> {
                     state.copy(data = state.data.copy(isFavorite = isFavorite))
                 }
+
                 else -> state
             }
         }.stateIn(
@@ -67,7 +67,7 @@ class VacancyDetailsViewModel(
         return when (result) {
             is Resource.Success -> {
                 vacancy = result.data
-                DetailsScreenState.Content(data = vacancyConverter.map(vacancy))
+                DetailsScreenState.Content(data = vacancyConverter.map(vacancy!!))
             }
 
             is Resource.Error -> {
@@ -83,9 +83,13 @@ class VacancyDetailsViewModel(
         debounce(ON_FAVORITE_CLICK_DELAY_MILLIS, viewModelScope, false) {
             viewModelScope.launch {
                 if (isFavorite.first()) {
-                    favoritesInteractor.deleteFavoriteVacancy(vacancy)
+                    vacancy?.let {
+                        favoritesInteractor.deleteFavoriteVacancy(it)
+                    }
                 } else {
-                    favoritesInteractor.saveFavoriteVacancy(vacancy)
+                    vacancy?.let {
+                        favoritesInteractor.saveFavoriteVacancy(it)
+                    }
                 }
             }
         }
@@ -95,9 +99,11 @@ class VacancyDetailsViewModel(
     }
 
     fun onShareClick() {
-        if (vacancy.url != null) {
-            externalNavigatorInteractor.shareVacancy(vacancy.url!!)
-        } else Log.e(VACANCY_DETAIL_VIEW_MODEL_TAG, "url is null")
+        if (vacancy?.url != null) {
+            externalNavigatorInteractor.shareVacancy(vacancy?.url!!)
+        } else {
+            Log.e(VACANCY_DETAIL_VIEW_MODEL_TAG, "url is null")
+        }
     }
 
     fun onPhoneClick(phone: String) {
@@ -105,11 +111,12 @@ class VacancyDetailsViewModel(
     }
 
     fun onEmailClick() {
-        if (vacancy.contacts?.email != null) {
-            externalNavigatorInteractor.sendEmail(vacancy.contacts!!.email!!)
-        } else Log.e(VACANCY_DETAIL_VIEW_MODEL_TAG, "email is null")
+        if (vacancy?.contacts?.email != null) {
+            externalNavigatorInteractor.sendEmail(vacancy?.contacts!!.email!!)
+        } else {
+            Log.e(VACANCY_DETAIL_VIEW_MODEL_TAG, "email is null")
+        }
     }
-
 
     companion object {
         private const val VACANCY_DETAIL_VIEW_MODEL_TAG = "VacancyDetailViewModel"

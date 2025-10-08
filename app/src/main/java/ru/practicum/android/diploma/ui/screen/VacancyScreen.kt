@@ -388,12 +388,13 @@ private fun VacancyContacts(
 
         if (!contacts.phone.isNullOrEmpty()) {
             contacts.phone.forEach { phone ->
-                if (!phone.formatted.isNullOrBlank())
+                if (!phone.formatted.isNullOrBlank()) {
                     ContactItem(
                         title = stringResource(R.string.phone),
                         value = phone.formatted,
                         onItemClick = { onPhoneClick(phone.formatted) }
                     )
+                }
             }
         }
     }
@@ -449,7 +450,39 @@ private fun VacancyCardPreview() {
 private val vacancy = VacancyInfo(
     id = "b4cb93e5-1266-45b1-a1dd-43d193bd0631",
     name = "DevOps Engineer в Google",
-    description = "Если ты начинающий DevOps-инженер и хочешь развиваться в динамично развивающейся аккредитованной IT-компании, мы ждем тебя! Мы предоставляем высококвалифицированных специалистов для реализации проектов различной сложности и помогаем партнерам успешно завершать их, обеспечивая высокое качество услуг.\n\nЧто мы предлагаем:\n\nПолностью удаленный формат работы с гибким графиком (5/2 с 9:00 до 19:00).\n\nСовременные инструменты и подходы для автоматизации тестирования.\nВозможности для профессионального роста и обучения.\nДружелюбную атмосферу в коллективе и поддержку коллег.\nКонкурентоспособную заработную плату, начиная от 70 тысяч рублей.\nНеоплачиваемая стажировка в течение 2-3 месяцев.\nОбязанности:\nСопровождать тестовые окружения\n\nПереносить сервисы в Kubernetes\nАвтоматизировать сборку и доставку приложений (CI/CD)\nПисать новые роли Ansible\nПоддерживать команды разработки и тестирования.\nОт тебя ждём:\nУмение работать с:\n\n- Jenkins,\n- Gitlab CI,\n- Ansible,\n- Kubernetes,\n- Nginx,\n- Vault,\n- Ansible,\n- Docker, Docker-compose.",
+    description = """
+        Если ты начинающий DevOps-инженер и хочешь развиваться в динамично развивающейся 
+        аккредитованной IT-компании, мы ждем тебя! Мы предоставляем высококвалифицированных 
+        специалистов для реализации проектов различной сложности и помогаем партнерам успешно 
+        завершать их, обеспечивая высокое качество услуг.
+
+        Что мы предлагаем:
+
+        Полностью удаленный формат работы с гибким графиком (5/2 с 9:00 до 19:00).
+
+        Современные инструменты и подходы для автоматизации тестирования.
+        Возможности для профессионального роста и обучения.
+        Дружелюбную атмосферу в коллективе и поддержку коллег.
+        Конкурентоспособную заработную плату, начиная от 70 тысяч рублей.
+        Неоплачиваемая стажировка в течение 2–3 месяцев.
+
+        Обязанности:
+        Сопровождать тестовые окружения.
+        Переносить сервисы в Kubernetes.
+        Автоматизировать сборку и доставку приложений (CI/CD).
+        Писать новые роли Ansible.
+        Поддерживать команды разработки и тестирования.
+
+        От тебя ждём:
+        Умение работать с:
+        - Jenkins
+        - Gitlab CI
+        - Ansible
+        - Kubernetes
+        - Nginx
+        - Vault
+        - Docker, Docker-compose.
+    """.trimIndent(),
     salary = "от 8 000 до 18 000 HKD",
     address = null,
     experience = "Нет опыта",
@@ -462,10 +495,10 @@ private val vacancy = VacancyInfo(
         phone = null,
     ),
     employerName = "Google",
-    employerLogo = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1024px-Google_2015_logo.svg.png",
+    employerLogo = null,
     area = "Грузия",
     skills = listOf("C++", "TypeScript", "PHP", "Ruby", "Swift"),
-    url = "cek6h0n4ffe7ur.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com/vacancies/b4cb93e5-1266-45b1-a1dd-43d193bd0631",
+    url = null,
     industry = "Услуги для населения",
     isFavorite = false
 )

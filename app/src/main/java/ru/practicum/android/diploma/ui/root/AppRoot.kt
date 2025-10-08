@@ -37,7 +37,7 @@ fun AppRoot(
 
     Scaffold(
         bottomBar = {
-            if (bottomIsVisible)
+            if (bottomIsVisible) {
                 BottomNavigationBar(
                     tabs = bottomTabs,
                     currentDestination = currentDestination,
@@ -50,6 +50,7 @@ fun AppRoot(
                     },
                     modifier = modifier
                 )
+            }
         }
     ) { innerPadding ->
         NavHost(

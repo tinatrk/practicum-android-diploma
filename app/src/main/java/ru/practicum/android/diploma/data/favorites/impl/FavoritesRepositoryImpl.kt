@@ -4,7 +4,6 @@ import android.database.sqlite.SQLiteException
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import ru.practicum.android.diploma.data.converter.VacancyConverter
 import ru.practicum.android.diploma.data.db.AppDatabase
