@@ -26,9 +26,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.domain.models.VacancyBrief
-import ru.practicum.android.diploma.presentation.search.SearchUiState
-import ru.practicum.android.diploma.presentation.search.SearchViewModel
+import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
+import ru.practicum.android.diploma.presentation.search.models.SearchUiState
+import ru.practicum.android.diploma.presentation.search.viewmodel.SearchViewModel
 import ru.practicum.android.diploma.ui.components.CustomSearchBar
 import ru.practicum.android.diploma.ui.components.ProgressBar
 import ru.practicum.android.diploma.ui.components.ScreenMessage
@@ -44,6 +44,7 @@ import ru.practicum.android.diploma.util.common.Failure
 @Composable
 fun HomeScreen(
     modifier: Modifier,
+    onVacancyClick: (String) -> Unit
 ) {
     val vm: SearchViewModel = koinViewModel()
     val state by vm.searchUiState.collectAsStateWithLifecycle()
@@ -62,6 +63,7 @@ fun HomeScreen(
             state = state,
             onSearch = onSearch,
             onLoadNextPage = onLoadNextPage,
+            onVacancyClick = onVacancyClick,
             setTypedQuery = setTypedQuery,
             modifier = modifier.padding(innerPadding)
         )
@@ -73,8 +75,9 @@ fun HomeScreen(
     state: SearchUiState,
     onSearch: (String) -> Unit,
     onLoadNextPage: () -> Unit,
+    onVacancyClick: (String) -> Unit,
     setTypedQuery: (String) -> Unit,
-    modifier: Modifier,
+    modifier: Modifier
 ) {
     Column(
         modifier = modifier,
@@ -113,19 +116,15 @@ fun HomeScreen(
                             FoundVacanciesList(
                                 vacancies = state.data,
                                 isLastPage = state.isLastPage,
-                                onLoadNextPage = onLoadNextPage
+                                onLoadNextPage = onLoadNextPage,
+                                onVacancyClick = onVacancyClick
                             )
                         }
                     }
                 }
 
                 is SearchUiState.Error -> {
-                    val s = state.error
-                    if (state.error == Failure.Network) {
-                        ErrorMessage()
-                    } else {
-                        SearchNoResultsContent()
-                    }
+                    ErrorRouter(state.failure)
                 }
             }
         }
@@ -184,13 +183,14 @@ fun InfoLabel(
 
 @Composable
 fun FoundVacanciesList(
-    vacancies: List<VacancyBrief>,
+    vacancies: List<VacancyBriefInfo>,
     isLastPage: Boolean,
-    onLoadNextPage: () -> Unit
+    onLoadNextPage: () -> Unit,
+    onVacancyClick: (String) -> Unit
 ) {
     VacancyList(
         vacancies = vacancies.toImmutableList(),
-        onVacancyClick = {},
+        onVacancyClick = onVacancyClick,
         onLoadNextPage = onLoadNextPage,
         isLastPage = isLastPage
     )
@@ -212,7 +212,23 @@ fun SearchNoResultsContent() {
 }
 
 @Composable
-fun ErrorMessage() {
+fun ErrorRouter(errorState: Failure) {
+    when (errorState) {
+        Failure.Network -> NoInternetContent()
+        is Failure.Unknown -> ErrorServerContent()
+        else -> SearchNoResultsContent()
+    }
+}
+
+@Composable
+fun ErrorServerContent() {
+    ScreenMessage(
+        imageId = R.drawable.im_server_error_android
+    )
+}
+
+@Composable
+fun NoInternetContent() {
     ScreenMessage(
         title = stringResource(R.string.im_bad_connection_description),
         imageId = R.drawable.im_bad_connection
@@ -236,6 +252,7 @@ fun SearchFieldPreview() {
         ) { innerPadding ->
             HomeScreen(
                 state = SearchUiState.Idle,
+                {},
                 {},
                 {},
                 {},

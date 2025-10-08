@@ -12,17 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import ru.practicum.android.diploma.domain.models.VacancyBrief
-import ru.practicum.android.diploma.domain.models.VacancyBrief
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.ui.theme.AppTheme
 
 @Composable
 fun VacancyList(
     vacancies: ImmutableList<VacancyBriefInfo>,
-    onVacancyClick: (VacancyBriefInfo) -> Unit, // у Тани String. Возможно нужен Int
     onLoadNextPage: () -> Unit,
-    isLastPage: Boolean
+    isLastPage: Boolean,
+    onVacancyClick: (String) -> Unit,
 ) {
     val listState = rememberLazyListState()
 
@@ -67,7 +65,12 @@ fun VacancyListPreviewLight() {
     )
 
     AppTheme(darkTheme = false) {
-        VacancyList(vacancies = list.toImmutableList(), onVacancyClick = {}, {}, false)
+        VacancyList(
+            vacancies = list.toImmutableList(),
+            onLoadNextPage = {},
+            isLastPage = false,
+            onVacancyClick = {}
+        )
     }
 }
 
@@ -81,6 +84,11 @@ fun VacancyListPreviewDark() {
     )
 
     AppTheme(darkTheme = true) {
-        VacancyList(vacancies = list.toImmutableList(), onVacancyClick = {}, {}, false)
+        VacancyList(
+            vacancies = list.toImmutableList(),
+            onLoadNextPage = {},
+            isLastPage = false,
+            onVacancyClick = {}
+        )
     }
 }

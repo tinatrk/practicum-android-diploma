@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.components
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,11 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.domain.models.VacancyBrief
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
@@ -62,12 +58,7 @@ fun VacancyListItem(
                 color = colors.vacancyListItemColors.textInfo
             )
             Text(
-                text = formatSalary(
-                    context = LocalContext.current,
-                    from = vacancyInfo.salaryFrom,
-                    to = vacancyInfo.salaryTo,
-                    currency = vacancyInfo.salaryCurrency
-                ),
+                text = vacancyInfo.salary,
                 style = typography.vacancyListItemText,
                 color = colors.vacancyListItemColors.textInfo
             )
@@ -75,45 +66,14 @@ fun VacancyListItem(
     }
 }
 
-private fun formatSalary(
-    context: Context,
-    from: Int?, to: Int?,
-    currency: String?
-): String {
-    val safeCurrency = currency ?: ""
-
-    return when {
-        from != null && to == null -> context.getString(
-            R.string.salary_from,
-            from,
-            safeCurrency
-        )
-        from == null && to != null -> context.getString(
-            R.string.salary_to,
-            to,
-            safeCurrency
-        )
-        from != null && to != null -> {
-            if (from == to) {
-                context.getString(R.string.salary, from, safeCurrency)
-            } else {
-                context.getString(R.string.salary_from_to, from, to, safeCurrency)
-            }
-        }
-        else -> context.getString(R.string.salary_unknown)
-    }
-}
-
-fun getVacancyPreviewItem(): VacancyBrief {
-    return VacancyBrief(
+fun getVacancyPreviewItem(): VacancyBriefInfo {
+    return VacancyBriefInfo(
         id = "-1",
         name = "Андроид-разработчик",
         city = "Москва",
         employerName = "Яндекс",
         employerLogo = null,
-        salaryFrom = 0,
-        salaryTo = 1000,
-        salaryCurrency = "$"
+        salary = "1000 $"
     )
 }
 

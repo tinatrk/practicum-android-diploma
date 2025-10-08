@@ -1,16 +1,15 @@
-package ru.practicum.android.diploma.presentation.search
+package ru.practicum.android.diploma.presentation.search.models
 
-import ru.practicum.android.diploma.domain.models.VacancyBrief
-import ru.practicum.android.diploma.domain.models.VacancyPage
+import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.util.common.Failure
 
 sealed class SearchUiState {
     data object Idle : SearchUiState()
     data object Loading : SearchUiState()
     data class Success(
-        val data: List<VacancyBrief>,
+        val data: List<VacancyBriefInfo>,
         val count: Int,
         val isLastPage: Boolean = false
     ) : SearchUiState()
-    data class Error(val error: Failure) : SearchUiState()
+    data class Error(val failure: Failure) : SearchUiState()
 }
