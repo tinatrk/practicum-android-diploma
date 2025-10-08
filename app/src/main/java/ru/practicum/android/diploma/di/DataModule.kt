@@ -7,6 +7,11 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.practicum.android.diploma.data.converter.AddressConverter
+import ru.practicum.android.diploma.data.converter.ContactsConverter
+import ru.practicum.android.diploma.data.converter.EmployerConverter
+import ru.practicum.android.diploma.data.converter.FilterAreaConverter
+import ru.practicum.android.diploma.data.converter.SalaryConverter
 import ru.practicum.android.diploma.data.converter.VacancyConverter
 import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.data.network.AuthInterceptor
@@ -60,8 +65,37 @@ val dataModule = module {
     }
 
     single {
-        VacancyConverter(
+        AddressConverter()
+    }
+
+    single {
+        ContactsConverter(
             gson = get()
+        )
+    }
+
+    single {
+        EmployerConverter()
+    }
+
+    single {
+        FilterAreaConverter(
+            gson = get()
+        )
+    }
+
+    single {
+        SalaryConverter()
+    }
+
+    single {
+        VacancyConverter(
+            gson = get(),
+            salaryConverter = get(),
+            addressConverter = get(),
+            contactsConverter = get(),
+            employerConverter = get(),
+            filterAreaConverter = get()
         )
     }
 
