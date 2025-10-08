@@ -5,6 +5,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -26,20 +27,30 @@ fun AppRoot(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+    val bottomIsVisible = currentDestination
+        ?.hierarchy
+        ?.any {
+            it.route == AppNavDestination.Home::class.qualifiedName ||
+                it.route == AppNavDestination.Favorite::class.qualifiedName ||
+                it.route == AppNavDestination.Team::class.qualifiedName
+        } == true
+
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(
-                tabs = bottomTabs,
-                currentDestination = currentDestination,
-                onItemSelected = { tab ->
-                    when (tab) {
-                        AppNavDestination.Home::class -> navController.navigateToHome()
-                        AppNavDestination.Favorite::class -> navController.navigateToFavorite()
-                        AppNavDestination.Team::class -> navController.navigateToTeam()
-                    }
-                },
-                modifier = modifier
-            )
+            if (bottomIsVisible) {
+                BottomNavigationBar(
+                    tabs = bottomTabs,
+                    currentDestination = currentDestination,
+                    onItemSelected = { tab ->
+                        when (tab) {
+                            AppNavDestination.Home::class -> navController.navigateToHome()
+                            AppNavDestination.Favorite::class -> navController.navigateToFavorite()
+                            AppNavDestination.Team::class -> navController.navigateToTeam()
+                        }
+                    },
+                    modifier = modifier
+                )
+            }
         }
     ) { innerPadding ->
         NavHost(
@@ -50,6 +61,9 @@ fun AppRoot(
             appGraph(
                 onVacancyClick = { vacancyId ->
                     navController.navigateToVacancy(vacancyId)
+                },
+                onBackClick = {
+                    navController.popBackStack()
                 }
             )
         }

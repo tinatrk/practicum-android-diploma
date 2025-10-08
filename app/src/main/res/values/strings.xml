@@ -27,6 +27,8 @@
 
     <string name="im_bad_connection_description">Нет интернета</string>
     <string name="im_search_vacancy_description">Поисковый запрос не задан</string>
+    <string name="the_vacancy_was_not_found_or_was_deleted">Вакансия не найдена или удалена</string>
+    <string name="server_error">Ошибка сервера</string>
 
     <string name="logo_description">Логотип работодателя</string>
 
@@ -48,5 +50,14 @@
     <string name="salary_unknown">Зарплата не указана</string>
 
     <string name="pagination_load_error">Ошибка при загрузке</string>
+
+    <string name="required_experience">Требуемый опыт</string>
+    <string name="no_experience">Нет опыта</string>
+    <string name="vacancy_description">Описание вакансии</string>
+    <string name="key_skills">Ключевые навыки</string>
+    <string name="contacts">Контакты</string>
+    <string name="contact_name">Контактное лицо</string>
+    <string name="email">E-mail</string>
+    <string name="phone">Телефон</string>
 
 </resources>

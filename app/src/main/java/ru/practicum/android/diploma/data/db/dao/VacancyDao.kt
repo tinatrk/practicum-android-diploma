@@ -39,5 +39,5 @@ interface VacancyDao {
     fun getVacanciesPreview(): Flow<List<VacancyBriefDto>?>
 
     @Query("SELECT EXISTS (SELECT 1 FROM vacancy WHERE vacancyId = :id)")
-    fun exists(id: String): Boolean
+    fun exists(id: String): Flow<Boolean>
 }

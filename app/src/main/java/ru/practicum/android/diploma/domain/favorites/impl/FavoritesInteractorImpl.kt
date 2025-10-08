@@ -27,7 +27,7 @@ class FavoritesInteractorImpl(
         return favoritesRepository.getFavoriteVacancyById(vacancyId)
     }
 
-    override fun isVacancyFavorite(vacancyId: String): Boolean {
+    override fun isVacancyFavorite(vacancyId: String): Flow<Boolean> {
         return favoritesRepository.isVacancyFavorite(vacancyId)
     }
 }

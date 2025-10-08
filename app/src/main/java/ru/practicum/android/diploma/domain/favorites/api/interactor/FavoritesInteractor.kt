@@ -15,5 +15,5 @@ interface FavoritesInteractor {
 
     fun getFavoriteVacancyById(vacancyId: String): Flow<Resource<Vacancy, Failure>>
 
-    fun isVacancyFavorite(vacancyId: String): Boolean
+    fun isVacancyFavorite(vacancyId: String): Flow<Boolean>
 }

@@ -84,10 +84,12 @@ fun NavHostController.navigateToTeam() {
 }
 
 /** Навигация для экрана: «Вакансия» */
-fun NavGraphBuilder.vacancyDestination() {
+fun NavGraphBuilder.vacancyDestination(
+    onBackClick: () -> Unit
+) {
     composable<AppNavDestination.Vacancy> { navBackStackEntry ->
         val vacancyId = navBackStackEntry.toRoute<AppNavDestination.Vacancy>().vacancyId
-        VacancyScreen(vacancyId = vacancyId)
+        VacancyScreen(vacancyId = vacancyId, onBackClick)
     }
 }
 
