@@ -29,7 +29,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.domain.models.Contacts
+import ru.practicum.android.diploma.domain.models.vacancy.Contacts
 import ru.practicum.android.diploma.presentation.details.models.DetailsScreenState
 import ru.practicum.android.diploma.presentation.details.viewmodel.VacancyDetailsViewModel
 import ru.practicum.android.diploma.presentation.models.VacancyInfo

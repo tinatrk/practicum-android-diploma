@@ -18,15 +18,15 @@ import ru.practicum.android.diploma.data.dto.models.FilterAreaDto
 import ru.practicum.android.diploma.data.dto.models.SalaryDto
 import ru.practicum.android.diploma.data.dto.response.VacancyDetailResponse
 import ru.practicum.android.diploma.data.dto.response.VacancyResponse
-import ru.practicum.android.diploma.domain.models.Address
-import ru.practicum.android.diploma.domain.models.Contacts
-import ru.practicum.android.diploma.domain.models.Employer
-import ru.practicum.android.diploma.domain.models.FilterArea
-import ru.practicum.android.diploma.domain.models.Phone
-import ru.practicum.android.diploma.domain.models.Salary
-import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.domain.models.VacancyBrief
-import ru.practicum.android.diploma.domain.models.VacancyPage
+import ru.practicum.android.diploma.domain.models.vacancy.Address
+import ru.practicum.android.diploma.domain.models.vacancy.Contacts
+import ru.practicum.android.diploma.domain.models.vacancy.Employer
+import ru.practicum.android.diploma.domain.models.vacancy.FilterArea
+import ru.practicum.android.diploma.domain.models.vacancy.Phone
+import ru.practicum.android.diploma.domain.models.vacancy.Salary
+import ru.practicum.android.diploma.domain.models.vacancy.Vacancy
+import ru.practicum.android.diploma.domain.models.vacancy.VacancyBrief
+import ru.practicum.android.diploma.domain.models.vacancy.VacancyPage
 import java.lang.reflect.Type
 
 class VacancyConverter(private val gson: Gson) {
