@@ -8,4 +8,67 @@
     <string name="theme_use_example_bottom_bor_label_team">Команда</string>
     <string name="theme_use_example_image_content_description"> </string>
 
+    <string name="tools_vacancy_id">Тестовый id</string>
+    <string name="tools_vacancy_name">Андроид-разработчик</string>
+    <string name="tools_vacancy_city">Москва</string>
+    <string name="tools_vacancy_employer_name">Яндекс</string>
+
+    <string name="search_screen_title">Поиск вакансий</string>
+    <string name="vacancy_details_screen_title">Вакансия</string>
+    <string name="favorites_screen_title">Избранное</string>
+    <string name="filter_settings_screen_title">Настройки фильтрации</string>
+    <string name="team_screen_title">Команда</string>
+
+    <string name="no_vacancies_label">Таких вакансий нет</string>
+    <string name="vacancies_load_failed">Не удалось получить\nсписок вакансий</string>
+    <string name="vacancies_count_text">Найдено %1$d вакансий</string>
+
+    <string name="search_bar_hint">Введите запрос</string>
+    <string name="search_bar_clear_btn_description">Очистить поле ввода</string>
+
+    <string name="im_bad_connection_description">Нет интернета</string>
+    <string name="im_search_vacancy_description">Поисковый запрос не задан</string>
+    <string name="im_favorites_empty_description">Список пуст</string>
+    <string name="im_lack_of_list_cat_description">Не удалось получить список вакансий</string>
+    <string name="the_vacancy_was_not_found_or_was_deleted">Вакансия не найдена или удалена</string>
+    <string name="server_error">Ошибка сервера</string>
+
+    <string name="logo_description">Логотип работодателя</string>
+
+    <string name="btn_choose">Выбрать</string>
+    <string name="btn_apply">Применить</string>
+    <string name="btn_throw_off">Сбросить</string>
+
+    <string name="ic_arrow_back_description">Вернуться на предыдущий экран</string>
+    <string name="ic_share_description">Поделиться вакансией</string>
+    <string name="ic_favorite_vacancy_description">Добавить вакансию в избранные</string>
+
+    <string name="vacancy_name_unknown">Название вакансии не указано</string>
+    <string name="vacancy_city_unknown">Город вакансии не указан</string>
+    <string name="vacancy_employer_name_unknown">Название компании работодателя не указано</string>
+    <string name="salary">%1$s %2$s</string>
+    <string name="salary_from">от %1$s %2$s</string>
+    <string name="salary_to">до %1$s %2$s</string>
+    <string name="salary_from_to">от %1$s до %2$s %3$s</string>
+    <string name="salary_unknown">Зарплата не указана</string>
+
+    <string name="pagination_load_error">Ошибка при загрузке</string>
+
+    <string name="required_experience">Требуемый опыт</string>
+    <string name="no_experience">Нет опыта</string>
+    <string name="vacancy_description">Описание вакансии</string>
+    <string name="key_skills">Ключевые навыки</string>
+    <string name="contacts">Контакты</string>
+    <string name="contact_name">Контактное лицо</string>
+    <string name="email">E-mail</string>
+    <string name="phone">Телефон</string>
+
+    <string name="persons_title">Над приложением работали</string>
+    <string-array name="persons_working" translatable="false">
+        <item>Сергей Такт</item>
+        <item>Татьяна Соловьева</item>
+        <item>Иван Дробитько</item>
+        <item>Дмитрий Иванов</item>
+    </string-array>
+
 </resources>

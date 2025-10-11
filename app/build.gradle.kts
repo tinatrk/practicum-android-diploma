@@ -84,6 +84,7 @@ dependencies {
 
     // Koin
     implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.android)
 
     // Retrofit
     implementation(libs.retrofit)
@@ -91,6 +92,7 @@ dependencies {
 
     // Coil
     implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)

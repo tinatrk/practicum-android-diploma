@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 data class CustomColors(
     val screenBackground: Color,
     val commonTextColor: Color,
+    val commonIconColor: Color,
     val topBarColors: TopBarColors,
     val bottomNavigationColors: BottomNavigationColors,
     val searchEditTextColors: SearchEditTextColors,
@@ -17,7 +18,8 @@ data class CustomColors(
     val vacancyInfoCard: VacancyInfoCard,
     val buttonColors: ButtonColors,
     val bottomSheetColors: BottomSheetColors,
-    val toastColors: ToastColors
+    val toastColors: ToastColors,
+    val vacancyDetailsColors: VacancyDetailsColors
 )
 
 data class SearchEditTextColors(
@@ -43,7 +45,8 @@ data class SearchCountResultChipColors(
 data class VacancyListItemColors(
     val background: Color,
     val title: Color,
-    val textInfo: Color
+    val textInfo: Color,
+    val logoBorder: Color
 )
 
 // Блоки с текстом и иконкой на экранах фильтрации
@@ -81,23 +84,7 @@ data class TextFieldLabelStateColors(
 data class TopBarColors(
     val background: Color,
     val text: Color,
-    val iconType: IconTypeColors
-)
-
-data class IconTypeColors(
-    val commonIconTint: Color,
-    val filterStateColors: IconState,
-    val favoriteStateColors: IconState
-)
-
-data class IconState(
-    val activeIcon: IconStateColors,
-    val inactiveIcon: IconStateColors
-)
-
-data class IconStateColors(
-    val background: Color,
-    val tint: Color
+    val iconBaseTint: Color,
 )
 
 data class ButtonColors(
@@ -122,6 +109,11 @@ data class BottomSheetColors(
 )
 
 data class ToastColors(
+    val background: Color,
+    val text: Color
+)
+
+data class VacancyDetailsColors(
     val background: Color,
     val text: Color
 )

@@ -17,6 +17,7 @@ ksp = "1.9.0-1.0.13"
 
 # Koin
 koinAndroidxCompose = "4.0.2"
+koinAndroid = "3.5.0"
 
 # Navigation Compose
 navigationCompose = "2.8.0"
@@ -26,6 +27,7 @@ retrofit = "2.9.0"
 
 # Coil
 coilCompose = "2.6.0"
+coilSvg = "2.6.0"
 
 # Room
 roomRuntime = "2.6.1"
@@ -48,6 +50,7 @@ kotlinx-serialization-json = "1.6.0"
 [libraries]
 
 # Detekt
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 staticAnalysis-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
 staticAnalysis-detektApi = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
@@ -97,6 +100,7 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 # Coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg"}
 
 # Jetpack Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }

@@ -1,16 +1,15 @@
 package ru.practicum.android.diploma.util
 
-import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 
 class NetworkInfoProvider(
-    private val application: Application
+    private val context: Context
 ) {
 
     fun isConnected(): Boolean {
-        val connectivityManager = application.getSystemService(
+        val connectivityManager = context.getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
 

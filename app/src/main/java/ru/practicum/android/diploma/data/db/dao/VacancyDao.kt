@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import ru.practicum.android.diploma.data.db.dto.VacancyPreview
+import ru.practicum.android.diploma.data.db.dto.VacancyBriefDto
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 
 @Dao
@@ -36,5 +36,8 @@ interface VacancyDao {
                 ORDER BY addedTime DESC
                 """
     )
-    fun getVacanciesPreview(): Flow<List<VacancyPreview>?>
+    fun getVacanciesPreview(): Flow<List<VacancyBriefDto>?>
+
+    @Query("SELECT EXISTS (SELECT 1 FROM vacancy WHERE vacancyId = :id)")
+    fun exists(id: String): Flow<Boolean>
 }

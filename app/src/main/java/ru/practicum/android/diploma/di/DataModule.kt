@@ -7,11 +7,19 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.practicum.android.diploma.data.converter.AddressConverter
+import ru.practicum.android.diploma.data.converter.ContactsConverter
+import ru.practicum.android.diploma.data.converter.EmployerConverter
+import ru.practicum.android.diploma.data.converter.FilterAreaConverter
+import ru.practicum.android.diploma.data.converter.SalaryConverter
+import ru.practicum.android.diploma.data.converter.VacancyConverter
 import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.data.network.AuthInterceptor
 import ru.practicum.android.diploma.data.network.DiplomaApi
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
+import ru.practicum.android.diploma.util.NetworkInfoProvider
+import ru.practicum.android.diploma.util.ResourceProvider
 
 val dataModule = module {
 
@@ -35,7 +43,10 @@ val dataModule = module {
     }
 
     single<NetworkClient> {
-        RetrofitNetworkClient(get())
+        RetrofitNetworkClient(
+            diplomaApi = get(),
+            networkInfoProvider = get()
+        )
     }
 
     factory {
@@ -44,5 +55,53 @@ val dataModule = module {
 
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database")
+            .build()
+    }
+
+    single {
+        NetworkInfoProvider(
+            context = androidContext()
+        )
+    }
+
+    single {
+        AddressConverter()
+    }
+
+    single {
+        ContactsConverter(
+            gson = get()
+        )
+    }
+
+    single {
+        EmployerConverter()
+    }
+
+    single {
+        FilterAreaConverter(
+            gson = get()
+        )
+    }
+
+    single {
+        SalaryConverter()
+    }
+
+    single {
+        VacancyConverter(
+            gson = get(),
+            salaryConverter = get(),
+            addressConverter = get(),
+            contactsConverter = get(),
+            employerConverter = get(),
+            filterAreaConverter = get()
+        )
+    }
+
+    single {
+        ResourceProvider(
+            context = androidContext()
+        )
     }
 }
