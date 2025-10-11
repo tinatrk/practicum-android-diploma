@@ -50,34 +50,20 @@ class VacancyConverter(
         if (currency == null) return resourceProvider.getString(R.string.salary_unknown)
 
         return when {
-            from != null && to != null -> {
-                if (from == to) {
-                    resourceProvider.getString(
-                        R.string.salary,
-                        getNumberStr(from),
-                        currency
-                    )
-                } else {
-                    resourceProvider.getString(
-                        R.string.salary_from_to,
-                        getNumberStr(from),
-                        getNumberStr(to),
-                        currency
-                    )
-                }
-            }
+            from != null && to != null && from == to ->
+                resourceProvider.getString(R.string.salary, getNumberStr(from), currency)
 
-            from != null && to == null -> {
+            from != null && to != null ->
+                resourceProvider.getString(R.string.salary_from_to, getNumberStr(from), getNumberStr(to), currency)
+
+            from != null ->
                 resourceProvider.getString(R.string.salary_from, getNumberStr(from), currency)
-            }
 
-            from == null && to != null -> {
+            to != null ->
                 resourceProvider.getString(R.string.salary_to, getNumberStr(to), currency)
-            }
 
-            else -> {
+            else ->
                 resourceProvider.getString(R.string.salary_unknown)
-            }
         }
     }
 
