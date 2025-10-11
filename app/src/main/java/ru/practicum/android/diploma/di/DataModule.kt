@@ -1,8 +1,12 @@
 package ru.practicum.android.diploma.di
 
+import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -20,6 +24,8 @@ import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.util.NetworkInfoProvider
 import ru.practicum.android.diploma.util.ResourceProvider
+
+private const val FILTER_SHARED_PREFERENCES_FILE = "shared_preferences_filter"
 
 val dataModule = module {
 
@@ -102,6 +108,12 @@ val dataModule = module {
     single {
         ResourceProvider(
             context = androidContext()
+        )
+    }
+
+    single {
+        androidApplication().getSharedPreferences(
+            FILTER_SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE
         )
     }
 }

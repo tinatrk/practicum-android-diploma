@@ -7,6 +7,8 @@ import ru.practicum.android.diploma.domain.details.impl.ExternalNavigatorInterac
 import ru.practicum.android.diploma.domain.details.impl.VacancyDetailsInteractorImpl
 import ru.practicum.android.diploma.domain.favorites.api.interactor.FavoritesInteractor
 import ru.practicum.android.diploma.domain.favorites.impl.FavoritesInteractorImpl
+import ru.practicum.android.diploma.domain.filters.api.interactor.FilterStorageInteractor
+import ru.practicum.android.diploma.domain.filters.impl.FilterStorageInteractorImpl
 import ru.practicum.android.diploma.domain.search.api.interactor.VacancySearchInteractor
 import ru.practicum.android.diploma.domain.search.impl.VacancySearchInteractorImpl
 
@@ -32,6 +34,12 @@ val interactorModule = module {
     single<ExternalNavigatorInteractor> {
         ExternalNavigatorInteractorImpl(
             externalNavigator = get()
+        )
+    }
+
+    factory<FilterStorageInteractor> {
+        FilterStorageInteractorImpl(
+            filterStorageRepository = get()
         )
     }
 }

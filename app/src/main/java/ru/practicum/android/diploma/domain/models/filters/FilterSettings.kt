@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FilterSettings(
-    val address: FilterAddress?,
-    val industry: FilterIndustry?,
-    val salary: Int?,
-    val onlyWithSalary: Boolean?
+    val address: FilterAddress? = null,
+    val industry: FilterIndustry? = null,
+    val salary: Int? = null,
+    val onlyWithSalary: Boolean? = null
 )

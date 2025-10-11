@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FilterAddress(
     val country: FilterCountry,
-    val region: FilterRegion?
+    val region: FilterRegion? = null
 )
