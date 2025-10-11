@@ -17,9 +17,9 @@ import ru.practicum.android.diploma.domain.models.vacancy.VacancyBrief
 import ru.practicum.android.diploma.presentation.converter.VacancyConverter
 import ru.practicum.android.diploma.presentation.favorites.models.FavoritesScreenState
 import ru.practicum.android.diploma.presentation.models.NavigationEventToVacancy
+import ru.practicum.android.diploma.util.afterDebounce
 import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource
-import ru.practicum.android.diploma.util.debounce
 
 class FavoritesViewModel(
     private val favoritesInteractor: FavoritesInteractor,
@@ -62,7 +62,7 @@ class FavoritesViewModel(
     }
 
     private val onVacancyClickDebounce: (String) -> Unit =
-        debounce(ON_VACANCY_CLICK_DELAY_MILLIS, viewModelScope, false) { vacancyId ->
+        afterDebounce(ON_VACANCY_CLICK_DELAY_MILLIS, viewModelScope, false) { vacancyId ->
             viewModelScope.launch {
                 _navigationEvent.emit(NavigationEventToVacancy.OpenVacancyDetails(vacancyId = vacancyId))
             }

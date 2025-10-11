@@ -70,7 +70,7 @@ fun VacancyScreen(
                     )
                 }
 
-                DetailsScreenState.Loading, DetailsScreenState.Error -> {
+                DetailsScreenState.Loading, DetailsScreenState.Error, DetailsScreenState.InternetError -> {
                     SimpleTopBarWithBackIcon(
                         stringResource(R.string.vacancy_details_screen_title),
                         onNavigationIconClick = onBackClick
@@ -103,6 +103,14 @@ fun VacancyScreen(
                         ErrorMessage(
                             title = stringResource(R.string.server_error),
                             imageId = R.drawable.im_server_error_cat,
+                            modifier = modifier.fillMaxSize()
+                        )
+                    }
+
+                    DetailsScreenState.InternetError -> {
+                        ErrorMessage(
+                            title = stringResource(R.string.im_bad_connection_description),
+                            imageId = R.drawable.im_bad_connection,
                             modifier = modifier.fillMaxSize()
                         )
                     }

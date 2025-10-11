@@ -19,9 +19,9 @@ import ru.practicum.android.diploma.domain.favorites.api.interactor.FavoritesInt
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancy
 import ru.practicum.android.diploma.presentation.converter.VacancyConverter
 import ru.practicum.android.diploma.presentation.details.models.DetailsScreenState
+import ru.practicum.android.diploma.util.afterDebounce
 import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource
-import ru.practicum.android.diploma.util.debounce
 
 class VacancyDetailsViewModel(
     private val vacancyId: String,
@@ -73,6 +73,7 @@ class VacancyDetailsViewModel(
             is Resource.Error -> {
                 when (result.error) {
                     is Failure.BadRequest -> DetailsScreenState.Empty
+                    is Failure.Network -> DetailsScreenState.InternetError
                     else -> DetailsScreenState.Error
                 }
             }
@@ -80,7 +81,7 @@ class VacancyDetailsViewModel(
     }
 
     private val onFavoriteClickDelay: (Unit) -> Unit =
-        debounce(ON_FAVORITE_CLICK_DELAY_MILLIS, viewModelScope, false) {
+        afterDebounce(ON_FAVORITE_CLICK_DELAY_MILLIS, viewModelScope, false) {
             viewModelScope.launch {
                 if (isFavorite.first()) {
                     vacancy?.let {
