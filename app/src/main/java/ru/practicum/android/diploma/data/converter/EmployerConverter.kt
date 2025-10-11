@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.data.converter
 
 import ru.practicum.android.diploma.data.db.embedd.EmployerEmbeddable
 import ru.practicum.android.diploma.data.dto.models.EmployerDto
-import ru.practicum.android.diploma.domain.models.Employer
+import ru.practicum.android.diploma.domain.models.vacancy.Employer
 
 class EmployerConverter {
     fun map(employerDto: EmployerDto?): Employer? {
