@@ -6,7 +6,7 @@ import ru.practicum.android.diploma.data.converter.VacancyConverter
 import ru.practicum.android.diploma.data.dto.request.VacancyRequest
 import ru.practicum.android.diploma.data.dto.response.VacancyResponse
 import ru.practicum.android.diploma.data.network.NetworkClient
-import ru.practicum.android.diploma.domain.models.VacancyPage
+import ru.practicum.android.diploma.domain.models.vacancy.VacancyPage
 import ru.practicum.android.diploma.domain.search.api.repository.VacancySearchRepository
 import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource

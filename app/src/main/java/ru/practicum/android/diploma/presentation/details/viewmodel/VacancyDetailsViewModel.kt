@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.details.api.interactor.ExternalNavigatorInteractor
 import ru.practicum.android.diploma.domain.details.api.interactor.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.favorites.api.interactor.FavoritesInteractor
-import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.vacancy.Vacancy
 import ru.practicum.android.diploma.presentation.converter.VacancyConverter
 import ru.practicum.android.diploma.presentation.details.models.DetailsScreenState
 import ru.practicum.android.diploma.util.common.Failure
