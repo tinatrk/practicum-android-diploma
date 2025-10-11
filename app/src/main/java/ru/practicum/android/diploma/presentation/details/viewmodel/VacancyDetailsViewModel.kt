@@ -73,6 +73,7 @@ class VacancyDetailsViewModel(
             is Resource.Error -> {
                 when (result.error) {
                     is Failure.BadRequest -> DetailsScreenState.Empty
+                    is Failure.Network -> DetailsScreenState.InternetError
                     else -> DetailsScreenState.Error
                 }
             }
