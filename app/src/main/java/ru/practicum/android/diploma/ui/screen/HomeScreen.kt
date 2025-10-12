@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,7 +45,8 @@ import ru.practicum.android.diploma.util.common.Failure
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    navigateToVacancy: (String) -> Unit
+    navigateToVacancy: (String) -> Unit,
+    navigateToSettings: () -> Unit
 ) {
     val vm: SearchViewModel = koinViewModel()
     val state by vm.searchUiState.collectAsStateWithLifecycle()
@@ -59,7 +61,8 @@ fun HomeScreen(
         containerColor = LocalCustomColors.current.screenBackground,
         topBar = {
             SearchScreenTopBar { }
-        }
+        },
+        modifier = Modifier.clickable { navigateToSettings() }
     ) { innerPadding ->
         HomeScreen(
             state = state,

@@ -8,9 +8,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
+import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
 import ru.practicum.android.diploma.ui.screen.FavoriteScreen
 import ru.practicum.android.diploma.ui.screen.HomeScreen
 import ru.practicum.android.diploma.ui.screen.TeamScreen
+import ru.practicum.android.diploma.ui.screen.TestIndustryScreen
+import ru.practicum.android.diploma.ui.screen.TestSettingsScreen
 import ru.practicum.android.diploma.ui.screen.VacancyScreen
 
 sealed interface AppNavDestination {
@@ -25,16 +28,24 @@ sealed interface AppNavDestination {
 
     @Serializable
     data class Vacancy(val vacancyId: String) : AppNavDestination
+
+    @Serializable
+    object TestSettings : AppNavDestination
+
+    @Serializable
+    object TestIndustry : AppNavDestination
 }
 
 /** Навигация для экрана: «Главная» */
 fun NavGraphBuilder.homeDestination(
-    navigateToVacancy: (String) -> Unit
+    navigateToVacancy: (String) -> Unit,
+    navigateToSettings: () -> Unit
 ) {
     composable<AppNavDestination.Home> {
         HomeScreen(
             modifier = Modifier.fillMaxSize(),
-            navigateToVacancy = navigateToVacancy
+            navigateToVacancy = navigateToVacancy,
+            navigateToSettings = navigateToSettings
         )
     }
 }
@@ -95,4 +106,34 @@ fun NavGraphBuilder.vacancyDestination(
 
 fun NavHostController.navigateToVacancy(vacancyId: String) {
     navigate(AppNavDestination.Vacancy(vacancyId))
+}
+
+/** Навигация для тестового экрана: «Настройки фильтрации» */
+fun NavGraphBuilder.testSettingsDestination(
+    navigateToIndustry: () -> Unit
+) {
+    composable<AppNavDestination.TestSettings> {
+        TestSettingsScreen(
+            navigateToIndustry = navigateToIndustry
+        )
+    }
+}
+
+fun NavHostController.navigateToTestSettings() {
+    navigate(AppNavDestination.TestSettings)
+}
+
+/** Навигация для тестового экрана: «Отрасль» */
+fun NavGraphBuilder.testIndustryDestination(
+    onFinish: () -> Unit
+) {
+    composable<AppNavDestination.TestIndustry> {
+        TestIndustryScreen(
+            onFinish = onFinish
+        )
+    }
+}
+
+fun NavHostController.navigateToTestIndustry() {
+    navigate(AppNavDestination.TestIndustry)
 }
