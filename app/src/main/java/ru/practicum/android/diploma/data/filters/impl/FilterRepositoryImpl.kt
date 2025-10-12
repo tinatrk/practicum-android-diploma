@@ -36,7 +36,8 @@ class FilterRepositoryImpl(
                     areaExtractor
                         .getCountriesShortList((response as FilterAreaResponse).areas)
                         .sortedWith(
-                            compareBy(String.CASE_INSENSITIVE_ORDER) { it.name })
+                            compareBy(String.CASE_INSENSITIVE_ORDER) { it.name }
+                        )
                         .run {
                             val (others, target) = partition { it.id != OTHER_REGIONS_ID }
                             others + target
@@ -63,7 +64,8 @@ class FilterRepositoryImpl(
                     areaExtractor
                         .getOtherCountries((response as FilterAreaResponse).areas)
                         .sortedWith(
-                            compareBy(String.CASE_INSENSITIVE_ORDER) { it.name })
+                            compareBy(String.CASE_INSENSITIVE_ORDER) { it.name }
+                        )
                 )
             )
         } else {

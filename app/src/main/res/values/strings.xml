@@ -73,6 +73,6 @@
 
     <string name="industry_unknown">Отрасль не задана</string>
     <string name="country_unknown">Страна не задана</string>
-    <string name="region_unknown">Регион не задана</string>
+    <string name="region_unknown">Регион не задан</string>
 
 </resources>

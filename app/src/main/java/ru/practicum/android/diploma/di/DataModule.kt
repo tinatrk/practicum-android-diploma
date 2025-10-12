@@ -114,7 +114,8 @@ val dataModule = module {
 
     single {
         androidApplication().getSharedPreferences(
-            FILTER_SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE
+            FILTER_SHARED_PREFERENCES_FILE,
+            Context.MODE_PRIVATE
         )
     }
 
