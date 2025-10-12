@@ -10,11 +10,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
 import ru.practicum.android.diploma.ui.components.BottomNavigationBar
 import ru.practicum.android.diploma.ui.navigation.bottomTabs
 import ru.practicum.android.diploma.ui.navigation.util.AppNavDestination
+import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 import ru.practicum.android.diploma.ui.navigation.util.appGraph
 import ru.practicum.android.diploma.ui.navigation.util.navigateToFavorite
+import ru.practicum.android.diploma.ui.navigation.util.navigateToFilterIndustry
+import ru.practicum.android.diploma.ui.navigation.util.navigateToFilterSettings
 import ru.practicum.android.diploma.ui.navigation.util.navigateToHome
 import ru.practicum.android.diploma.ui.navigation.util.navigateToTeam
 import ru.practicum.android.diploma.ui.navigation.util.navigateToVacancy
@@ -64,7 +68,25 @@ fun AppRoot(
                 },
                 onBackClick = {
                     navController.popBackStack()
-                }
+                },
+                navigateToFilterSettings = {
+                    navController.navigateToFilterSettings()
+                },
+                navigateToFilterIndustry = {
+                    navController.navigateToFilterIndustry()
+                },
+                // к сожалению, эту часть нужно повторять для каждого экрана с возвратом параметра
+                onFinishFilterIndustry = {
+                    val result = navController.currentBackStackEntry
+                        ?.savedStateHandle
+                        ?.get<FilterIndustry>(NavResultKeys.SELECTED_INDUSTRY)
+
+                    navController.previousBackStackEntry
+                        ?.savedStateHandle
+                        ?.set(NavResultKeys.SELECTED_INDUSTRY, result)
+
+                    navController.popBackStack()
+                },
             )
         }
     }

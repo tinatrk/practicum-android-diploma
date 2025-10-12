@@ -44,7 +44,8 @@ import ru.practicum.android.diploma.util.common.Failure
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    navigateToVacancy: (String) -> Unit
+    navigateToVacancy: (String) -> Unit,
+    navigateToFilterSettings: () -> Unit
 ) {
     val vm: SearchViewModel = koinViewModel()
     val state by vm.searchUiState.collectAsStateWithLifecycle()
@@ -58,7 +59,7 @@ fun HomeScreen(
     Scaffold(
         containerColor = LocalCustomColors.current.screenBackground,
         topBar = {
-            SearchScreenTopBar { }
+            SearchScreenTopBar { navigateToFilterSettings() }
         }
     ) { innerPadding ->
         HomeScreen(
@@ -69,7 +70,7 @@ fun HomeScreen(
             onVacancyClick = navigateToVacancy,
             onQueryChanged = onQueryChanged,
             onClearQueryClick = onClearQueryClick,
-            modifier = modifier.padding(innerPadding)
+            modifier = modifier.padding(innerPadding),
         )
     }
 }

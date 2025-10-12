@@ -4,10 +4,18 @@ import androidx.navigation.NavGraphBuilder
 
 fun NavGraphBuilder.appGraph(
     navigateToVacancy: (String) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    navigateToFilterIndustry: () -> Unit,
+    navigateToFilterSettings: () -> Unit,
+    onFinishFilterIndustry: () -> Unit
 ) {
-    homeDestination(navigateToVacancy = navigateToVacancy)
+    homeDestination(
+        navigateToVacancy = navigateToVacancy,
+        navigateToFilterSettings = navigateToFilterSettings
+    )
     favoriteDestination(navigateToVacancy = navigateToVacancy)
     teamDestination()
     vacancyDestination(onBackClick = onBackClick)
+    filterSettingsDestination(navigateToFilterIndustry = navigateToFilterIndustry)
+    filterIndustryDestination(onFinish = onFinishFilterIndustry)
 }

@@ -9,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 import ru.practicum.android.diploma.ui.screen.FavoriteScreen
+import ru.practicum.android.diploma.ui.screen.FilterIndustryScreen
+import ru.practicum.android.diploma.ui.screen.FilterSettingsScreen
 import ru.practicum.android.diploma.ui.screen.HomeScreen
 import ru.practicum.android.diploma.ui.screen.TeamScreen
 import ru.practicum.android.diploma.ui.screen.VacancyScreen
@@ -25,16 +27,24 @@ sealed interface AppNavDestination {
 
     @Serializable
     data class Vacancy(val vacancyId: String) : AppNavDestination
+
+    @Serializable
+    data object FilterSettings : AppNavDestination
+
+    @Serializable
+    data object FilterIndustry : AppNavDestination
 }
 
 /** Навигация для экрана: «Главная» */
 fun NavGraphBuilder.homeDestination(
-    navigateToVacancy: (String) -> Unit
+    navigateToVacancy: (String) -> Unit,
+    navigateToFilterSettings: () -> Unit
 ) {
     composable<AppNavDestination.Home> {
         HomeScreen(
             modifier = Modifier.fillMaxSize(),
-            navigateToVacancy = navigateToVacancy
+            navigateToVacancy = navigateToVacancy,
+            navigateToFilterSettings = navigateToFilterSettings
         )
     }
 }
@@ -95,4 +105,34 @@ fun NavGraphBuilder.vacancyDestination(
 
 fun NavHostController.navigateToVacancy(vacancyId: String) {
     navigate(AppNavDestination.Vacancy(vacancyId))
+}
+
+/** Навигация для экрана: «Настройки фильтрации» */
+fun NavGraphBuilder.filterSettingsDestination(
+    navigateToFilterIndustry: () -> Unit
+) {
+    composable<AppNavDestination.FilterSettings> {
+        FilterSettingsScreen(
+            navigateToFilterIndustry = navigateToFilterIndustry
+        )
+    }
+}
+
+fun NavHostController.navigateToFilterSettings() {
+    navigate(AppNavDestination.FilterSettings)
+}
+
+/** Навигация для экрана: «Отрасль» */
+fun NavGraphBuilder.filterIndustryDestination(
+    onFinish: () -> Unit
+) {
+    composable<AppNavDestination.FilterIndustry> {
+        FilterIndustryScreen(
+            onFinish = onFinish
+        )
+    }
+}
+
+fun NavHostController.navigateToFilterIndustry() {
+    navigate(AppNavDestination.FilterIndustry)
 }
