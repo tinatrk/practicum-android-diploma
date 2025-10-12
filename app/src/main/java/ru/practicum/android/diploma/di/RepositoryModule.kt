@@ -5,11 +5,13 @@ import org.koin.dsl.module
 import ru.practicum.android.diploma.data.details.impl.ExternalNavigatorRepositoryImpl
 import ru.practicum.android.diploma.data.details.impl.VacancyDetailsRepositoryImpl
 import ru.practicum.android.diploma.data.favorites.impl.FavoritesRepositoryImpl
+import ru.practicum.android.diploma.data.filters.impl.FilterRepositoryImpl
 import ru.practicum.android.diploma.data.filters.impl.FilterStorageRepositoryImpl
 import ru.practicum.android.diploma.data.search.impl.VacancySearchRepositoryImpl
 import ru.practicum.android.diploma.domain.details.api.repository.ExternalNavigatorRepository
 import ru.practicum.android.diploma.domain.details.api.repository.VacancyDetailsRepository
 import ru.practicum.android.diploma.domain.favorites.api.repository.FavoritesRepository
+import ru.practicum.android.diploma.domain.filters.api.repository.FilterRepository
 import ru.practicum.android.diploma.domain.filters.api.repository.FilterStorageRepository
 import ru.practicum.android.diploma.domain.search.api.repository.VacancySearchRepository
 
@@ -44,6 +46,14 @@ val repositoryModule = module {
     single<FilterStorageRepository> {
         FilterStorageRepositoryImpl(
             sharedPrefs = get()
+        )
+    }
+
+    single<FilterRepository> {
+        FilterRepositoryImpl(
+            networkClient = get(),
+            areaExtractor = get(),
+            industryConverter = get()
         )
     }
 }

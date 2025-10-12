@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FilterIndustry(
     val id: Int,
-    val industry: String
+    val name: String
 )
