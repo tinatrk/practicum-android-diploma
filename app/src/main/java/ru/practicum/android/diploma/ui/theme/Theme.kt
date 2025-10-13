@@ -10,7 +10,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import ru.practicum.android.diploma.ui.components.FilterListItem
 
 // region ColorScheme
 private val DarkColorScheme = darkColorScheme(
@@ -84,6 +86,11 @@ private val LightCustomColors = CustomColors(
     ),
 
     filterListItemColors = FilterListItemColors(
+        background = PrimaryLight,
+        headlineContent = OnPrimaryLight,
+        overlineContent = OnPrimaryLight,
+        trailingIcon = OnPrimaryLight,
+
         defaultFilterItem = FilterListItemStateColors(
             background = PrimaryLight,
             text = OnPrimaryContainer,
@@ -194,6 +201,10 @@ private val DarkCustomColors = CustomColors(
     ),
 
     filterListItemColors = FilterListItemColors(
+        background = PrimaryDark,
+        headlineContent = OnPrimaryDark,
+        overlineContent = OnPrimaryDark,
+        trailingIcon = OnPrimaryDark,
         defaultFilterItem = FilterListItemStateColors(
             background = PrimaryDark,
             text = OnPrimaryContainer,
