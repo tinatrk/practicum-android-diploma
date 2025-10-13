@@ -1,9 +1,9 @@
 package ru.practicum.android.diploma.domain.filters.api.repository
 
 import kotlinx.coroutines.flow.Flow
-import ru.practicum.android.diploma.domain.models.filters.FilterAddress
 import ru.practicum.android.diploma.domain.models.filters.FilterCountry
 import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
+import ru.practicum.android.diploma.domain.models.filters.FilterRegion
 import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource
 
@@ -12,6 +12,9 @@ interface FilterRepository {
 
     fun getCountries(): Flow<Resource<List<FilterCountry>, Failure>>
 
-    fun getRegions(countryId: Int?): Flow<Resource<List<FilterAddress>, Failure>>
-}
+    fun getOtherCountries(): Flow<Resource<List<FilterCountry>, Failure>>
 
+    fun getCountryNameById(countryId: Int): Flow<Resource<String, Failure>>
+
+    fun getRegions(countryId: Int?): Flow<Resource<List<FilterRegion>, Failure>>
+}

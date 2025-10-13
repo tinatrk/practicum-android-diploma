@@ -12,4 +12,6 @@ sealed interface DetailsScreenState {
 
     object Error : DetailsScreenState
 
+    object InternetError : DetailsScreenState
+
 }

@@ -1,11 +1,12 @@
 package ru.practicum.android.diploma.domain.models.filters
 
-import kotlinx.serialization.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-@Serializable
+@Parcelize
 data class FilterSettings(
     val address: FilterAddress?,
     val industry: FilterIndustry?,
     val salary: Int?,
     val onlyWithSalary: Boolean?
-)
+) : Parcelable

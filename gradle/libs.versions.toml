@@ -9,7 +9,7 @@ targetSdk = "33"
 
 # Detekt
 detekt = "1.23.3"
-detektTwitterComposeRules ="0.0.26"
+detektTwitterComposeRules = "0.0.26"
 gson = "2.13.2"
 
 # KSP
@@ -50,7 +50,6 @@ kotlinx-serialization-json = "1.6.0"
 [libraries]
 
 # Detekt
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 staticAnalysis-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
 staticAnalysis-detektApi = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
@@ -84,6 +83,7 @@ uiTests-espressoCore = "androidx.test.espresso:espresso-core:3.5.1"
 
 # Koin
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 
 # Navigation Compose
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
@@ -93,20 +93,20 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-converter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 
 # Serialization
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json"}
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
 # Gson
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 # Coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
-coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg"}
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
 
 # Jetpack Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3"}
+material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 runtime = { module = "androidx.compose.runtime:runtime", version.ref = "runtime" }
 
 # Coroutines
@@ -118,4 +118,4 @@ kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collec
 
 [plugins]
 devtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-androidx-room = {id = "androidx.room", version.ref = "roomRuntime"}
+androidx-room = { id = "androidx.room", version.ref = "roomRuntime" }
