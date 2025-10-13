@@ -112,7 +112,9 @@ class FilterIndustryViewModel(
     fun onIndustryItemClick(filterIndustry: FilterIndustry?) {
         curChoice = if (curChoice?.id != filterIndustry?.id) {
             filterIndustry
-        } else null
+        } else {
+            null
+        }
 
         renderState(
             FilterIndustryScreenState.Content(

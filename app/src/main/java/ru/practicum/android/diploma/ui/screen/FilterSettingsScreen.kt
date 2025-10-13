@@ -48,7 +48,7 @@ fun FilterSettingsScreen(
         )
         Button(
             onClick = {
-                navigateToFilterIndustry(7)
+                navigateToFilterIndustry(-1)
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {
