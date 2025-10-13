@@ -72,8 +72,8 @@ fun AppRoot(
                 navigateToFilterSettings = {
                     navController.navigateToFilterSettings()
                 },
-                navigateToFilterIndustry = {
-                    navController.navigateToFilterIndustry()
+                navigateToFilterIndustry = { selectedIndustryId ->
+                    navController.navigateToFilterIndustry(selectedIndustryId)
                 },
                 // к сожалению, эту часть нужно повторять для каждого экрана с возвратом параметра
                 onFinishFilterIndustry = {

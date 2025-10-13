@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 fun NavGraphBuilder.appGraph(
     navigateToVacancy: (String) -> Unit,
     onBackClick: () -> Unit,
-    navigateToFilterIndustry: () -> Unit,
+    navigateToFilterIndustry: (Int) -> Unit,
     navigateToFilterSettings: () -> Unit,
     onFinishFilterIndustry: () -> Unit
 ) {

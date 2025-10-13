@@ -14,14 +14,14 @@ import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterSetting
 @Composable
 fun FilterSettingsScreen(
     viewModel: FilterSettingsViewModel = koinViewModel(),
-    navigateToFilterIndustry: () -> Unit
+    navigateToFilterIndustry: (Int) -> Unit
 ) {
     val selectedIndustry = viewModel.selectedIndustry.collectAsState()
 
     Column {
         Button(
             onClick = {
-                navigateToFilterIndustry()
+                navigateToFilterIndustry(-1)
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {

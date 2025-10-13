@@ -14,6 +14,7 @@ import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterIndustr
 @Composable
 fun FilterIndustryScreen(
     viewModel: FilterIndustryViewModel = koinViewModel(),
+    selectedIndustryId: Int?,
     onFinish: () -> Unit
 ) {
     val shouldFinish = viewModel.shouldFinish.collectAsState(initial = false)
@@ -44,5 +45,9 @@ fun FilterIndustryScreen(
                 text = "Вернуться на предыдущий экран без параметра"
             )
         }
+        Text(
+            text = "IndustryId $selectedIndustryId",
+            modifier = Modifier.padding(top = 16.dp)
+        )
     }
 }

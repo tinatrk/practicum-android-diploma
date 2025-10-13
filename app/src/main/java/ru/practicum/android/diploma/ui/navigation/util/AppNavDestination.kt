@@ -32,7 +32,7 @@ sealed interface AppNavDestination {
     data object FilterSettings : AppNavDestination
 
     @Serializable
-    data object FilterIndustry : AppNavDestination
+    data class FilterIndustry(val selectedIndustryId: Int) : AppNavDestination
 }
 
 /** Навигация для экрана: «Главная» */
@@ -109,7 +109,7 @@ fun NavHostController.navigateToVacancy(vacancyId: String) {
 
 /** Навигация для экрана: «Настройки фильтрации» */
 fun NavGraphBuilder.filterSettingsDestination(
-    navigateToFilterIndustry: () -> Unit
+    navigateToFilterIndustry: (Int) -> Unit
 ) {
     composable<AppNavDestination.FilterSettings> {
         FilterSettingsScreen(
@@ -126,13 +126,15 @@ fun NavHostController.navigateToFilterSettings() {
 fun NavGraphBuilder.filterIndustryDestination(
     onFinish: () -> Unit
 ) {
-    composable<AppNavDestination.FilterIndustry> {
+    composable<AppNavDestination.FilterIndustry> { navBackStackEntry ->
+        val selectedIndustryId = navBackStackEntry.toRoute<AppNavDestination.FilterIndustry>().selectedIndustryId
         FilterIndustryScreen(
-            onFinish = onFinish
+            onFinish = onFinish,
+            selectedIndustryId = selectedIndustryId
         )
     }
 }
 
-fun NavHostController.navigateToFilterIndustry() {
-    navigate(AppNavDestination.FilterIndustry)
+fun NavHostController.navigateToFilterIndustry(selectedIndustryId: Int) {
+    navigate(AppNavDestination.FilterIndustry(selectedIndustryId))
 }
