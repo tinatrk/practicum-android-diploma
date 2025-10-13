@@ -9,15 +9,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
-import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterIndustryViewModel
+import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterCountryViewModel
 
 @Composable
-fun FilterIndustryScreen(
-    selectedIndustryId: Int?,
-    viewModel: FilterIndustryViewModel = koinViewModel() {
-        parametersOf(selectedIndustryId)
-    },
+fun FilterCountryScreen(
+    viewModel: FilterCountryViewModel = koinViewModel(),
     navigateBack: () -> Unit
 ) {
     val shouldFinish = viewModel.shouldFinish.collectAsState(initial = false)
@@ -48,9 +44,5 @@ fun FilterIndustryScreen(
                 text = "Вернуться на предыдущий экран без параметра"
             )
         }
-        Text(
-            text = "IndustryId $selectedIndustryId",
-            modifier = Modifier.padding(top = 16.dp)
-        )
     }
 }

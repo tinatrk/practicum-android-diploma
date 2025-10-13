@@ -4,10 +4,16 @@ import androidx.navigation.NavGraphBuilder
 
 fun NavGraphBuilder.appGraph(
     navigateToVacancy: (String) -> Unit,
-    onBackClick: () -> Unit,
-    navigateToFilterIndustry: (Int) -> Unit,
+    navigateToFilterIndustry: (Int?) -> Unit,
     navigateToFilterSettings: () -> Unit,
-    onFinishFilterIndustry: () -> Unit
+    navigateToWorkLocation: () -> Unit,
+    navigateToFilterCountry: () -> Unit,
+    navigateToFilterRegion: (Int?) -> Unit,
+    onBackClick: () -> Unit,
+    navigateBackFromFilterIndustry: () -> Unit,
+    navigateBackFromWorkLocation: () -> Unit,
+    navigateBackFromFilterCountry: () -> Unit,
+    navigateBackFromFilterRegion: () -> Unit,
 ) {
     homeDestination(
         navigateToVacancy = navigateToVacancy,
@@ -16,6 +22,16 @@ fun NavGraphBuilder.appGraph(
     favoriteDestination(navigateToVacancy = navigateToVacancy)
     teamDestination()
     vacancyDestination(onBackClick = onBackClick)
-    filterSettingsDestination(navigateToFilterIndustry = navigateToFilterIndustry)
-    filterIndustryDestination(onFinish = onFinishFilterIndustry)
+    filterSettingsDestination(
+        navigateToWorkLocation = navigateToWorkLocation,
+        navigateToFilterIndustry = navigateToFilterIndustry
+    )
+    workLocationDestination(
+        navigateToFilterCountry = navigateToFilterCountry,
+        navigateToFilterRegion = navigateToFilterRegion,
+        navigateBack = navigateBackFromWorkLocation
+    )
+    filterCountryDestination(navigateBack = navigateBackFromFilterCountry)
+    filterRegionDestination(navigateBack = navigateBackFromFilterRegion)
+    filterIndustryDestination(navigateBack = navigateBackFromFilterIndustry)
 }

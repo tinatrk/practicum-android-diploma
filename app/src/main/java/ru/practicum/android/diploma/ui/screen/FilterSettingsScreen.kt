@@ -14,11 +14,38 @@ import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterSetting
 @Composable
 fun FilterSettingsScreen(
     viewModel: FilterSettingsViewModel = koinViewModel(),
+    navigateToWorkLocation: () -> Unit,
     navigateToFilterIndustry: (Int) -> Unit
 ) {
+    // Сделала так для простоты, по-хорошему нужен один state
+    val selectedWorkLocation = viewModel.selectedWorkAddress.collectAsState()
     val selectedIndustry = viewModel.selectedIndustry.collectAsState()
 
     Column {
+        Button(
+            onClick = {
+                navigateToWorkLocation()
+            },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text(
+                text = "Перейти на экран место работы"
+            )
+        }
+        Text(
+            text = "Выбрана страна: ${
+                selectedWorkLocation.value
+                    ?.country?.name ?: "страна не задана"
+            }",
+            modifier = Modifier.padding(top = 16.dp)
+        )
+        Text(
+            text = "Выбран регион: ${
+                selectedWorkLocation.value
+                    ?.region?.name ?: "регион не задан"
+            }",
+            modifier = Modifier.padding(top = 16.dp)
+        )
         Button(
             onClick = {
                 navigateToFilterIndustry(-1)

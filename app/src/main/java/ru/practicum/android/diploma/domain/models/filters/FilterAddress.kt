@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class FilterAddress(
     val country: FilterCountry,
-    val region: FilterRegion?
+    val region: FilterRegion? = null
 ) : Parcelable
