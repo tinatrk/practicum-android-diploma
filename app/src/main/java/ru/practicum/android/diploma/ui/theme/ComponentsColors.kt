@@ -51,6 +51,10 @@ data class VacancyListItemColors(
 
 // Блоки с текстом и иконкой на экранах фильтрации
 data class FilterListItemColors(
+    val background: Color,
+    val headlineContent: Color,
+    val overlineContent: Color,
+    val trailingIcon: Color,
     // это текст, нажатие на который ведет на экран для выбора страны/региона/отрасли
     // (на макетах в светлой теме он сервый с иконкой >)
     val defaultFilterItem: FilterListItemStateColors,
@@ -59,7 +63,8 @@ data class FilterListItemColors(
     // это текст с конкретным выбором пользователя (на макетах в светлой теме он черный с иконкой X)
     val userChoice: FilterListItemStateColors,
     // текст с флагом "не показывать без зарплаты" или выбор отрасли
-    val filterItemWithCheckBox: FilterListItemStateColors
+    val filterItemWithCheckBox: FilterListItemStateColors,
+
 )
 
 data class FilterListItemStateColors(

@@ -7,11 +7,14 @@ import ru.practicum.android.diploma.presentation.converter.VacancyConverter
 import ru.practicum.android.diploma.presentation.details.viewmodel.VacancyDetailsViewModel
 import ru.practicum.android.diploma.presentation.favorites.viewmodel.FavoritesViewModel
 import ru.practicum.android.diploma.presentation.search.viewmodel.SearchViewModel
+import ru.practicum.android.diploma.presentation.worklocation.viewmodel.WorkLocationViewModel
 
 val viewModelModule = module {
     viewModelOf(::SearchViewModel)
 
     viewModelOf(::FavoritesViewModel)
+
+    viewModelOf(::WorkLocationViewModel)
 
     single { (vacancyId: String) ->
         VacancyDetailsViewModel(
