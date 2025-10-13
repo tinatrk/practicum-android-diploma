@@ -16,7 +16,7 @@ class FilterIndustryViewModel(
     val shouldFinish: StateFlow<Boolean> = _shouldFinish
 
     fun onReturnWithParam() {
-        savedStateHandle[NavResultKeys.SELECTED_INDUSTRY] = FilterIndustry(id = 1, industry = "MyIndustry")
+        savedStateHandle[NavResultKeys.SELECTED_INDUSTRY] = FilterIndustry(id = 1, name = "MyIndustry")
         _shouldFinish.value = true
     }
 

@@ -33,7 +33,7 @@ fun FilterSettingsScreen(
         Text(
             text = "Выбрана отрасль: ${
                 selectedIndustry.value
-                    ?.industry ?: "отрасль не задана"
+                    ?.name ?: "отрасль не задана"
             }",
             modifier = Modifier.padding(top = 16.dp)
         )
