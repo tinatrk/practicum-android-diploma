@@ -3,9 +3,11 @@ package ru.practicum.android.diploma.di
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,6 +29,8 @@ import ru.practicum.android.diploma.util.ResourceProvider
 
 private const val BASE_URL_API = "https://practicum-diploma-8bc38133faba.herokuapp.com/"
 private const val FILTER_SHARED_PREFERENCES_FILE = "shared_preferences_filter"
+const val DI_GSON = "gson"
+const val DI_GSON_WITH_NULL = "gson_with_null"
 
 val dataModule = module {
 
@@ -56,8 +60,12 @@ val dataModule = module {
         )
     }
 
-    factory {
+    factory(named(DI_GSON)) {
         Gson()
+    }
+
+    factory(named(DI_GSON_WITH_NULL)) {
+        GsonBuilder().serializeNulls().create()
     }
 
     single {
@@ -77,7 +85,7 @@ val dataModule = module {
 
     single {
         ContactsConverter(
-            gson = get()
+            gson = get(named(DI_GSON))
         )
     }
 
@@ -87,7 +95,7 @@ val dataModule = module {
 
     single {
         FilterAreaConverter(
-            gson = get()
+            gson = get(named(DI_GSON))
         )
     }
 
@@ -97,7 +105,7 @@ val dataModule = module {
 
     single {
         VacancyConverter(
-            gson = get(),
+            gson = get(named(DI_GSON)),
             salaryConverter = get(),
             addressConverter = get(),
             contactsConverter = get(),
