@@ -17,7 +17,7 @@ val viewModelModule = module {
 
     viewModelOf(::FavoritesViewModel)
 
-    single { (vacancyId: String) ->
+    viewModel { (vacancyId: String) ->
         VacancyDetailsViewModel(
             vacancyId = vacancyId,
             detailsInteractor = get(),
