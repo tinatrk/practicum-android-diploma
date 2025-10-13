@@ -6,6 +6,8 @@ import ru.practicum.android.diploma.data.dto.request.FilterAreaRequest
 import ru.practicum.android.diploma.data.dto.request.FilterIndustryRequest
 import ru.practicum.android.diploma.data.dto.request.VacancyDetailRequest
 import ru.practicum.android.diploma.data.dto.request.VacancyRequest
+import ru.practicum.android.diploma.data.dto.response.FilterAreaResponse
+import ru.practicum.android.diploma.data.dto.response.FilterIndustryResponse
 import ru.practicum.android.diploma.util.NetworkInfoProvider
 import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 import java.net.HttpURLConnection.HTTP_INTERNAL_ERROR
@@ -34,11 +36,13 @@ class RetrofitNetworkClient(
     private suspend fun fetchResponse(dto: Request): Response {
         return when (dto) {
             FilterAreaRequest -> {
-                diplomaApi.getAreas().apply { resultCode = HTTP_OK }
+                val areas = diplomaApi.getAreas()
+                FilterAreaResponse(areas = areas).apply { resultCode = HTTP_OK }
             }
 
             FilterIndustryRequest -> {
-                diplomaApi.getIndustries().apply { resultCode = HTTP_OK }
+                val industries = diplomaApi.getIndustries()
+                FilterIndustryResponse(industries = industries).apply { resultCode = HTTP_OK }
             }
 
             is VacancyRequest -> {
