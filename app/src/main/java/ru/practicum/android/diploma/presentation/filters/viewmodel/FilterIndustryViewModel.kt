@@ -14,6 +14,7 @@ import ru.practicum.android.diploma.domain.filters.api.interactor.FilterInteract
 import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
 import ru.practicum.android.diploma.presentation.filters.models.FilterIndustryScreenState
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
+import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource
 
 class FilterIndustryViewModel(
@@ -31,7 +32,7 @@ class FilterIndustryViewModel(
 
     private var curChoice: FilterIndustry? = null
     private val originalList: MutableList<FilterIndustry> = mutableListOf()
-    private val filteredList: MutableList<FilterIndustry> = mutableListOf()
+    private val curDisplayedList: MutableList<FilterIndustry> = mutableListOf()
 
     private var searchJob: Job? = null
 
@@ -44,12 +45,14 @@ class FilterIndustryViewModel(
                         originalList.addAll(result.data)
                         FilterIndustryScreenState.Content(
                             data = result.data,
-                            curChoice = curChoice?.id
+                            curChoice = curChoice?.id,
                         )
                     }
 
                     is Resource.Error -> {
-                        FilterIndustryScreenState.Error(error = result.error)
+                        FilterIndustryScreenState.Error(
+                            error = result.error,
+                        )
                     }
                 }
                 renderState(state)
@@ -63,10 +66,8 @@ class FilterIndustryViewModel(
         }
     }
 
-    // сделать debounce?
     fun onSearchTextChanged(searchQuery: String?) {
         searchJob?.cancel()
-        // сохранять запрос как состояние?
 
         searchJob = viewModelScope.launch {
             delay(SEARCH_DEBOUNCE_DELAY_MILLIS)
@@ -75,42 +76,48 @@ class FilterIndustryViewModel(
     }
 
     fun search(searchQuery: String? = null) {
-        renderState(FilterIndustryScreenState.Loading)
-
-        filteredList.clear()
-        if (searchQuery.isNullOrEmpty()) {
-            updateDisplayList(originalList)
+        val resultList = if (searchQuery.isNullOrEmpty()) {
+            originalList
         } else {
-            for (item in originalList) {
-                if (item.name.contains(searchQuery, true)) {
-                    filteredList.add(item)
-                }
+            originalList.filter {
+                it.name.contains(searchQuery, ignoreCase = true)
             }
-            updateDisplayList(filteredList)
         }
+        curDisplayedList.clear()
+        curDisplayedList.addAll(resultList)
+        updateDisplayList(curDisplayedList)
     }
 
     private fun updateDisplayList(newList: List<FilterIndustry>) {
-        renderState(
-            FilterIndustryScreenState.Content(
-                data = newList,
-                curChoice = curChoice?.id
+        if (newList.isNotEmpty()) {
+            renderState(
+                FilterIndustryScreenState.Content(
+                    data = newList,
+                    curChoice = curChoice?.id,
+                )
             )
-        )
+        } else {
+            renderState(
+                FilterIndustryScreenState.Error(error = Failure.NotFound)
+            )
+        }
     }
 
     fun onClearSearchQuery() {
         searchJob?.cancel()
-        filteredList.clear()
+        curDisplayedList.clear()
         updateDisplayList(originalList)
     }
 
     fun onIndustryItemClick(filterIndustry: FilterIndustry?) {
-        curChoice = filterIndustry
+        curChoice = if (curChoice?.id != filterIndustry?.id) {
+            filterIndustry
+        } else null
+
         renderState(
             FilterIndustryScreenState.Content(
-                data = filteredList.ifEmpty { originalList },
-                curChoice = curChoice?.id
+                data = curDisplayedList.ifEmpty { originalList },
+                curChoice = curChoice?.id,
             )
         )
     }
@@ -123,7 +130,6 @@ class FilterIndustryViewModel(
     fun onBackNavigate() {
         onReturnWithoutParam()
     }
-
 
     private fun onReturnWithParam(param: FilterIndustry) {
         savedStateHandle[NavResultKeys.SELECTED_INDUSTRY] = param
@@ -141,6 +147,6 @@ class FilterIndustryViewModel(
 
     companion object {
         private const val EMPTY_STRING = ""
-        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 300L
     }
 }

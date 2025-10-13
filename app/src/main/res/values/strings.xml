@@ -18,6 +18,7 @@
     <string name="favorites_screen_title">Избранное</string>
     <string name="filter_settings_screen_title">Настройки фильтрации</string>
     <string name="team_screen_title">Команда</string>
+    <string name="filter_industry_screen_title">Выбор отрасли</string>
 
     <string name="no_vacancies_label">Таких вакансий нет</string>
     <string name="vacancies_load_failed">Не удалось получить\nсписок вакансий</string>
@@ -74,5 +75,11 @@
     <string name="industry_unknown">Отрасль не задана</string>
     <string name="country_unknown">Страна не задана</string>
     <string name="region_unknown">Регион не задан</string>
+
+    <string name="industry_search_bar_placeholder">Введите отрасль</string>
+    <string name="filter_industry_error_message">Не удалось получить список отраслей</string>
+    <string name="filter_industry_empty_content_message">Такой отрасли нет</string>
+    <string name="filter_industry_item_description">Выбрать отрасль</string>
+    <string name="search_bar_icon_description">Поиск по списку</string>
 
 </resources>

@@ -153,8 +153,10 @@ class FilterRepositoryImpl(
                 )
             )
         } else {
-            processError<List<FilterIndustry>>(
-                resultCode = response.resultCode
+            emit(
+                processError<List<FilterIndustry>>(
+                    resultCode = response.resultCode
+                )
             )
         }
     }
