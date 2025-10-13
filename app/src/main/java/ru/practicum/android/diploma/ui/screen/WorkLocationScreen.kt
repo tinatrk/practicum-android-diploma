@@ -49,7 +49,7 @@ fun WorkLocationScreen(
     Scaffold(
         topBar = {
             SimpleTopBarWithBackIcon(
-                title = "Выбор места работы",
+                title = stringResource(R.string.work_location_title),
                 onNavigationIconClick = onBackClick
             )
         }
@@ -82,7 +82,6 @@ fun WorkLocationScreen(
     val regionText = regionData ?: stringResource(R.string.region)
     val isCountryDataSelected = countryData != null
     val isRegionDataSelected = regionData != null
-
 
     Column(
         modifier = modifier.fillMaxSize(),
@@ -194,7 +193,7 @@ fun LightWorkLocationScreenPreview() {
                 onClearRegionData = {},
                 onCountryClick = {},
                 onRegionClick = {},
-                onChoiceClick = { _,_ -> }
+                onChoiceClick = { _, _ -> }
             )
         }
     }
@@ -221,7 +220,7 @@ fun DarkWorkLocationScreenPreview() {
                 onClearRegionData = {},
                 onCountryClick = {},
                 onRegionClick = {},
-                onChoiceClick = { _,_ -> }
+                onChoiceClick = { _, _ -> }
             )
         }
     }
