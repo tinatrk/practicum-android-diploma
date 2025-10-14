@@ -17,6 +17,7 @@
     <string name="vacancy_details_screen_title">Вакансия</string>
     <string name="favorites_screen_title">Избранное</string>
     <string name="filter_settings_screen_title">Настройки фильтрации</string>
+    <string name="filter_country_title">Выбор страны</string>
     <string name="team_screen_title">Команда</string>
 
     <string name="no_vacancies_label">Таких вакансий нет</string>
@@ -32,6 +33,9 @@
     <string name="im_lack_of_list_cat_description">Не удалось получить список вакансий</string>
     <string name="the_vacancy_was_not_found_or_was_deleted">Вакансия не найдена или удалена</string>
     <string name="server_error">Ошибка сервера</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="country_not_found">Список пуст</string>
+    <string name="country_request_error">Не удалось получить список</string>
 
     <string name="logo_description">Логотип работодателя</string>
 
