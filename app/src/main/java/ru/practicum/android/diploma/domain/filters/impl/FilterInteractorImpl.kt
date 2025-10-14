@@ -16,10 +16,6 @@ class FilterInteractorImpl(
         return filterRepository.getCountries()
     }
 
-    override fun getOtherCountries(): Flow<Resource<List<FilterCountry>, Failure>> {
-        return filterRepository.getOtherCountries()
-    }
-
     override fun getCountryNameById(countryId: Int): Flow<Resource<String, Failure>> {
         return filterRepository.getCountryNameById(countryId = countryId)
     }
