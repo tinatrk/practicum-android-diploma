@@ -29,20 +29,24 @@ class FilterIndustryViewModel(
     private val _screenState =
         MutableStateFlow<FilterIndustryScreenState>(FilterIndustryScreenState.Loading)
     val screenState = _screenState.asStateFlow()
+    private val _industries = MutableStateFlow<List<FilterIndustry>>(emptyList())
+    private var displayedIndustries: List<FilterIndustry> = listOf()
 
     private var curChoice: FilterIndustry? = null
-    private val originalList: MutableList<FilterIndustry> = mutableListOf()
-    private val curDisplayedList: MutableList<FilterIndustry> = mutableListOf()
 
     private var searchJob: Job? = null
 
     init {
-        curChoice = selectedIndustryId?.let { FilterIndustry(id = it, name = EMPTY_STRING) }
+        curChoice = selectedIndustryId?.let { FilterIndustry(id = it, name = "") }
+        loadIndustries()
+    }
+
+    private fun loadIndustries() {
         viewModelScope.launch {
             filterInteractor.getIndustries().collect { result ->
                 val state: FilterIndustryScreenState = when (result) {
                     is Resource.Success -> {
-                        originalList.addAll(result.data)
+                        _industries.value = result.data.toList()
                         FilterIndustryScreenState.Content(
                             data = result.data,
                             curChoice = curChoice?.id,
@@ -75,17 +79,19 @@ class FilterIndustryViewModel(
         }
     }
 
-    fun search(searchQuery: String? = null) {
-        val resultList = if (searchQuery.isNullOrEmpty()) {
-            originalList
+    fun search(query: String?) {
+        displayedIndustries = if (query.isNullOrEmpty()) {
+            _industries.value
         } else {
-            originalList.filter {
-                it.name.contains(searchQuery, ignoreCase = true)
-            }
+            val normalizeQuery = query.normalize()
+            _industries.value.filter {
+                it.name.normalize().contains(normalizeQuery)
+            }.sortedWith(compareBy<FilterIndustry> {
+                !it.name.normalize().startsWith(normalizeQuery)
+            }.thenBy { it.name })
         }
-        curDisplayedList.clear()
-        curDisplayedList.addAll(resultList)
-        updateDisplayList(curDisplayedList)
+
+        updateDisplayList(displayedIndustries)
     }
 
     private fun updateDisplayList(newList: List<FilterIndustry>) {
@@ -105,8 +111,12 @@ class FilterIndustryViewModel(
 
     fun onClearSearchQuery() {
         searchJob?.cancel()
-        curDisplayedList.clear()
-        updateDisplayList(originalList)
+        renderState(
+            FilterIndustryScreenState.Content(
+                data = _industries.value,
+                curChoice = curChoice?.id
+            )
+        )
     }
 
     fun onIndustryItemClick(filterIndustry: FilterIndustry?) {
@@ -118,20 +128,31 @@ class FilterIndustryViewModel(
 
         renderState(
             FilterIndustryScreenState.Content(
-                data = curDisplayedList.ifEmpty { originalList },
+                data = displayedIndustries,
                 curChoice = curChoice?.id,
             )
         )
     }
 
     fun onSaveChoiceClick() {
-        curChoice?.let { if (it.name != EMPTY_STRING) onReturnWithParam(it) else onReturnWithoutParam() }
+        curChoice?.let { if (it.name != "") onReturnWithParam(it) else onReturnWithoutParam() }
             ?: onReturnWithoutParam()
     }
 
     fun onBackNavigate() {
         onReturnWithoutParam()
     }
+
+    fun onUpdate() {
+        loadIndustries()
+    }
+
+    private fun String.normalize(): String =
+        lowercase()
+            .replace('ё', 'е')
+            .fold(StringBuilder()) { acc, c ->
+                acc.append(c)
+            }.toString()
 
     private fun onReturnWithParam(param: FilterIndustry) {
         savedStateHandle[NavResultKeys.SELECTED_INDUSTRY] = param
@@ -148,7 +169,6 @@ class FilterIndustryViewModel(
     }
 
     companion object {
-        private const val EMPTY_STRING = ""
-        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 300L
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 }
