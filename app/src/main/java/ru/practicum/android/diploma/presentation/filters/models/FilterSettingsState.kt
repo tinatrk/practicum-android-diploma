@@ -8,19 +8,19 @@ data class FilterSettingsState(
     val address: FilterAddress? = null,
     val industry: FilterIndustry? = null,
     val salary: String = "",
-    val showWithoutSalary: Boolean = false,
+    val onlyWithoutSalary: Boolean = false,
     val initial: FilterSettings? = null
 ) {
     val salaryInt: Int? = salary.toIntOrNull()
 
-    val showActionButtons: Boolean = initial?.let { it != toFilter() } ?: run {
-        address != null || industry != null || salaryInt != null || showWithoutSalary
+    val showActionButtons: Boolean = initial?.let { it != toFilterSettings() } ?: run {
+        address != null || industry != null || salaryInt != null || onlyWithoutSalary
     }
-
-    private fun toFilter(): FilterSettings = FilterSettings(
-        address = address,
-        industry = industry,
-        salary = salaryInt,
-        onlyWithSalary = showWithoutSalary
-    )
 }
+
+private fun FilterSettingsState.toFilterSettings(): FilterSettings = FilterSettings(
+    address = address,
+    industry = industry,
+    salary = salaryInt,
+    onlyWithSalary = onlyWithoutSalary
+)
