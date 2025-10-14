@@ -128,7 +128,7 @@ class FilterIndustryViewModel(
 
         renderState(
             FilterIndustryScreenState.Content(
-                data = displayedIndustries,
+                data = displayedIndustries.ifEmpty { _industries.value },
                 curChoice = curChoice?.id,
             )
         )
