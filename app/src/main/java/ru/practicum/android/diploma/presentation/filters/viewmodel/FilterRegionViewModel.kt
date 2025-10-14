@@ -110,7 +110,6 @@ class FilterRegionViewModel(
                 acc.append(c)
             }.toString()
 
-
     companion object {
         const val DEBOUNCE_MILLIS = 1000L
     }
