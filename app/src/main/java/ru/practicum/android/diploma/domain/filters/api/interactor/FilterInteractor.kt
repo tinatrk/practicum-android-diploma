@@ -12,8 +12,6 @@ interface FilterInteractor {
 
     fun getCountries(): Flow<Resource<List<FilterCountry>, Failure>>
 
-    fun getOtherCountries(): Flow<Resource<List<FilterCountry>, Failure>>
-
     fun getCountryNameById(countryId: Int): Flow<Resource<String, Failure>>
 
     fun getRegions(countryId: Int?): Flow<Resource<List<FilterRegion>, Failure>>
