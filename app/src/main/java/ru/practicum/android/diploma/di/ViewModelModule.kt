@@ -53,6 +53,7 @@ val viewModelModule = module {
 
     viewModel {
         FilterCountryViewModel(
+            interactor = get(),
             savedStateHandle = get()
         )
     }
