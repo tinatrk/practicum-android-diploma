@@ -131,10 +131,6 @@ private val LightCustomColors = CustomColors(
             background = PrimaryLight,
             text = SurfaceTint,
         ),
-        smallButtonColors = ButtonTypeColors(
-            background = OnPrimaryLight,
-            text = PrimaryLight
-        )
     ),
 
     bottomSheetColors = BottomSheetColors(
@@ -245,10 +241,6 @@ private val DarkCustomColors = CustomColors(
             background = PrimaryDark,
             text = SurfaceTint,
         ),
-        smallButtonColors = ButtonTypeColors(
-            background = OnPrimaryDark,
-            text = PrimaryDark
-        )
     ),
 
     bottomSheetColors = BottomSheetColors(

@@ -143,10 +143,6 @@ class FilterIndustryViewModel(
         onReturnWithoutParam()
     }
 
-    fun onUpdate() {
-        loadIndustries()
-    }
-
     private fun String.normalize(): String =
         lowercase()
             .replace('ё', 'е')

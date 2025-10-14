@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.ui.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,8 +36,6 @@ import ru.practicum.android.diploma.ui.components.CustomButton
 import ru.practicum.android.diploma.ui.components.CustomSearchBar
 import ru.practicum.android.diploma.ui.components.ErrorMessage
 import ru.practicum.android.diploma.ui.components.ProgressBar
-import ru.practicum.android.diploma.ui.components.ScreenMessage
-import ru.practicum.android.diploma.ui.components.SmallButton
 import ru.practicum.android.diploma.ui.components.ToggleIcon
 import ru.practicum.android.diploma.ui.components.topbar.SimpleTopBarWithBackIcon
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
@@ -106,8 +103,7 @@ fun FilterIndustryScreen(
 
                 is FilterIndustryScreenState.Error -> {
                     FilterIndustryError(
-                        error = curState.error,
-                        onUpdate = viewModel::onUpdate
+                        error = curState.error
                     )
                 }
             }
@@ -148,22 +144,14 @@ fun FilterIndustryContent(
 }
 
 @Composable
-fun FilterIndustryError(error: Failure, onUpdate: () -> Unit) {
+fun FilterIndustryError(error: Failure) {
     when (error) {
         is Failure.Network -> {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
+            ErrorMessage(
+                title = stringResource(R.string.im_bad_connection_description),
+                imageId = R.drawable.im_bad_connection,
                 modifier = Modifier.fillMaxSize()
             )
-            {
-                ScreenMessage(
-                    title = stringResource(R.string.im_bad_connection_description),
-                    imageId = R.drawable.im_bad_connection,
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                SmallButton(title = stringResource(R.string.btn_update), onClick = onUpdate)
-            }
         }
 
         is Failure.NotFound -> {

@@ -89,8 +89,7 @@ data class TopBarColors(
 
 data class ButtonColors(
     val commonButtonColors: ButtonTypeColors,
-    val resetFilterButtonColors: ButtonTypeColors,
-    val smallButtonColors: ButtonTypeColors
+    val resetFilterButtonColors: ButtonTypeColors
 )
 
 data class ButtonTypeColors(
