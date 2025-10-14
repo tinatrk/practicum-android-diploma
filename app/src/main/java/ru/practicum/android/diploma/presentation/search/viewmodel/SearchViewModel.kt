@@ -43,7 +43,7 @@ class SearchViewModel(
     private val _filterSettings = filterInteractor.getFilterSettings()
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
+            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
             initialValue = null
         )
 
@@ -51,7 +51,7 @@ class SearchViewModel(
         .map { it != null }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
+            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
             initialValue = false
         )
 
@@ -59,6 +59,7 @@ class SearchViewModel(
 
     private companion object {
         const val PAGE_LOAD_DEBOUNCE = 2000L
+        private const val STOP_TIMEOUT_MILLIS = 5000L
     }
 
     init {
@@ -96,7 +97,8 @@ class SearchViewModel(
         viewModelScope.launch {
             isNextPageLoading = true
             val response = interactor.search(
-                query = query, page = currentPage,
+                query = query,
+                page = currentPage,
                 filterSettings = _filterSettings.value
             )
             if (currentPage == 0) _searchUiState.value = SearchUiState.Loading

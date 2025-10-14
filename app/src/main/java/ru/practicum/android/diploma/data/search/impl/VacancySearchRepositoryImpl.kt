@@ -69,8 +69,10 @@ class VacancySearchRepositoryImpl(
         val options: MutableMap<String, String> = mutableMapOf()
         options[RequestOptionKeys.PAGE] = page.toString()
         if (filterSettings?.salary != null) options[RequestOptionKeys.SALARY] = filterSettings.salary.toString()
-        if (filterSettings?.industry != null) options[RequestOptionKeys.INDUSTRY] =
-            filterSettings.industry.id.toString()
+        if (filterSettings?.industry != null) {
+            options[RequestOptionKeys.INDUSTRY] =
+                filterSettings.industry.id.toString()
+        }
         if (filterSettings?.address != null) {
             val areaId = if (filterSettings.address.region != null) {
                 filterSettings.address.region.id
