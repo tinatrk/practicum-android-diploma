@@ -41,7 +41,8 @@ val viewModelModule = module {
     viewModel { (selectedIndustryId: Int?) ->
         FilterIndustryViewModel(
             savedStateHandle = get(),
-            selectedIndustryId = selectedIndustryId
+            selectedIndustryId = selectedIndustryId,
+            filterInteractor = get()
         )
     }
 
