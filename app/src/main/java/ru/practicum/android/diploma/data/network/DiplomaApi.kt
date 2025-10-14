@@ -17,9 +17,9 @@ interface DiplomaApi {
     @GET("/industries")
     suspend fun getIndustries(): List<FilterIndustryDto>
 
-    @GET("vacancies") // Тут мне кажется не надо палку ставить в начале. А то 2 получится в итоге
+    @GET("vacancies")
     suspend fun getVacancy(
-        @QueryMap options: Map<String, Int>,
+        @QueryMap options: Map<String, String>,
         @Query("text") text: String,
         @Query("only_with_salary") onlyWithSalary: Boolean
     ): VacancyResponse

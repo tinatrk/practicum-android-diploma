@@ -13,12 +13,14 @@ import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 
 @Composable
 fun SearchScreenTopBar(
-    onFilterIconClick: () -> Unit
+    onFilterIconClick: () -> Unit,
+    isFiltersSet: Boolean = false
 ) {
     CustomTopBar(
         title = stringResource(id = R.string.search_screen_title),
         actions = {
             ToggleIcon(
+                isChecked = isFiltersSet,
                 checkedIconId = R.drawable.ic_filter_on_24px,
                 uncheckedIconId = R.drawable.ic_filter_off_24px,
                 iconDescription = stringResource(R.string.ic_arrow_back_description),

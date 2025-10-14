@@ -50,6 +50,7 @@ fun HomeScreen(
     val vm: SearchViewModel = koinViewModel()
     val state by vm.searchUiState.collectAsStateWithLifecycle()
     val isNextPageError by vm.isNextPageError.collectAsStateWithLifecycle()
+    val isFiltersSet = vm.isFiltersSet.collectAsStateWithLifecycle()
 
     val onSearch = vm::searchVacancies
     val onLoadNextPage = vm::loadNextPage
@@ -59,7 +60,7 @@ fun HomeScreen(
     Scaffold(
         containerColor = LocalCustomColors.current.screenBackground,
         topBar = {
-            SearchScreenTopBar { navigateToFilterSettings() }
+            SearchScreenTopBar(isFiltersSet = isFiltersSet.value, onFilterIconClick = navigateToFilterSettings)
         }
     ) { innerPadding ->
         HomeScreen(
@@ -265,7 +266,7 @@ fun SearchFieldPreview() {
         Scaffold(
             containerColor = LocalCustomColors.current.screenBackground,
             topBar = {
-                SearchScreenTopBar { }
+                SearchScreenTopBar(onFilterIconClick = {})
             }
         ) { innerPadding ->
             HomeScreen(

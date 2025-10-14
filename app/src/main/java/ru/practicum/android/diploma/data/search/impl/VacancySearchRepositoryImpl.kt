@@ -6,6 +6,8 @@ import ru.practicum.android.diploma.data.converter.VacancyConverter
 import ru.practicum.android.diploma.data.dto.request.VacancyRequest
 import ru.practicum.android.diploma.data.dto.response.VacancyResponse
 import ru.practicum.android.diploma.data.network.NetworkClient
+import ru.practicum.android.diploma.data.network.RequestOptionKeys
+import ru.practicum.android.diploma.domain.models.filters.FilterSettings
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyPage
 import ru.practicum.android.diploma.domain.search.api.repository.VacancySearchRepository
 import ru.practicum.android.diploma.util.common.Failure
@@ -23,14 +25,14 @@ class VacancySearchRepositoryImpl(
 
     override fun search(
         query: String,
-        options: Map<String, Int>,
-        onlyWithSalary: Boolean
+        page: Int,
+        filterSettings: FilterSettings?
     ): Flow<Resource<VacancyPage, Failure>> = flow {
         val response = networkClient.doRequest(
             VacancyRequest(
                 text = query,
-                options = options,
-                onlyWithSalary = onlyWithSalary
+                options = getOptionsMap(page = page, filterSettings = filterSettings),
+                onlyWithSalary = filterSettings?.onlyWithSalary ?: false
             )
         )
 
@@ -58,5 +60,25 @@ class VacancySearchRepositoryImpl(
                 emit(Resource.Error(Failure.Network))
             }
         }
+    }
+
+    private fun getOptionsMap(
+        page: Int,
+        filterSettings: FilterSettings?
+    ): Map<String, String> {
+        val options: MutableMap<String, String> = mutableMapOf()
+        options[RequestOptionKeys.PAGE] = page.toString()
+        if (filterSettings?.salary != null) options[RequestOptionKeys.SALARY] = filterSettings.salary.toString()
+        if (filterSettings?.industry != null) options[RequestOptionKeys.INDUSTRY] =
+            filterSettings.industry.id.toString()
+        if (filterSettings?.address != null) {
+            val areaId = if (filterSettings.address.region != null) {
+                filterSettings.address.region.id
+            } else {
+                filterSettings.address.country.id
+            }
+            options[RequestOptionKeys.AREA] = areaId.toString()
+        }
+        return options
     }
 }

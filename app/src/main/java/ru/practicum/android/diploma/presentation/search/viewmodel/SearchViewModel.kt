@@ -5,11 +5,18 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.domain.filters.api.interactor.FilterStorageInteractor
 import ru.practicum.android.diploma.domain.search.api.interactor.VacancySearchInteractor
 import ru.practicum.android.diploma.presentation.converter.VacancyConverter
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
@@ -18,7 +25,8 @@ import ru.practicum.android.diploma.util.common.Resource
 
 class SearchViewModel(
     private val interactor: VacancySearchInteractor,
-    private val converter: VacancyConverter
+    private val converter: VacancyConverter,
+    private val filterInteractor: FilterStorageInteractor
 ) : ViewModel() {
     private val _searchUiState = MutableStateFlow<SearchUiState>(SearchUiState.Idle)
     val searchUiState = _searchUiState.asStateFlow()
@@ -32,9 +40,34 @@ class SearchViewModel(
     private var isNextPageLoading = false
     private var vacanciesInfoList = mutableListOf<VacancyBriefInfo>()
 
+    private val _filterSettings = filterInteractor.getFilterSettings()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null
+        )
+
+    val isFiltersSet: StateFlow<Boolean> = _filterSettings
+        .map { it != null }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false
+        )
+
+    private var isFilterSetChanged: Boolean = false
+
     private companion object {
         const val PAGE_LOAD_DEBOUNCE = 2000L
-        const val PAGE_PARAM = "page"
+    }
+
+    init {
+        _filterSettings
+            .onEach {
+                isFilterSetChanged = true
+                searchVacancies(lastQuery.orEmpty())
+            }
+            .launchIn(viewModelScope)
     }
 
     fun searchVacancies(query: String) {
@@ -46,7 +79,7 @@ class SearchViewModel(
             return
         }
 
-        if (query == lastQuery && _searchUiState.value is SearchUiState.Success) {
+        if (query == lastQuery && _searchUiState.value is SearchUiState.Success && !isFilterSetChanged) {
             return
         }
 
@@ -62,7 +95,10 @@ class SearchViewModel(
 
         viewModelScope.launch {
             isNextPageLoading = true
-            val response = interactor.search(query, mapOf(PAGE_PARAM to currentPage))
+            val response = interactor.search(
+                query = query, page = currentPage,
+                filterSettings = _filterSettings.value
+            )
             if (currentPage == 0) _searchUiState.value = SearchUiState.Loading
 
             response.collect { resource ->

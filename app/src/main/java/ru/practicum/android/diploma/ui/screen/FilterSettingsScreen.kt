@@ -64,5 +64,27 @@ fun FilterSettingsScreen(
             }",
             modifier = Modifier.padding(top = 16.dp)
         )
+
+        Button(
+            onClick = {
+                viewModel.setFilterSettings()
+            },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text(
+                text = "Задать настройки фильтрации"
+            )
+        }
+
+        Button(
+            onClick = {
+                viewModel.clearFilterSettings()
+            },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text(
+                text = "Очистить настройки фильтрации"
+            )
+        }
     }
 }
