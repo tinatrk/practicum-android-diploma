@@ -59,6 +59,7 @@ val viewModelModule = module {
 
     viewModel { (selectedCountryId: Int?) ->
         FilterRegionViewModel(
+            interactor = get(),
             savedStateHandle = get(),
             selectedCountryId = selectedCountryId
         )
