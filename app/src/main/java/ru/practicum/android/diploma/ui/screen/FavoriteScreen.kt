@@ -28,12 +28,14 @@ fun FavoriteScreen(
     navigateToVacancy: (String) -> Unit
 ) {
     val screenState by viewModel.screenStateFlow.collectAsStateWithLifecycle()
-    val navigationState =
-        viewModel.navigationEvent.collectAsStateWithLifecycle(initialValue = NavigationEventToVacancy.Idle)
 
-    LaunchedEffect(navigationState.value) {
-        if (navigationState.value is NavigationEventToVacancy.OpenVacancyDetails) {
-            navigateToVacancy((navigationState.value as NavigationEventToVacancy.OpenVacancyDetails).vacancyId)
+    LaunchedEffect(Unit) {
+        viewModel.navigationEvent.collect { event ->
+            when (event) {
+                is NavigationEventToVacancy.OpenVacancyDetails ->
+                    navigateToVacancy(event.vacancyId)
+                NavigationEventToVacancy.Idle -> Unit
+            }
         }
     }
 
