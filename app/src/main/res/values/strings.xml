@@ -77,10 +77,10 @@
 
     <string name="persons_title">Над приложением работали</string>
     <string-array name="persons_working" translatable="false">
+        <item>Дмитрий Иванов</item>
+        <item>Иван Дробитько</item>
         <item>Сергей Такт</item>
         <item>Татьяна Соловьева</item>
-        <item>Иван Дробитько</item>
-        <item>Дмитрий Иванов</item>
     </string-array>
 
     <string name="industry_unknown">Отрасль не задана</string>
@@ -104,5 +104,14 @@
     <string name="filter_industry_empty_content_message">Такой отрасли нет</string>
     <string name="filter_industry_item_description">Выбрать отрасль</string>
     <string name="search_bar_icon_description">Поиск по списку</string>
+
+    <plurals name="clip_vacancy_plurals">
+        <item quantity="zero">Найдено %1$d вакансий</item>
+        <item quantity="one">Найдена %1$d вакансия</item>
+        <item quantity="two">Найдено %1$d вакансии</item>
+        <item quantity="few">Найдено %1$d вакансии</item>
+        <item quantity="many">Найдено %1$d вакансий</item>
+        <item quantity="other">Найдено %1$d вакансий</item>
+    </plurals>
 
 </resources>

@@ -133,7 +133,6 @@ class WorkLocationViewModel(
         } else {
             savedStateHandle[NavResultKeys.SELECTED_WORK_ADDRESS] = null
         }
-        clearWorkLocationData()
 
         viewModelScope.launch {
             _workLocationNavEvent.emit(WorkLocationNavEvent.NavigateBack)
