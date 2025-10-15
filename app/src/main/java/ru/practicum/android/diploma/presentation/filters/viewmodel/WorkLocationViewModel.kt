@@ -52,7 +52,6 @@ class WorkLocationViewModel(
     private val _workLocationToastEvent = Channel<Unit>(capacity = Channel.BUFFERED)
     val workLocationToastEvent = _workLocationToastEvent.receiveAsFlow()
 
-
     /** При изменении значения страны значение региона будет сброшено, если регион не соответствует
      * этой стране */
     init {
