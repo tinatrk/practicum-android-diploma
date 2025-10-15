@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.models.filters.FilterCountry
-import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
+import ru.practicum.android.diploma.domain.models.filters.FilterRegion
 import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationNavEvent
 import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationUiState
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
@@ -24,7 +24,7 @@ class WorkLocationViewModel(
 ) : ViewModel() {
     private val countryData: StateFlow<FilterCountry?> =
         savedStateHandle.getStateFlow(NavResultKeys.SELECTED_COUNTRY, null)
-    private val regionData: StateFlow<FilterIndustry?> =
+    private val regionData: StateFlow<FilterRegion?> =
         savedStateHandle.getStateFlow(NavResultKeys.SELECTED_REGION, null)
 
     /** Общий state для страны и региона. Реагирует на изменение любого из компонентов */

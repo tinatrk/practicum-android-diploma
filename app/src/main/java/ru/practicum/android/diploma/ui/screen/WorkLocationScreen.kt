@@ -118,7 +118,7 @@ fun WorkLocationScreen(
             isLocationSelected = isRegionDataSelected,
             onLocationClick = {
                 if (countryData != null) {
-                    onRegionClick
+                    onRegionClick()
                 } else {
                     Toast
                         .makeText(
@@ -195,8 +195,8 @@ private fun HandleWorkLocationNavigation(
     LaunchedEffect(Unit) {
         workLocationNavEvent.collect { event ->
             when (event) {
-                NavigateBack -> navigateBack
-                NavigateToCountryScreen -> navigateToFilterCountry
+                NavigateBack -> navigateBack()
+                NavigateToCountryScreen -> navigateToFilterCountry()
                 is NavigateToRegionScreen -> navigateToFilterRegion(event.id)
             }
         }
