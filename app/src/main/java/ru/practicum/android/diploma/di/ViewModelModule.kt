@@ -34,6 +34,7 @@ val viewModelModule = module {
 
     viewModel {
         FilterSettingsViewModel(
+            filterStorageInteractor = get(),
             savedStateHandle = get()
         )
     }

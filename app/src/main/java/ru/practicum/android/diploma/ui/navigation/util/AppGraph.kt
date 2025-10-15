@@ -23,6 +23,7 @@ fun NavGraphBuilder.appGraph(
     teamDestination()
     vacancyDestination(onBackClick = onBackClick)
     filterSettingsDestination(
+        navigateBack = onBackClick,
         navigateToWorkLocation = navigateToWorkLocation,
         navigateToFilterIndustry = navigateToFilterIndustry
     )

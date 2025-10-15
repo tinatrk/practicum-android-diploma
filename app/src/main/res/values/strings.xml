@@ -92,6 +92,13 @@
     <string name="region">Регион</string>
     <string name="toast_something_went_wrong">Что-то пошло не так. Возможно, нет интернета.</string>
 
+    <string name="settings_filter">Настройки фильтрации</string>
+    <string name="work_place">Место работы</string>
+    <string name="industry">Отрасль</string>
+    <string name="enter_sum">Введите сумму</string>
+    <string name="expected_salary">Ожидаемая зарплата</string>
+    <string name="do_not_show_without_salary">Не показывать без зарплаты</string>
+
     <string name="industry_search_bar_placeholder">Введите отрасль</string>
     <string name="filter_industry_error_message">Не удалось получить список отраслей</string>
     <string name="filter_industry_empty_content_message">Такой отрасли нет</string>
