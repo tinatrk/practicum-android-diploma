@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -181,7 +182,11 @@ fun InfoLabel(
     val text = if (count == 0) {
         stringResource(R.string.no_vacancies_label)
     } else {
-        stringResource(R.string.vacancies_count_text, count)
+        pluralStringResource(
+            R.plurals.clip_vacancy_plurals,
+            count,
+            count
+        )
     }
 
     Surface(
