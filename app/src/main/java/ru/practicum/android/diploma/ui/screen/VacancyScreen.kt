@@ -518,4 +518,3 @@ private fun VacancyContentPreview() {
         VacancyContent(vacancy = vacancy, onEmailClick = {}, onPhoneClick = {})
     }
 }
-
