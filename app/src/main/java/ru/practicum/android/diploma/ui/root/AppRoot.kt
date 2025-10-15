@@ -16,6 +16,7 @@ import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
 import ru.practicum.android.diploma.domain.models.filters.FilterRegion
 import ru.practicum.android.diploma.ui.components.BottomNavigationBar
 import ru.practicum.android.diploma.ui.navigation.bottomTabs
+import ru.practicum.android.diploma.ui.navigation.util.AppGraphActions
 import ru.practicum.android.diploma.ui.navigation.util.AppNavDestination
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 import ru.practicum.android.diploma.ui.navigation.util.appGraph
@@ -37,13 +38,9 @@ fun AppRoot(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val bottomIsVisible = currentDestination
-        ?.hierarchy
-        ?.any {
-            it.route == AppNavDestination.Home::class.qualifiedName ||
-                it.route == AppNavDestination.Favorite::class.qualifiedName ||
-                it.route == AppNavDestination.Team::class.qualifiedName
-        } == true
+    val bottomIsVisible = currentDestination?.hierarchy?.any {
+        it.route in bottomBarRoutes
+    } == true
 
     Scaffold(
         bottomBar = {
@@ -63,12 +60,25 @@ fun AppRoot(
             }
         }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = AppNavDestination.Home,
-            modifier = modifier.padding(innerPadding)
-        ) {
-            appGraph(
+        AppNavHost(navController, modifier.padding(innerPadding))
+    }
+}
+
+private val bottomBarRoutes = setOf(
+    AppNavDestination.Home::class.qualifiedName,
+    AppNavDestination.Favorite::class.qualifiedName,
+    AppNavDestination.Team::class.qualifiedName
+)
+
+@Composable
+private fun AppNavHost(navController: NavHostController, modifier: Modifier) {
+    NavHost(
+        navController = navController,
+        startDestination = AppNavDestination.Home,
+        modifier = Modifier
+    ) {
+        appGraph(
+            actions = AppGraphActions(
                 navigateToVacancy = { vacancyId ->
                     navController.navigateToVacancy(vacancyId)
                 },
@@ -140,6 +150,6 @@ fun AppRoot(
                     navController.popBackStack()
                 },
             )
-        }
+        )
     }
 }

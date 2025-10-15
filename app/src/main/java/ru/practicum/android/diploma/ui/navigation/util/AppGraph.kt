@@ -3,36 +3,26 @@ package ru.practicum.android.diploma.ui.navigation.util
 import androidx.navigation.NavGraphBuilder
 
 fun NavGraphBuilder.appGraph(
-    navigateToVacancy: (String) -> Unit,
-    navigateToFilterIndustry: (Int?) -> Unit,
-    navigateToFilterSettings: () -> Unit,
-    navigateToWorkLocation: () -> Unit,
-    navigateToFilterCountry: () -> Unit,
-    navigateToFilterRegion: (Int?) -> Unit,
-    onBackClick: () -> Unit,
-    navigateBackFromFilterIndustry: () -> Unit,
-    navigateBackFromWorkLocation: () -> Unit,
-    navigateBackFromFilterCountry: () -> Unit,
-    navigateBackFromFilterRegion: () -> Unit,
+    actions: AppGraphActions
 ) {
     homeDestination(
-        navigateToVacancy = navigateToVacancy,
-        navigateToFilterSettings = navigateToFilterSettings
+        navigateToVacancy = actions.navigateToVacancy,
+        navigateToFilterSettings = actions.navigateToFilterSettings
     )
-    favoriteDestination(navigateToVacancy = navigateToVacancy)
+    favoriteDestination(navigateToVacancy = actions.navigateToVacancy)
     teamDestination()
-    vacancyDestination(onBackClick = onBackClick)
+    vacancyDestination(onBackClick = actions.onBackClick)
     filterSettingsDestination(
-        navigateBack = onBackClick,
-        navigateToWorkLocation = navigateToWorkLocation,
-        navigateToFilterIndustry = navigateToFilterIndustry
+        navigateBack = actions.onBackClick,
+        navigateToWorkLocation = actions.navigateToWorkLocation,
+        navigateToFilterIndustry = actions.navigateToFilterIndustry
     )
     workLocationDestination(
-        navigateToFilterCountry = navigateToFilterCountry,
-        navigateToFilterRegion = navigateToFilterRegion,
-        navigateBack = navigateBackFromWorkLocation
+        navigateToFilterCountry = actions.navigateToFilterCountry,
+        navigateToFilterRegion = actions.navigateToFilterRegion,
+        navigateBack = actions.navigateBackFromWorkLocation
     )
-    filterCountryDestination(navigateBack = navigateBackFromFilterCountry)
-    filterRegionDestination(navigateBack = navigateBackFromFilterRegion)
-    filterIndustryDestination(navigateBack = navigateBackFromFilterIndustry)
+    filterCountryDestination(navigateBack = actions.navigateBackFromFilterCountry)
+    filterRegionDestination(navigateBack = actions.navigateBackFromFilterRegion)
+    filterIndustryDestination(navigateBack = actions.navigateBackFromFilterIndustry)
 }
