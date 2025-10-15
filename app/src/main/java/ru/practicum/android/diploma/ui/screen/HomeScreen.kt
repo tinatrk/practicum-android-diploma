@@ -19,10 +19,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
@@ -44,11 +46,13 @@ import ru.practicum.android.diploma.util.common.Failure
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    navigateToVacancy: (String) -> Unit
+    navigateToVacancy: (String) -> Unit,
+    navigateToFilterSettings: () -> Unit
 ) {
     val vm: SearchViewModel = koinViewModel()
     val state by vm.searchUiState.collectAsStateWithLifecycle()
     val isNextPageError by vm.isNextPageError.collectAsStateWithLifecycle()
+    val isFiltersSet = vm.isFiltersSet.collectAsStateWithLifecycle()
 
     val onSearch = vm::searchVacancies
     val onLoadNextPage = vm::loadNextPage
@@ -58,7 +62,7 @@ fun HomeScreen(
     Scaffold(
         containerColor = LocalCustomColors.current.screenBackground,
         topBar = {
-            SearchScreenTopBar { }
+            SearchScreenTopBar(isFiltersSet = isFiltersSet.value, onFilterIconClick = navigateToFilterSettings)
         }
     ) { innerPadding ->
         HomeScreen(
@@ -69,7 +73,7 @@ fun HomeScreen(
             onVacancyClick = navigateToVacancy,
             onQueryChanged = onQueryChanged,
             onClearQueryClick = onClearQueryClick,
-            modifier = modifier.padding(innerPadding)
+            modifier = modifier.padding(innerPadding),
         )
     }
 }
@@ -121,7 +125,7 @@ fun HomeScreen(
                         ) {
                             InfoLabel(state.count)
                             FoundVacanciesList(
-                                vacancies = state.data,
+                                vacancies = state.data.toImmutableList(),
                                 isLastPage = state.isLastPage,
                                 onLoadNextPage = onLoadNextPage,
                                 isNextPageError = isNextPageError,
@@ -178,7 +182,11 @@ fun InfoLabel(
     val text = if (count == 0) {
         stringResource(R.string.no_vacancies_label)
     } else {
-        stringResource(R.string.vacancies_count_text, count)
+        pluralStringResource(
+            R.plurals.clip_vacancy_plurals,
+            count,
+            count
+        )
     }
 
     Surface(
@@ -198,7 +206,7 @@ fun InfoLabel(
 
 @Composable
 fun FoundVacanciesList(
-    vacancies: List<VacancyBriefInfo>,
+    vacancies: ImmutableList<VacancyBriefInfo>,
     isLastPage: Boolean,
     onLoadNextPage: () -> Unit,
     isNextPageError: Boolean,
@@ -259,12 +267,12 @@ fun NoInternetContent() {
     showSystemUi = true
 )
 @Composable
-fun SearchFieldPreview() {
+private fun SearchFieldPreview() {
     AppTheme(darkTheme = true) {
         Scaffold(
             containerColor = LocalCustomColors.current.screenBackground,
             topBar = {
-                SearchScreenTopBar { }
+                SearchScreenTopBar(onFilterIconClick = {})
             }
         ) { innerPadding ->
             HomeScreen(
@@ -282,4 +290,3 @@ fun SearchFieldPreview() {
         }
     }
 }
-

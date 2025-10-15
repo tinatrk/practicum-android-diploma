@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.data.converter
 
 import ru.practicum.android.diploma.data.db.embedd.AddressEmbeddable
 import ru.practicum.android.diploma.data.dto.models.AddressDto
-import ru.practicum.android.diploma.domain.models.Address
+import ru.practicum.android.diploma.domain.models.vacancy.Address
 
 class AddressConverter {
     fun map(addressDto: AddressDto?): Address? {

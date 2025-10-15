@@ -17,7 +17,7 @@ fun SimpleTopBar(
 
 @Preview("light theme", showSystemUi = true)
 @Composable
-fun SimpleTopBarPreviewLight() {
+private fun SimpleTopBarPreviewLight() {
     AppTheme(darkTheme = false) {
         SimpleTopBar(stringResource(R.string.favorites_screen_title))
     }
@@ -25,7 +25,7 @@ fun SimpleTopBarPreviewLight() {
 
 @Preview("dark theme", showSystemUi = true)
 @Composable
-fun SimpleTopBarPreviewDark() {
+private fun SimpleTopBarPreviewDark() {
     AppTheme(darkTheme = true) {
         SimpleTopBar(stringResource(R.string.favorites_screen_title))
     }

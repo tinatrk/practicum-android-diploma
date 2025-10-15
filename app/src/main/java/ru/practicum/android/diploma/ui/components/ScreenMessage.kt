@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,24 +49,22 @@ fun ScreenMessage(title: String? = null, imageId: Int) {
 
 @Preview(name = "light theme", showSystemUi = true)
 @Composable
-fun ScreenMessagePreviewLight() {
+private fun ScreenMessagePreviewLight() {
     AppTheme(darkTheme = false) {
-        ErrorMessage(
+        ScreenMessage(
             title = stringResource(R.string.im_bad_connection_description),
             imageId = R.drawable.im_bad_connection,
-            modifier = Modifier.fillMaxSize()
         )
     }
 }
 
 @Preview(name = "dark theme", showSystemUi = true)
 @Composable
-fun ScreenMessagePreviewDark() {
+private fun ScreenMessagePreviewDark() {
     AppTheme(darkTheme = true) {
-        ErrorMessage(
+        ScreenMessage(
             title = stringResource(R.string.im_bad_connection_description),
             imageId = R.drawable.im_bad_connection,
-            modifier = Modifier.fillMaxSize()
         )
     }
 }

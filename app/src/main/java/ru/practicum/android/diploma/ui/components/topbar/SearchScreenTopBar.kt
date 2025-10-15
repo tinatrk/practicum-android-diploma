@@ -13,12 +13,14 @@ import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 
 @Composable
 fun SearchScreenTopBar(
-    onFilterIconClick: () -> Unit
+    onFilterIconClick: () -> Unit,
+    isFiltersSet: Boolean = false
 ) {
     CustomTopBar(
         title = stringResource(id = R.string.search_screen_title),
         actions = {
             ToggleIcon(
+                isChecked = isFiltersSet,
                 checkedIconId = R.drawable.ic_filter_on_24px,
                 uncheckedIconId = R.drawable.ic_filter_off_24px,
                 iconDescription = stringResource(R.string.ic_arrow_back_description),
@@ -32,7 +34,7 @@ fun SearchScreenTopBar(
 
 @Preview("light theme", showSystemUi = true)
 @Composable
-fun SearchScreenTopBarPreviewLight() {
+private fun SearchScreenTopBarPreviewLight() {
     AppTheme(darkTheme = false) {
         SearchScreenTopBar(onFilterIconClick = {})
     }
@@ -40,7 +42,7 @@ fun SearchScreenTopBarPreviewLight() {
 
 @Preview("dark theme", showSystemUi = true)
 @Composable
-fun SearchScreenTopBarPreviewDark() {
+private fun SearchScreenTopBarPreviewDark() {
     AppTheme(darkTheme = true) {
         SearchScreenTopBar(onFilterIconClick = {})
     }

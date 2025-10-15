@@ -1,8 +1,10 @@
 package ru.practicum.android.diploma.presentation.search.models
 
+import androidx.compose.runtime.Immutable
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.util.common.Failure
 
+@Immutable
 sealed class SearchUiState {
     data object Idle : SearchUiState()
     data object Loading : SearchUiState()

@@ -68,4 +68,3 @@ data class CustomTypography(
     val teamTitle: TextStyle,
     val teamText: TextStyle
 )
-

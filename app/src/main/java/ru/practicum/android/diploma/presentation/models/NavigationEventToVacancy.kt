@@ -7,4 +7,3 @@ sealed interface NavigationEventToVacancy {
     data object Idle : NavigationEventToVacancy
     data class OpenVacancyDetails(val vacancyId: String) : NavigationEventToVacancy
 }
-

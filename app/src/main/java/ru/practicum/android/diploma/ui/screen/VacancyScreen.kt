@@ -26,10 +26,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.domain.models.Contacts
+import ru.practicum.android.diploma.domain.models.vacancy.Contacts
 import ru.practicum.android.diploma.presentation.details.models.DetailsScreenState
 import ru.practicum.android.diploma.presentation.details.viewmodel.VacancyDetailsViewModel
 import ru.practicum.android.diploma.presentation.models.VacancyInfo
@@ -70,7 +72,7 @@ fun VacancyScreen(
                     )
                 }
 
-                DetailsScreenState.Loading, DetailsScreenState.Error -> {
+                DetailsScreenState.Loading, DetailsScreenState.Error, DetailsScreenState.InternetError -> {
                     SimpleTopBarWithBackIcon(
                         stringResource(R.string.vacancy_details_screen_title),
                         onNavigationIconClick = onBackClick
@@ -86,7 +88,7 @@ fun VacancyScreen(
                     .padding(it)
                     .fillMaxSize()
             ) {
-                when (val state = state) {
+                when (val curState = state) {
                     DetailsScreenState.Loading -> {
                         ProgressBar()
                     }
@@ -107,11 +109,19 @@ fun VacancyScreen(
                         )
                     }
 
+                    DetailsScreenState.InternetError -> {
+                        ErrorMessage(
+                            title = stringResource(R.string.im_bad_connection_description),
+                            imageId = R.drawable.im_bad_connection,
+                            modifier = modifier.fillMaxSize()
+                        )
+                    }
+
                     is DetailsScreenState.Content -> {
                         VacancyContent(
-                            vacancy = state.data,
+                            vacancy = curState.data,
                             onEmailClick = { viewModel.onEmailClick() },
-                            onPhoneClick = { viewModel.onPhoneClick(it) }
+                            onPhoneClick = { phone -> viewModel.onPhoneClick(phone) }
                         )
                     }
                 }
@@ -156,7 +166,7 @@ private fun VacancyContent(
 
         VacancyInfo(
             description = vacancy.description,
-            skills = vacancy.skills,
+            skills = vacancy.skills?.toImmutableList(),
             contacts = vacancy.contacts,
             onEmailClick = onEmailClick,
             onPhoneClick = onPhoneClick
@@ -281,7 +291,7 @@ private fun VacancyExperience(
 private fun VacancyInfo(
     modifier: Modifier = Modifier,
     description: String?,
-    skills: List<String>?,
+    skills: ImmutableList<String>?,
     contacts: Contacts?,
     onEmailClick: () -> Unit,
     onPhoneClick: (String) -> Unit
@@ -331,7 +341,7 @@ private fun VacancyDescription(
 @Composable
 private fun VacancySkills(
     modifier: Modifier = Modifier,
-    skills: List<String>,
+    skills: ImmutableList<String>,
     typography: CustomTypography = LocalTypography.current
 ) {
     Column(
@@ -510,4 +520,3 @@ private fun VacancyContentPreview() {
         VacancyContent(vacancy = vacancy, onEmailClick = {}, onPhoneClick = {})
     }
 }
-

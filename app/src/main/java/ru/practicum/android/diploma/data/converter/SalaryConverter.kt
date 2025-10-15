@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.data.converter
 
 import ru.practicum.android.diploma.data.db.embedd.SalaryEmbeddable
 import ru.practicum.android.diploma.data.dto.models.SalaryDto
-import ru.practicum.android.diploma.domain.models.Salary
+import ru.practicum.android.diploma.domain.models.vacancy.Salary
 
 class SalaryConverter {
     fun map(salaryDto: SalaryDto?): Salary? {

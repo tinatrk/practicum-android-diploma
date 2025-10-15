@@ -21,7 +21,11 @@ fun SimpleVacancyList(
         verticalArrangement = Arrangement.Top,
         modifier = modifier
     ) {
-        items(vacancies) { vacancy ->
+        items(
+            items = vacancies,
+            key = { it.id },
+            contentType = { it },
+        ) { vacancy ->
             VacancyListItem(vacancy, onVacancyClick)
         }
     }

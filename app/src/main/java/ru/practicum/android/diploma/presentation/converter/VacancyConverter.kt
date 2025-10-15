@@ -1,8 +1,8 @@
 package ru.practicum.android.diploma.presentation.converter
 
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.domain.models.VacancyBrief
+import ru.practicum.android.diploma.domain.models.vacancy.Vacancy
+import ru.practicum.android.diploma.domain.models.vacancy.VacancyBrief
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.presentation.models.VacancyInfo
 import ru.practicum.android.diploma.util.ResourceProvider

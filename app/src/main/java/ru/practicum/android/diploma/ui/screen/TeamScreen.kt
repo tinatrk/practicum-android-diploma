@@ -45,7 +45,7 @@ fun TeamScreen() {
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                items(items = people, key = { it }) { fullName ->
+                items(items = people, key = { it }, contentType = { it }) { fullName ->
                     Text(
                         text = fullName,
                         color = LocalCustomColors.current.commonTextColor,

@@ -7,7 +7,7 @@ import ru.practicum.android.diploma.data.dto.request.VacancyDetailRequest
 import ru.practicum.android.diploma.data.dto.response.VacancyDetailResponse
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.domain.details.api.repository.VacancyDetailsRepository
-import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.vacancy.Vacancy
 import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource
 import java.net.HttpURLConnection.HTTP_BAD_REQUEST

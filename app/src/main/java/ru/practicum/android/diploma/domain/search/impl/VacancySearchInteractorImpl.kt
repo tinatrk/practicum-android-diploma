@@ -1,7 +1,8 @@
 package ru.practicum.android.diploma.domain.search.impl
 
 import kotlinx.coroutines.flow.Flow
-import ru.practicum.android.diploma.domain.models.VacancyPage
+import ru.practicum.android.diploma.domain.models.filters.FilterSettings
+import ru.practicum.android.diploma.domain.models.vacancy.VacancyPage
 import ru.practicum.android.diploma.domain.search.api.interactor.VacancySearchInteractor
 import ru.practicum.android.diploma.domain.search.api.repository.VacancySearchRepository
 import ru.practicum.android.diploma.util.common.Failure
@@ -12,13 +13,13 @@ class VacancySearchInteractorImpl(
 ) : VacancySearchInteractor {
     override fun search(
         query: String,
-        options: Map<String, Int>,
-        onlyWithSalary: Boolean
+        page: Int,
+        filterSettings: FilterSettings?
     ): Flow<Resource<VacancyPage, Failure>> {
         return repository.search(
             query = query,
-            options = options,
-            onlyWithSalary = onlyWithSalary
+            page = page,
+            filterSettings = filterSettings
         )
     }
 }

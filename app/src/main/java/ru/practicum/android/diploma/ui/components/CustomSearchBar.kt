@@ -67,7 +67,7 @@ fun CustomSearchBar(
                         if (text.isEmpty()) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_search_24px),
-                                contentDescription = stringResource(R.string.search_screen_title),
+                                contentDescription = stringResource(R.string.search_bar_icon_description),
                             )
                         } else {
                             Icon(
@@ -104,14 +104,13 @@ fun CustomSearchBar(
         modifier = Modifier
             .background(colors.screenBackground)
             .padding(horizontal = 16.dp)
-            // .padding(bottom = 8.dp)
             .fillMaxWidth()
     ) {}
 }
 
 @Preview("lightTheme", showSystemUi = true)
 @Composable
-fun CustomSearchBarPreviewLight() {
+private fun CustomSearchBarPreviewLight() {
     AppTheme(darkTheme = false) {
         CustomSearchBar(
             text = "",
@@ -125,7 +124,7 @@ fun CustomSearchBarPreviewLight() {
 
 @Preview("darkTheme", showSystemUi = true)
 @Composable
-fun CustomSearchBarPreviewDark() {
+private fun CustomSearchBarPreviewDark() {
     AppTheme(darkTheme = true) {
         CustomSearchBar(
             text = "",

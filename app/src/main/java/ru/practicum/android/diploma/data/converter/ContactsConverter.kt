@@ -6,8 +6,8 @@ import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import ru.practicum.android.diploma.data.db.embedd.ContactsEmbeddable
 import ru.practicum.android.diploma.data.dto.models.ContactsDto
-import ru.practicum.android.diploma.domain.models.Contacts
-import ru.practicum.android.diploma.domain.models.Phone
+import ru.practicum.android.diploma.domain.models.vacancy.Contacts
+import ru.practicum.android.diploma.domain.models.vacancy.Phone
 import java.lang.reflect.Type
 
 class ContactsConverter(private val gson: Gson) {

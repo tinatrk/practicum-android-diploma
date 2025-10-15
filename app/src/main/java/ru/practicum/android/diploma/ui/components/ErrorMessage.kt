@@ -46,7 +46,7 @@ fun ErrorMessage(title: String, imageId: Int, modifier: Modifier) {
 
 @Preview(name = "light theme", showSystemUi = true)
 @Composable
-fun ErrorMessagePreviewLight() {
+private fun ErrorMessagePreviewLight() {
     AppTheme(darkTheme = false) {
         ErrorMessage(
             title = stringResource(R.string.im_bad_connection_description),
@@ -58,7 +58,7 @@ fun ErrorMessagePreviewLight() {
 
 @Preview(name = "dark theme", showSystemUi = true)
 @Composable
-fun ErrorMessagePreviewDark() {
+private fun ErrorMessagePreviewDark() {
     AppTheme(darkTheme = true) {
         ErrorMessage(
             title = stringResource(R.string.im_bad_connection_description),

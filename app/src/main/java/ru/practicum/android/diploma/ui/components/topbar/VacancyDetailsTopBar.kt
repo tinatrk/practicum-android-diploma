@@ -56,7 +56,7 @@ fun VacancyDetailsTopBar(
 
 @Preview("light theme", showSystemUi = true)
 @Composable
-fun VacancyDetailsTopBarPreviewLight() {
+private fun VacancyDetailsTopBarPreviewLight() {
     AppTheme(darkTheme = false) {
         VacancyDetailsTopBar(
             isFavorite = false,
@@ -69,7 +69,7 @@ fun VacancyDetailsTopBarPreviewLight() {
 
 @Preview("dark theme", showSystemUi = true)
 @Composable
-fun VacancyDetailsTopBarPreviewDark() {
+private fun VacancyDetailsTopBarPreviewDark() {
     AppTheme(darkTheme = true) {
         VacancyDetailsTopBar(
             isFavorite = true,

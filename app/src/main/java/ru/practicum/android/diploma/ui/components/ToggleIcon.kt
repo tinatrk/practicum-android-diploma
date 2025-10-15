@@ -10,13 +10,13 @@ import androidx.compose.ui.res.painterResource
 
 @Composable
 fun ToggleIcon(
+    modifier: Modifier = Modifier,
     isChecked: Boolean? = null,
     checkedIconId: Int,
     uncheckedIconId: Int,
     onIconClick: () -> Unit,
     iconDescription: String,
     iconUncheckedTint: Color,
-    modifier: Modifier = Modifier
 ) {
     val currentChecked = isChecked ?: false
 

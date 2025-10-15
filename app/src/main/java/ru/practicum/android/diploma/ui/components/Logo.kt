@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -20,17 +21,21 @@ import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 
 @Composable
 fun Logo(url: String?) {
-    AsyncImage(
-        model = ImageRequest
-            .Builder(LocalContext.current)
+    val context = LocalContext.current
+    val request = remember(url, context) {
+        ImageRequest.Builder(context)
             .data(url)
             .setHeader("User-Agent", "Example/1.0")
             .decoderFactory(SvgDecoder.Factory())
             .listener(
                 onSuccess = { _, _ -> Log.d("IMG", "Download success") },
-                onError = { _, t -> Log.e("IMG", "Download error", t.throwable) }
+                onError = { _, r -> Log.e("IMG", "Download error", r.throwable) }
             )
-            .build(),
+            .build()
+    }
+
+    AsyncImage(
+        model = request,
         contentDescription = stringResource(R.string.logo_description),
         placeholder = painterResource(R.drawable.ic_placeholder_48px),
         contentScale = ContentScale.Crop,
