@@ -41,7 +41,8 @@ val viewModelModule = module {
     viewModel { (selectedIndustryId: Int?) ->
         FilterIndustryViewModel(
             savedStateHandle = get(),
-            selectedIndustryId = selectedIndustryId
+            selectedIndustryId = selectedIndustryId,
+            filterInteractor = get()
         )
     }
 
@@ -53,12 +54,14 @@ val viewModelModule = module {
 
     viewModel {
         FilterCountryViewModel(
+            interactor = get(),
             savedStateHandle = get()
         )
     }
 
     viewModel { (selectedCountryId: Int?) ->
         FilterRegionViewModel(
+            interactor = get(),
             savedStateHandle = get(),
             selectedCountryId = selectedCountryId
         )

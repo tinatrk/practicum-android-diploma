@@ -35,9 +35,9 @@ fun VacancyListItem(
         modifier = Modifier
             .fillMaxWidth()
             .background(colors.vacancyListItemColors.background)
+            .clickable { onVacancyClick(vacancyInfo.id) }
             .padding(horizontal = 16.dp, vertical = 9.dp)
             .wrapContentHeight()
-            .clickable { onVacancyClick(vacancyInfo.id) }
     ) {
         Logo(vacancyInfo.employerLogo)
         Spacer(modifier = Modifier.width(12.dp))

@@ -17,13 +17,18 @@
     <string name="vacancy_details_screen_title">Вакансия</string>
     <string name="favorites_screen_title">Избранное</string>
     <string name="filter_settings_screen_title">Настройки фильтрации</string>
+
+    <string name="filter_region_title">Выбор региона</string>
+    <string name="filter_country_title">Выбор страны</string>
     <string name="team_screen_title">Команда</string>
+    <string name="filter_industry_screen_title">Выбор отрасли</string>
 
     <string name="no_vacancies_label">Таких вакансий нет</string>
     <string name="vacancies_load_failed">Не удалось получить\nсписок вакансий</string>
     <string name="vacancies_count_text">Найдено %1$d вакансий</string>
 
     <string name="search_bar_hint">Введите запрос</string>
+    <string name="search_bar_region_hint">Введите регион</string>
     <string name="search_bar_clear_btn_description">Очистить поле ввода</string>
 
     <string name="im_bad_connection_description">Нет интернета</string>
@@ -32,12 +37,19 @@
     <string name="im_lack_of_list_cat_description">Не удалось получить список вакансий</string>
     <string name="the_vacancy_was_not_found_or_was_deleted">Вакансия не найдена или удалена</string>
     <string name="server_error">Ошибка сервера</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+
+    <string name="region_not_found">Такого региона нет</string>
+    <string name="region_request_error">Не удалось получить список</string>
+    <string name="country_not_found">Список пуст</string>
+    <string name="country_request_error">Не удалось получить список</string>
 
     <string name="logo_description">Логотип работодателя</string>
 
     <string name="btn_choose">Выбрать</string>
     <string name="btn_apply">Применить</string>
     <string name="btn_throw_off">Сбросить</string>
+    <string name="btn_update">Обновить</string>
 
     <string name="ic_arrow_back_description">Вернуться на предыдущий экран</string>
     <string name="ic_share_description">Поделиться вакансией</string>
@@ -79,5 +91,15 @@
     <string name="industry_unknown">Отрасль не задана</string>
     <string name="country_unknown">Страна не задана</string>
     <string name="region_unknown">Регион не задан</string>
+
+    <string name="work_location_title">Выбор места работы</string>
+    <string name="country">Страна</string>
+    <string name="region">Регион</string>
+
+    <string name="industry_search_bar_placeholder">Введите отрасль</string>
+    <string name="filter_industry_error_message">Не удалось получить список отраслей</string>
+    <string name="filter_industry_empty_content_message">Такой отрасли нет</string>
+    <string name="filter_industry_item_description">Выбрать отрасль</string>
+    <string name="search_bar_icon_description">Поиск по списку</string>
 
 </resources>

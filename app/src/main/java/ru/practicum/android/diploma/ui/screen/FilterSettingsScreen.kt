@@ -15,7 +15,7 @@ import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterSetting
 fun FilterSettingsScreen(
     viewModel: FilterSettingsViewModel = koinViewModel(),
     navigateToWorkLocation: () -> Unit,
-    navigateToFilterIndustry: (Int) -> Unit
+    navigateToFilterIndustry: (Int?) -> Unit
 ) {
     // Сделала так для простоты, по-хорошему нужен один state
     val selectedWorkLocation = viewModel.selectedWorkAddress.collectAsState()

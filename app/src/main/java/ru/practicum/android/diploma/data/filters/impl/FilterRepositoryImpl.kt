@@ -34,7 +34,7 @@ class FilterRepositoryImpl(
             emit(
                 Resource.Success(
                     areaExtractor
-                        .getCountriesShortList((response as FilterAreaResponse).areas)
+                        .getCountriesFromAreas((response as FilterAreaResponse).areas)
                         .sortedWith(
                             compareBy(String.CASE_INSENSITIVE_ORDER) { it.name }
                         )
@@ -42,30 +42,6 @@ class FilterRepositoryImpl(
                             val (others, target) = partition { it.id != OTHER_REGIONS_ID }
                             others + target
                         }
-                )
-            )
-        } else {
-            emit(
-                processError<List<FilterCountry>>(
-                    resultCode = response.resultCode
-                )
-            )
-        }
-    }
-
-    override fun getOtherCountries(): Flow<Resource<List<FilterCountry>, Failure>> = flow {
-        val response = networkClient.doRequest(
-            FilterAreaRequest
-        )
-
-        if (response.resultCode == HTTP_OK) {
-            emit(
-                Resource.Success(
-                    areaExtractor
-                        .getOtherCountries((response as FilterAreaResponse).areas)
-                        .sortedWith(
-                            compareBy(String.CASE_INSENSITIVE_ORDER) { it.name }
-                        )
                 )
             )
         } else {
@@ -153,8 +129,10 @@ class FilterRepositoryImpl(
                 )
             )
         } else {
-            processError<List<FilterIndustry>>(
-                resultCode = response.resultCode
+            emit(
+                processError<List<FilterIndustry>>(
+                    resultCode = response.resultCode
+                )
             )
         }
     }
