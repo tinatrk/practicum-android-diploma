@@ -75,11 +75,6 @@
     <string name="email">E-mail</string>
     <string name="phone">Телефон</string>
 
-    <string name="work_location_title">Выбор места работы</string>
-
-    <string name="country">Страна</string>
-    <string name="region">Регион</string>
-
     <string name="persons_title">Над приложением работали</string>
     <string-array name="persons_working" translatable="false">
         <item>Сергей Такт</item>
