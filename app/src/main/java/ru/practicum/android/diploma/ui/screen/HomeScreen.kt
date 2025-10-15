@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
@@ -123,7 +124,7 @@ fun HomeScreen(
                         ) {
                             InfoLabel(state.count)
                             FoundVacanciesList(
-                                vacancies = state.data,
+                                vacancies = state.data.toImmutableList(),
                                 isLastPage = state.isLastPage,
                                 onLoadNextPage = onLoadNextPage,
                                 isNextPageError = isNextPageError,
@@ -200,7 +201,7 @@ fun InfoLabel(
 
 @Composable
 fun FoundVacanciesList(
-    vacancies: List<VacancyBriefInfo>,
+    vacancies: ImmutableList<VacancyBriefInfo>,
     isLastPage: Boolean,
     onLoadNextPage: () -> Unit,
     isNextPageError: Boolean,
@@ -261,7 +262,7 @@ fun NoInternetContent() {
     showSystemUi = true
 )
 @Composable
-fun SearchFieldPreview() {
+private fun SearchFieldPreview() {
     AppTheme(darkTheme = true) {
         Scaffold(
             containerColor = LocalCustomColors.current.screenBackground,

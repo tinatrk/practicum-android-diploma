@@ -43,8 +43,22 @@ fun FilterRegionScreen(
     },
     navigateBack: () -> Unit
 ) {
-    ObserveFinish(viewModel, navigateBack)
-    BindHideKeyboard(viewModel)
+    val shouldFinish by viewModel.shouldFinish.collectAsState(initial = false)
+    LaunchedEffect(shouldFinish) {
+        if (shouldFinish) {
+            viewModel.consumeFinishEvent()
+            navigateBack()
+        }
+    }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+    LaunchedEffect(Unit) {
+        viewModel.hideKeyboardEvent.collect {
+            focusManager.clearFocus(force = true)
+            keyboardController?.hide()
+        }
+    }
 
     val state by viewModel.regionUiState.collectAsStateWithLifecycle()
     val query = viewModel.query.collectAsState().value
@@ -93,32 +107,6 @@ fun FilterRegionScreen(
 }
 
 @Composable
-private fun ObserveFinish(
-    viewModel: FilterRegionViewModel,
-    navigateBack: () -> Unit
-) {
-    val shouldFinish by viewModel.shouldFinish.collectAsState(initial = false)
-    LaunchedEffect(shouldFinish) {
-        if (shouldFinish) {
-            viewModel.consumeFinishEvent()
-            navigateBack()
-        }
-    }
-}
-
-@Composable
-private fun BindHideKeyboard(viewModel: FilterRegionViewModel) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusManager = LocalFocusManager.current
-    LaunchedEffect(Unit) {
-        viewModel.hideKeyboardEvent.collect {
-            focusManager.clearFocus(force = true)
-            keyboardController?.hide()
-        }
-    }
-}
-
-@Composable
 private fun RegionStateContent(
     state: RegionUiState,
     onSelect: (FilterRegion) -> Unit
@@ -129,7 +117,7 @@ private fun RegionStateContent(
             val items = state.data
             if (items.isNotEmpty()) {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(items = items, key = { it.id }) { region ->
+                    items(items = items, key = { it.id }, contentType = { it }) { region ->
                         OptionListItem(
                             text = region.name,
                             onClick = { onSelect(region) }

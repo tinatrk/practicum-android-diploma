@@ -79,7 +79,7 @@ fun getVacancyPreviewItem(): VacancyBriefInfo {
 
 @Preview(name = "lightTheme", showSystemUi = true)
 @Composable
-fun VacancyListItemPreviewLight() {
+private fun VacancyListItemPreviewLight() {
     AppTheme(darkTheme = false) {
         VacancyListItem(
             vacancyInfo = getVacancyPreviewItem(),
@@ -90,7 +90,7 @@ fun VacancyListItemPreviewLight() {
 
 @Preview(name = "darkTheme", showSystemUi = true)
 @Composable
-fun VacancyListItemPreviewDark() {
+private fun VacancyListItemPreviewDark() {
     AppTheme(darkTheme = true) {
         VacancyListItem(
             vacancyInfo = getVacancyPreviewItem(),

@@ -34,6 +34,7 @@ fun FavoriteScreen(
             when (event) {
                 is NavigationEventToVacancy.OpenVacancyDetails ->
                     navigateToVacancy(event.vacancyId)
+
                 NavigationEventToVacancy.Idle -> Unit
             }
         }

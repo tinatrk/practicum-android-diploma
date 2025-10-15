@@ -32,7 +32,13 @@ fun FilterCountryScreen(
     viewModel: FilterCountryViewModel = koinViewModel(),
     navigateBack: () -> Unit
 ) {
-    ObserveFinish(viewModel, navigateBack)
+    val shouldFinish by viewModel.shouldFinish.collectAsState(initial = false)
+    androidx.compose.runtime.LaunchedEffect(shouldFinish) {
+        if (shouldFinish) {
+            viewModel.consumeFinishEvent()
+            navigateBack()
+        }
+    }
 
     val state by viewModel.countryUiState.collectAsStateWithLifecycle()
 
@@ -62,20 +68,6 @@ fun FilterCountryScreen(
 }
 
 @Composable
-private fun ObserveFinish(
-    viewModel: FilterCountryViewModel,
-    navigateBack: () -> Unit
-) {
-    val shouldFinish by viewModel.shouldFinish.collectAsState(initial = false)
-    androidx.compose.runtime.LaunchedEffect(shouldFinish) {
-        if (shouldFinish) {
-            viewModel.consumeFinishEvent()
-            navigateBack()
-        }
-    }
-}
-
-@Composable
 private fun CountryStateContent(
     state: CountryUiState,
     onSelect: (id: Int, name: String) -> Unit
@@ -92,7 +84,7 @@ private fun CountryStateContent(
                 )
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(items = countries, key = { it.id }) { country ->
+                    items(items = countries, key = { it.id }, contentType = { it }) { country ->
                         OptionListItem(
                             text = country.name,
                             onClick = { onSelect(country.id, country.name) }
