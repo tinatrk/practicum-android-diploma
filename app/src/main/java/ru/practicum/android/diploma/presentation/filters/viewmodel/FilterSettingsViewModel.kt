@@ -101,7 +101,7 @@ class FilterSettingsViewModel(
         filterStorageInteractor.saveFilterSettings(filterSettings)
         _screenState.update { it.copy(initial = filterSettings) }
         viewModelScope.launch {
-            _events.emit(FilterSettingsEvent.NavigateToSearchAndRefresh)
+            _events.emit(FilterSettingsEvent.NavigateBack)
         }
     }
 
@@ -111,7 +111,7 @@ class FilterSettingsViewModel(
         savedStateHandle[NavResultKeys.SELECTED_WORK_ADDRESS] = null
         savedStateHandle[NavResultKeys.SELECTED_INDUSTRY] = null
         viewModelScope.launch {
-            _events.emit(FilterSettingsEvent.NavigateBackNoRefresh)
+            _events.emit(FilterSettingsEvent.NavigateBack)
         }
     }
 }

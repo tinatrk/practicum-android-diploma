@@ -130,7 +130,6 @@ fun NavGraphBuilder.filterSettingsDestination(
             navigateBack = navigateBack,
             navigateToFilterIndustry = navigateToFilterIndustry,
             navigateToWorkLocation = navigateToWorkLocation,
-            navigateToSearch = navigateBack
         )
     }
 }

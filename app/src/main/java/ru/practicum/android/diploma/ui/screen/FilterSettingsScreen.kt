@@ -59,7 +59,6 @@ fun FilterSettingsScreen(
     navigateBack: () -> Unit,
     navigateToWorkLocation: () -> Unit,
     navigateToFilterIndustry: (Int?) -> Unit,
-    navigateToSearch: () -> Unit
 ) {
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
@@ -68,8 +67,7 @@ fun FilterSettingsScreen(
     LaunchedEffect(key1 = Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                FilterSettingsEvent.NavigateBackNoRefresh -> navigateBack()
-                FilterSettingsEvent.NavigateToSearchAndRefresh -> navigateToSearch()
+                FilterSettingsEvent.NavigateBack -> navigateBack()
             }
         }
     }
