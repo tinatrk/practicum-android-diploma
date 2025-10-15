@@ -93,7 +93,7 @@ fun WorkLocationScreen(
     onCountryClick: () -> Unit,
     onRegionClick: () -> Unit,
     onFinishButtonClick: () -> Unit
-) { 
+) {
     val context = LocalContext.current
 
     val countryText = countryData ?: stringResource(R.string.country)

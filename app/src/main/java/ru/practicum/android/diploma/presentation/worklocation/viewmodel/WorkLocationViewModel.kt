@@ -17,6 +17,8 @@ import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocatio
 import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationUiState
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 
+private const val STOP_TIMEOUT_MILLIS: Long = 5_000L
+
 class WorkLocationViewModel(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -34,7 +36,7 @@ class WorkLocationViewModel(
             WorkLocationUiState(county, region)
         }.stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(5_000),
+            SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
             WorkLocationUiState()
         )
 
