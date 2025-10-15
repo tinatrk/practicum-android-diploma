@@ -283,4 +283,3 @@ fun SearchFieldPreview() {
         }
     }
 }
-
