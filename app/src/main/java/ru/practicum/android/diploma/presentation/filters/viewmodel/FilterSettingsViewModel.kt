@@ -52,10 +52,16 @@ class FilterSettingsViewModel(
                 navAddress
             ) { industry, address -> industry to address }.collect { (industry, address) ->
                 _screenState.update {
-                    it.copy(
-                        address = address,
-                        industry = industry
-                    )
+                    val newAddress = address ?: it.address
+                    val newIndustry = industry ?: it.industry
+                    if (newAddress == it.address && newIndustry == it.industry) {
+                        it
+                    } else {
+                        it.copy(
+                            address = newAddress,
+                            industry = newIndustry
+                        )
+                    }
                 }
             }
         }
