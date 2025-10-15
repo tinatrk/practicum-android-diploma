@@ -23,6 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.domain.models.filters.FilterRegion
 import ru.practicum.android.diploma.presentation.filters.models.RegionUiState
 import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterRegionViewModel
 import ru.practicum.android.diploma.ui.components.CustomSearchBar
@@ -42,21 +43,8 @@ fun FilterRegionScreen(
     },
     navigateBack: () -> Unit
 ) {
-    val shouldFinish = viewModel.shouldFinish.collectAsState(initial = false)
-    if (shouldFinish.value) {
-        viewModel.consumeFinishEvent()
-        navigateBack()
-    }
-
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusManager = LocalFocusManager.current
-
-    LaunchedEffect(Unit) {
-        viewModel.hideKeyboardEvent.collect {
-            focusManager.clearFocus(force = true)
-            keyboardController?.hide()
-        }
-    }
+    ObserveFinish(viewModel, navigateBack)
+    BindHideKeyboard(viewModel)
 
     val state by viewModel.regionUiState.collectAsStateWithLifecycle()
     val query = viewModel.query.collectAsState().value
@@ -89,66 +77,85 @@ fun FilterRegionScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                when (val s = state) {
-                    RegionUiState.Loading -> {
-                        ProgressBar()
+                RegionStateContent(
+                    state = state,
+                    onSelect = { region ->
+                        viewModel.onReturnWithParam(
+                            id = region.id,
+                            name = region.name,
+                            parentId = region.parentId
+                        )
                     }
-
-                    is RegionUiState.Success -> {
-                        val items = s.data
-                        if (items.isNotEmpty()) {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize()
-                            ) {
-                                items(items = items, key = { it.id }) { region ->
-                                    OptionListItem(
-                                        text = region.name,
-                                        onClick = {
-                                            viewModel.onReturnWithParam(
-                                                id = region.id,
-                                                name = region.name,
-                                                parentId = region.parentId
-                                            )
-                                        }
-                                    )
-                                }
-                            }
-                        } else {
-                            ScreenMessage(
-                                title = stringResource(R.string.region_not_found),
-                                imageId = R.drawable.im_lack_of_list_cat
-                            )
-                        }
-                    }
-
-                    is RegionUiState.Error -> {
-                        when (s.failure) {
-                            Failure.Network -> {
-                                ScreenMessage(
-                                    title = stringResource(R.string.im_bad_connection_description),
-                                    imageId = R.drawable.im_bad_connection
-                                )
-                            }
-
-                            is Failure.Unknown -> {
-                                ScreenMessage(
-                                    title = stringResource(R.string.unknown_error),
-                                    imageId = R.drawable.im_server_error_android
-                                )
-                            }
-
-                            else -> {
-                                ScreenMessage(
-                                    title = stringResource(R.string.region_request_error),
-                                    imageId = R.drawable.im_lack_of_list_android
-                                )
-                            }
-                        }
-                    }
-                }
+                )
             }
         }
     }
+}
+
+@Composable
+private fun ObserveFinish(
+    viewModel: FilterRegionViewModel,
+    navigateBack: () -> Unit
+) {
+    val shouldFinish by viewModel.shouldFinish.collectAsState(initial = false)
+    LaunchedEffect(shouldFinish) {
+        if (shouldFinish) {
+            viewModel.consumeFinishEvent()
+            navigateBack()
+        }
+    }
+}
+
+@Composable
+private fun BindHideKeyboard(viewModel: FilterRegionViewModel) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+    LaunchedEffect(Unit) {
+        viewModel.hideKeyboardEvent.collect {
+            focusManager.clearFocus(force = true)
+            keyboardController?.hide()
+        }
+    }
+}
+
+@Composable
+private fun RegionStateContent(
+    state: RegionUiState,
+    onSelect: (FilterRegion) -> Unit
+) {
+    when (state) {
+        RegionUiState.Loading -> ProgressBar()
+        is RegionUiState.Success -> {
+            val items = state.data
+            if (items.isNotEmpty()) {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(items = items, key = { it.id }) { region ->
+                        OptionListItem(
+                            text = region.name,
+                            onClick = { onSelect(region) }
+                        )
+                    }
+                }
+            } else {
+                ScreenMessage(
+                    title = stringResource(R.string.region_not_found),
+                    imageId = R.drawable.im_lack_of_list_cat
+                )
+            }
+        }
+
+        is RegionUiState.Error -> FailureMessage(state.failure)
+    }
+}
+
+@Composable
+private fun FailureMessage(failure: Failure) {
+    val (titleRes, imageRes) = when (failure) {
+        Failure.Network -> R.string.im_bad_connection_description to R.drawable.im_bad_connection
+        is Failure.Unknown -> R.string.unknown_error to R.drawable.im_server_error_android
+        else -> R.string.region_request_error to R.drawable.im_lack_of_list_android
+    }
+    ScreenMessage(title = stringResource(titleRes), imageId = imageRes)
 }
 
 @Preview
