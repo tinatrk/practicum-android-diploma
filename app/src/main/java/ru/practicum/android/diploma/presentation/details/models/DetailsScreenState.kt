@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.presentation.details.models
 
 import ru.practicum.android.diploma.presentation.models.VacancyInfo
 
-sealed interface DetailsScreenState {
+sealed interface  DetailsScreenState {
 
     object Loading : DetailsScreenState
 

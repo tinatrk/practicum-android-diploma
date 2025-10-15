@@ -90,6 +90,7 @@
     <string name="work_location_title">Выбор места работы</string>
     <string name="country">Страна</string>
     <string name="region">Регион</string>
+    <string name="toast_something_went_wrong">Что-то пошло не так. Возможно, нет интернета.</string>
 
     <string name="industry_search_bar_placeholder">Введите отрасль</string>
     <string name="filter_industry_error_message">Не удалось получить список отраслей</string>

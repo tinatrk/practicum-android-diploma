@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.presentation.worklocation.models
+package ru.practicum.android.diploma.presentation.filters.models
 
 sealed interface WorkLocationNavEvent {
     object NavigateBack : WorkLocationNavEvent

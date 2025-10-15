@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.presentation.worklocation.models
+package ru.practicum.android.diploma.presentation.filters.models
 
 import ru.practicum.android.diploma.domain.models.filters.FilterCountry
 import ru.practicum.android.diploma.domain.models.filters.FilterRegion

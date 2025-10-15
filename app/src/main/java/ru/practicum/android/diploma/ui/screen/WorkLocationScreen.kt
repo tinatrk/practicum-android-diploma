@@ -1,6 +1,8 @@
 package ru.practicum.android.diploma.ui.screen
 
+import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,14 +24,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationNavEvent
-import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationNavEvent.NavigateBack
-import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationNavEvent.NavigateToCountryScreen
-import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationNavEvent.NavigateToRegionScreen
-import ru.practicum.android.diploma.presentation.worklocation.viewmodel.WorkLocationViewModel
+import ru.practicum.android.diploma.presentation.filters.models.WorkLocationNavEvent
+import ru.practicum.android.diploma.presentation.filters.models.WorkLocationNavEvent.NavigateBack
+import ru.practicum.android.diploma.presentation.filters.models.WorkLocationNavEvent.NavigateToCountryScreen
+import ru.practicum.android.diploma.presentation.filters.models.WorkLocationNavEvent.NavigateToRegionScreen
+import ru.practicum.android.diploma.presentation.filters.viewmodel.WorkLocationViewModel
 import ru.practicum.android.diploma.ui.components.FilterListItem
 import ru.practicum.android.diploma.ui.components.topbar.SimpleTopBarWithBackIcon
 import ru.practicum.android.diploma.ui.theme.AppTheme
@@ -52,6 +55,9 @@ fun WorkLocationScreen(
         navigateToFilterCountry = navigateToFilterCountry,
         navigateToFilterRegion = navigateToFilterRegion
     )
+
+    val workLocationToastEvent = vm.workLocationToastEvent
+    HandleWorkLocationToastEvent(workLocationToastEvent)
 
     val workLocationUiState by vm.workLocationUiState.collectAsStateWithLifecycle()
 
@@ -94,15 +100,15 @@ fun WorkLocationScreen(
     onRegionClick: () -> Unit,
     onFinishButtonClick: () -> Unit
 ) {
-    val context = LocalContext.current
-
     val countryText = countryData ?: stringResource(R.string.country)
     val regionText = regionData ?: stringResource(R.string.region)
     val isCountryDataSelected = countryData != null
     val isRegionDataSelected = regionData != null
 
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(LocalCustomColors.current.screenBackground),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         FilterLocationItem(
@@ -117,17 +123,7 @@ fun WorkLocationScreen(
             locationText = regionText,
             isLocationSelected = isRegionDataSelected,
             onLocationClick = {
-                if (countryData != null) {
-                    onRegionClick()
-                } else {
-                    Toast
-                        .makeText(
-                            context,
-                            R.string.country_unknown,
-                            Toast.LENGTH_SHORT
-                        )
-                        .show()
-                }
+                onRegionClick()
             },
             onClearLocationData = onClearRegionData
         )
@@ -199,6 +195,20 @@ private fun HandleWorkLocationNavigation(
                 NavigateToCountryScreen -> navigateToFilterCountry()
                 is NavigateToRegionScreen -> navigateToFilterRegion(event.id)
             }
+        }
+    }
+}
+
+@Composable
+fun HandleWorkLocationToastEvent(
+    workLocationToastEvent: Flow<Unit>
+) {
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        workLocationToastEvent.collect {
+            Log.d("MyTag", "viewModel -> toast worked")
+            Toast.makeText(context, R.string.toast_something_went_wrong, Toast.LENGTH_LONG).show()
         }
     }
 }
