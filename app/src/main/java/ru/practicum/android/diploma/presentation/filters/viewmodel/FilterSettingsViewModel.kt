@@ -120,4 +120,13 @@ class FilterSettingsViewModel(
             _events.emit(FilterSettingsEvent.NavigateBack)
         }
     }
+
+    fun navigateToWorkLocation() {
+        savedStateHandle[NavResultKeys.SELECTED_COUNTRY] = _screenState.value.address?.country
+        savedStateHandle[NavResultKeys.SELECTED_REGION] = _screenState.value.address?.region
+
+        viewModelScope.launch {
+            _events.emit(FilterSettingsEvent.NavigateToWorkLocation)
+        }
+    }
 }

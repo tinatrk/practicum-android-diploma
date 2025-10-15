@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -9,9 +9,15 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.ui.components.topbar.SimpleTopBarWithBackIcon
@@ -32,15 +38,29 @@ fun FilterListItem(
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
 
+    var isSingleLine by remember { mutableStateOf(true) }
+
     ListItem(
         headlineContent = {
             Text(
                 text = value,
-                style = typography.filterListItemText
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+                style = typography.filterListItemText,
+                onTextLayout = { result ->
+                    isSingleLine = result.lineCount <= 1
+                }
             )
         },
         modifier = modifier
-            .height(60.dp)
+            .heightIn(
+                min = 60.dp,
+                max = if (isSingleLine) {
+                    60.dp
+                } else {
+                    Dp.Unspecified
+                }
+            )
             .clickable(onClick = onClick),
         overlineContent = {
             if (isSelected) {
@@ -89,7 +109,7 @@ private fun LightFilterListItemPreview() {
             FilterListItem(
                 modifier = Modifier.padding(innerPadding),
                 label = "Страна",
-                value = "Россия",
+                value = "РоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссияРоссия",
                 isSelected = true,
                 onClick = {},
                 onClearSelected = {}

@@ -69,6 +69,7 @@ fun FilterSettingsScreen(
         viewModel.events.collect { event ->
             when (event) {
                 FilterSettingsEvent.NavigateBack -> navigateBack()
+                FilterSettingsEvent.NavigateToWorkLocation -> navigateToWorkLocation()
             }
         }
     }
@@ -108,7 +109,7 @@ fun FilterSettingsScreen(
             ) {
                 SettingsContent(
                     state = state,
-                    onPlaceClick = navigateToWorkLocation,
+                    onPlaceClick = { viewModel.navigateToWorkLocation() },
                     onIndustryClick = navigateToFilterIndustry,
                     onClearPlaceSelected = { viewModel.onClearAddress() },
                     onClearIndustrySelected = { viewModel.onClearIndustry() },
