@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
@@ -315,5 +316,23 @@ private fun SettingsContentPreview() {
             onClearTextClick = {},
             onCheckedChange = {}
         )
+
+        Button(
+            onClick = {},
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text(
+                text = "Задать настройки фильтрации"
+            )
+        }
+
+        Button(
+            onClick = {},
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text(
+                text = "Очистить настройки фильтрации"
+            )
+        }
     }
 }
