@@ -15,6 +15,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -47,6 +48,12 @@ fun WorkLocationScreen(
     navigateToFilterRegion: (Int?) -> Unit,
 ) {
     val vm: WorkLocationViewModel = koinViewModel()
+
+    DisposableEffect(Unit) {
+        onDispose {
+            vm.finishWithoutResult()
+        }
+    }
 
     val workLocationNavEvent = vm.workLocationNavEvent
     HandleWorkLocationNavigation(

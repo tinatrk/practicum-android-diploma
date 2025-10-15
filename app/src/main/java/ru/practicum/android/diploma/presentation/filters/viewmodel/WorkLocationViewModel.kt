@@ -140,6 +140,11 @@ class WorkLocationViewModel(
         }
     }
 
+    fun finishWithoutResult() {
+        savedStateHandle[NavResultKeys.SELECTED_COUNTRY] = null
+        savedStateHandle[NavResultKeys.SELECTED_REGION] = null
+    }
+
     companion object {
         private const val STOP_TIMEOUT_MILLIS = 5000L
     }
