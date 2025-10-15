@@ -48,7 +48,8 @@ val viewModelModule = module {
 
     viewModel {
         WorkLocationViewModel(
-            savedStateHandle = get()
+            savedStateHandle = get(),
+            filterInteractor = get()
         )
     }
 
