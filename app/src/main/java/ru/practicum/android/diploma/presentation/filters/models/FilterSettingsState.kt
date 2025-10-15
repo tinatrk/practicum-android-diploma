@@ -1,9 +1,11 @@
 package ru.practicum.android.diploma.presentation.filters.models
 
+import androidx.compose.runtime.Immutable
 import ru.practicum.android.diploma.domain.models.filters.FilterAddress
 import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
 import ru.practicum.android.diploma.domain.models.filters.FilterSettings
 
+@Immutable
 data class FilterSettingsState(
     val address: FilterAddress? = null,
     val industry: FilterIndustry? = null,

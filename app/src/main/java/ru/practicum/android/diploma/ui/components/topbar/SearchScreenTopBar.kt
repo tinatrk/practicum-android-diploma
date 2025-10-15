@@ -34,7 +34,7 @@ fun SearchScreenTopBar(
 
 @Preview("light theme", showSystemUi = true)
 @Composable
-fun SearchScreenTopBarPreviewLight() {
+private fun SearchScreenTopBarPreviewLight() {
     AppTheme(darkTheme = false) {
         SearchScreenTopBar(onFilterIconClick = {})
     }
@@ -42,7 +42,7 @@ fun SearchScreenTopBarPreviewLight() {
 
 @Preview("dark theme", showSystemUi = true)
 @Composable
-fun SearchScreenTopBarPreviewDark() {
+private fun SearchScreenTopBarPreviewDark() {
     AppTheme(darkTheme = true) {
         SearchScreenTopBar(onFilterIconClick = {})
     }

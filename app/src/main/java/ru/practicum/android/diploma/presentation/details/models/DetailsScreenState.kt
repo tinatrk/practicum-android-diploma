@@ -1,7 +1,9 @@
 package ru.practicum.android.diploma.presentation.details.models
 
+import androidx.compose.runtime.Immutable
 import ru.practicum.android.diploma.presentation.models.VacancyInfo
 
+@Immutable
 sealed interface DetailsScreenState {
 
     object Loading : DetailsScreenState

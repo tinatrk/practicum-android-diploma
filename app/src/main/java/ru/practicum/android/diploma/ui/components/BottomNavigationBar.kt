@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import ru.practicum.android.diploma.ui.navigation.BottomTab
 import ru.practicum.android.diploma.ui.navigation.bottomTabs
 import ru.practicum.android.diploma.ui.theme.AppTheme
@@ -37,7 +39,7 @@ import kotlin.reflect.KClass
 @SuppressLint("RestrictedApi")
 @Composable
 fun BottomNavigationBar(
-    tabs: List<BottomTab<out Any>>,
+    tabs: ImmutableList<BottomTab<out Any>>,
     currentDestination: NavDestination?,
     onItemSelected: (KClass<out Any>) -> Unit,
     modifier: Modifier = Modifier
@@ -92,7 +94,7 @@ fun BottomNavigationBar(
 }
 
 @Composable
-fun BottomNavigationDivider(
+private fun BottomNavigationDivider(
     modifier: Modifier = Modifier
 ) {
     HorizontalDivider(
@@ -108,14 +110,14 @@ fun BottomNavigationDivider(
     showBackground = true,
 )
 @Composable
-fun LightBottomNavigationBarPreview() {
+private fun LightBottomNavigationBarPreview() {
     AppTheme(
         darkTheme = false
     ) {
         Scaffold(
             bottomBar = {
                 BottomNavigationBar(
-                    tabs = bottomTabs,
+                    tabs = bottomTabs.toImmutableList(),
                     currentDestination = null,
                     onItemSelected = { },
                     modifier = Modifier.fillMaxWidth()
@@ -140,14 +142,14 @@ fun LightBottomNavigationBarPreview() {
     showBackground = true,
 )
 @Composable
-fun DarkBottomNavigationBarPreview() {
+private fun DarkBottomNavigationBarPreview() {
     AppTheme(
         darkTheme = true
     ) {
         Scaffold(
             bottomBar = {
                 BottomNavigationBar(
-                    tabs = bottomTabs,
+                    tabs = bottomTabs.toImmutableList(),
                     currentDestination = null,
                     onItemSelected = { },
                     modifier = Modifier.fillMaxWidth()

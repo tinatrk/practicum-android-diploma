@@ -110,7 +110,7 @@ fun CustomSearchBar(
 
 @Preview("lightTheme", showSystemUi = true)
 @Composable
-fun CustomSearchBarPreviewLight() {
+private fun CustomSearchBarPreviewLight() {
     AppTheme(darkTheme = false) {
         CustomSearchBar(
             text = "",
@@ -124,7 +124,7 @@ fun CustomSearchBarPreviewLight() {
 
 @Preview("darkTheme", showSystemUi = true)
 @Composable
-fun CustomSearchBarPreviewDark() {
+private fun CustomSearchBarPreviewDark() {
     AppTheme(darkTheme = true) {
         CustomSearchBar(
             text = "",

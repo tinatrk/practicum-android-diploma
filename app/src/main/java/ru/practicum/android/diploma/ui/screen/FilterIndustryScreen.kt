@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -125,7 +126,7 @@ fun FilterIndustryContent(
                 .background(LocalCustomColors.current.screenBackground)
                 .weight(1f)
         ) {
-            items(items = industries, key = { it.id }) { item ->
+            items(items = industries, key = { it.id }, contentType = { it }) { item ->
                 RoundToggleListItem(
                     item = item,
                     isActive = item.id == checkedIndustryId,
@@ -184,7 +185,8 @@ fun RoundToggleListItem(
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
-            .background(colors.background),
+            .background(colors.background)
+            .clickable { onItemClick(item) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -194,6 +196,7 @@ fun RoundToggleListItem(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .weight(1f)
+
         )
 
         ToggleIcon(

@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import kotlinx.collections.immutable.toImmutableList
 import ru.practicum.android.diploma.domain.models.filters.FilterAddress
 import ru.practicum.android.diploma.domain.models.filters.FilterCountry
 import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
@@ -46,7 +47,7 @@ fun AppRoot(
         bottomBar = {
             if (bottomIsVisible) {
                 BottomNavigationBar(
-                    tabs = bottomTabs,
+                    tabs = bottomTabs.toImmutableList(),
                     currentDestination = currentDestination,
                     onItemSelected = { tab ->
                         when (tab) {

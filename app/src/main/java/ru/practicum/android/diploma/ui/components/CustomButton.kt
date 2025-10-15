@@ -55,7 +55,7 @@ fun CustomButton(
 
 @Preview("positiveBtn lightTheme", showSystemUi = true)
 @Composable
-fun PositiveBtnPreviewLight() {
+private fun PositiveBtnPreviewLight() {
     AppTheme(darkTheme = false) {
         CustomButton(
             text = stringResource(R.string.btn_choose)
@@ -65,7 +65,7 @@ fun PositiveBtnPreviewLight() {
 
 @Preview("positiveBtn darkTheme", showSystemUi = true)
 @Composable
-fun PositiveBtnPreviewDark() {
+private fun PositiveBtnPreviewDark() {
     AppTheme(darkTheme = true) {
         CustomButton(
             text = stringResource(R.string.btn_choose)
@@ -75,7 +75,7 @@ fun PositiveBtnPreviewDark() {
 
 @Preview("negativeBtn lightTheme", showSystemUi = true)
 @Composable
-fun NegativeBtnPreviewLight() {
+private fun NegativeBtnPreviewLight() {
     AppTheme(darkTheme = false) {
         CustomButton(
             text = stringResource(R.string.btn_apply),
@@ -86,7 +86,7 @@ fun NegativeBtnPreviewLight() {
 
 @Preview("negativeBtn darkTheme", showSystemUi = true)
 @Composable
-fun NegativeBtnPreviewDark() {
+private fun NegativeBtnPreviewDark() {
     AppTheme(darkTheme = false) {
         CustomButton(
             text = stringResource(R.string.btn_apply),
