@@ -79,7 +79,7 @@ fun FilterListItem(
     showBackground = true
 )
 @Composable
-fun LightFilterListItemPreview() {
+private fun LightFilterListItemPreview() {
     AppTheme(
         darkTheme = false
     ) {
@@ -104,7 +104,7 @@ fun LightFilterListItemPreview() {
     showBackground = true
 )
 @Composable
-fun DarkFilterListItemPreview() {
+private fun DarkFilterListItemPreview() {
     AppTheme(
         darkTheme = true
     ) {

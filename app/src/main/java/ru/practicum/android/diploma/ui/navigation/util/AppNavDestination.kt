@@ -121,13 +121,15 @@ fun NavHostController.navigateToVacancy(vacancyId: String) {
 
 /** Навигация для экрана: «Настройки фильтрации» */
 fun NavGraphBuilder.filterSettingsDestination(
+    navigateBack: () -> Unit,
     navigateToWorkLocation: () -> Unit,
     navigateToFilterIndustry: (Int?) -> Unit
 ) {
     composable<AppNavDestination.FilterSettings> {
         FilterSettingsScreen(
+            navigateBack = navigateBack,
             navigateToFilterIndustry = navigateToFilterIndustry,
-            navigateToWorkLocation = navigateToWorkLocation
+            navigateToWorkLocation = navigateToWorkLocation,
         )
     }
 }

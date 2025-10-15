@@ -27,8 +27,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.ui.components.topbar.CustomTopBar
 import ru.practicum.android.diploma.ui.components.ToggleIcon
+import ru.practicum.android.diploma.ui.components.topbar.CustomTopBar
 
 @Composable
 fun ScreenExample() {
@@ -67,7 +67,9 @@ fun ToolbarExample() {
             Icon(
                 painter = painterResource(R.drawable.ic_arrow_back_24px),
                 contentDescription = stringResource(R.string.ic_arrow_back_description),
-                modifier = Modifier.padding(horizontal = 16.dp).clickable { }
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .clickable { }
             )
         },
         actions = {

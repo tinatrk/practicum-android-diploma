@@ -34,8 +34,8 @@ val viewModelModule = module {
 
     viewModel {
         FilterSettingsViewModel(
-            savedStateHandle = get(),
-            filterInteractor = get()
+            filterStorageInteractor = get(),
+            savedStateHandle = get()
         )
     }
 
@@ -49,7 +49,8 @@ val viewModelModule = module {
 
     viewModel {
         WorkLocationViewModel(
-            savedStateHandle = get()
+            savedStateHandle = get(),
+            filterInteractor = get()
         )
     }
 

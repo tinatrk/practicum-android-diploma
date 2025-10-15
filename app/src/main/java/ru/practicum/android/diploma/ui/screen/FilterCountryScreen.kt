@@ -32,11 +32,7 @@ fun FilterCountryScreen(
     viewModel: FilterCountryViewModel = koinViewModel(),
     navigateBack: () -> Unit
 ) {
-    val shouldFinish = viewModel.shouldFinish.collectAsState(initial = false)
-    if (shouldFinish.value) {
-        viewModel.consumeFinishEvent()
-        navigateBack()
-    }
+    ObserveFinish(viewModel, navigateBack)
 
     val state by viewModel.countryUiState.collectAsStateWithLifecycle()
 
@@ -54,63 +50,68 @@ fun FilterCountryScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                when (val s = state) {
-                    CountryUiState.Loading -> {
-                        ProgressBar()
+                CountryStateContent(
+                    state = state,
+                    onSelect = { id, name ->
+                        viewModel.onReturnWithParam(id = id, name = name)
                     }
+                )
+            }
+        }
+    }
+}
 
-                    is CountryUiState.Success -> {
-                        val items = s.data
-                        if (items.isNotEmpty()) {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize()
-                            ) {
-                                items(items = items, key = { it.id }) { region ->
-                                    OptionListItem(
-                                        text = region.name,
-                                        onClick = {
-                                            viewModel.onReturnWithParam(
-                                                id = region.id,
-                                                name = region.name,
-                                            )
-                                        }
-                                    )
-                                }
-                            }
-                        } else {
-                            ScreenMessage(
-                                title = stringResource(R.string.country_not_found),
-                                imageId = R.drawable.im_lack_of_list_cat
-                            )
-                        }
-                    }
+@Composable
+private fun ObserveFinish(
+    viewModel: FilterCountryViewModel,
+    navigateBack: () -> Unit
+) {
+    val shouldFinish by viewModel.shouldFinish.collectAsState(initial = false)
+    androidx.compose.runtime.LaunchedEffect(shouldFinish) {
+        if (shouldFinish) {
+            viewModel.consumeFinishEvent()
+            navigateBack()
+        }
+    }
+}
 
-                    is CountryUiState.Error -> {
-                        when (s.failure) {
-                            Failure.Network -> {
-                                ScreenMessage(
-                                    title = stringResource(R.string.im_bad_connection_description),
-                                    imageId = R.drawable.im_bad_connection
-                                )
-                            }
+@Composable
+private fun CountryStateContent(
+    state: CountryUiState,
+    onSelect: (id: Int, name: String) -> Unit
+) {
+    when (state) {
+        CountryUiState.Loading -> ProgressBar()
 
-                            is Failure.Unknown -> {
-                                ScreenMessage(
-                                    title = stringResource(R.string.unknown_error),
-                                    imageId = R.drawable.im_server_error_android
-                                )
-                            }
-
-                            else -> {
-                                ScreenMessage(
-                                    title = stringResource(R.string.country_request_error),
-                                    imageId = R.drawable.im_lack_of_list_android
-                                )
-                            }
-                        }
+        is CountryUiState.Success -> {
+            val countries = state.data
+            if (countries.isEmpty()) {
+                ScreenMessage(
+                    title = stringResource(R.string.country_not_found),
+                    imageId = R.drawable.im_lack_of_list_cat
+                )
+            } else {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(items = countries, key = { it.id }) { country ->
+                        OptionListItem(
+                            text = country.name,
+                            onClick = { onSelect(country.id, country.name) }
+                        )
                     }
                 }
             }
         }
+
+        is CountryUiState.Error -> FailureMessage(state.failure)
     }
+}
+
+@Composable
+private fun FailureMessage(failure: Failure) {
+    val (titleRes, imageRes) = when (failure) {
+        Failure.Network -> R.string.im_bad_connection_description to R.drawable.im_bad_connection
+        is Failure.Unknown -> R.string.unknown_error to R.drawable.im_server_error_android
+        else -> R.string.country_request_error to R.drawable.im_lack_of_list_android
+    }
+    ScreenMessage(title = stringResource(titleRes), imageId = imageRes)
 }
