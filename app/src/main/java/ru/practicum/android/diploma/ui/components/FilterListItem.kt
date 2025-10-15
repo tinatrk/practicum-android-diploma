@@ -11,6 +11,10 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,19 +41,24 @@ fun FilterListItem(
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
 
+    var isSingleLine by remember { mutableStateOf(true) }
+
     ListItem(
         headlineContent = {
             Text(
                 text = value,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
-                style = typography.filterListItemText
+                style = typography.filterListItemText,
+                onTextLayout = { result ->
+                    isSingleLine = result.lineCount <= 1
+                }
             )
         },
         modifier = modifier
             .heightIn(
                 min = 60.dp,
-                max = if (!isSelected) {
+                max = if (isSingleLine) {
                     60.dp
                 } else {
                     Dp.Unspecified
