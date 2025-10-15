@@ -48,7 +48,9 @@ fun VacancyList(
     LaunchedEffect(isNextPageError) {
         if (isNextPageError) {
             Toast.makeText(
-                context, context.getString(R.string.pagination_load_error), Toast.LENGTH_LONG
+                context,
+                context.getString(R.string.pagination_load_error),
+                Toast.LENGTH_LONG
             ).show()
         }
     }
@@ -73,7 +75,9 @@ fun VacancyList(
 @Composable
 private fun VacancyListPreviewLight() {
     val list = listOf(
-        getVacancyPreviewItem(), getVacancyPreviewItem(), getVacancyPreviewItem()
+        getVacancyPreviewItem(),
+        getVacancyPreviewItem(),
+        getVacancyPreviewItem()
     )
 
     AppTheme(darkTheme = false) {
@@ -82,7 +86,8 @@ private fun VacancyListPreviewLight() {
             onLoadNextPage = {},
             isNextPageError = false,
             isLastPage = false,
-            onVacancyClick = {})
+            onVacancyClick = {}
+        )
     }
 }
 
@@ -90,7 +95,9 @@ private fun VacancyListPreviewLight() {
 @Composable
 private fun VacancyListPreviewDark() {
     val list = listOf(
-        getVacancyPreviewItem(), getVacancyPreviewItem(), getVacancyPreviewItem()
+        getVacancyPreviewItem(),
+        getVacancyPreviewItem(),
+        getVacancyPreviewItem()
     )
 
     AppTheme(darkTheme = true) {
@@ -99,6 +106,7 @@ private fun VacancyListPreviewDark() {
             onLoadNextPage = {},
             isNextPageError = false,
             isLastPage = false,
-            onVacancyClick = {})
+            onVacancyClick = {}
+        )
     }
 }

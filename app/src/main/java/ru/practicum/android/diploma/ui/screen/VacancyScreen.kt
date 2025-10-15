@@ -82,7 +82,7 @@ fun VacancyScreen(
         },
         containerColor = colors.vacancyDetailsColors.background,
         contentColor = colors.vacancyDetailsColors.text,
-        content = { it ->
+        content = {
             Box(
                 modifier = modifier
                     .padding(it)
