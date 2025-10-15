@@ -1,7 +1,5 @@
 package ru.practicum.android.diploma.data.network
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.data.dto.request.FilterAreaRequest
 import ru.practicum.android.diploma.data.dto.request.FilterIndustryRequest
 import ru.practicum.android.diploma.data.dto.request.VacancyDetailRequest
@@ -24,13 +22,10 @@ class RetrofitNetworkClient(
             return Response().apply { resultCode = HTTP_UNAVAILABLE }
         }
 
-        return withContext(Dispatchers.IO) {
-            runCatching {
-                fetchResponse(dto)
-            }.getOrElse {
+        return runCatching { fetchResponse(dto) }
+            .getOrElse {
                 Response().apply { resultCode = HTTP_INTERNAL_ERROR }
             }
-        }
     }
 
     private suspend fun fetchResponse(dto: Request): Response {
