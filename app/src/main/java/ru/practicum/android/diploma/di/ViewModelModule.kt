@@ -12,7 +12,6 @@ import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterCountry
 import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterIndustryViewModel
 import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterRegionViewModel
 import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterSettingsViewModel
-import ru.practicum.android.diploma.presentation.filters.viewmodel.WorkLocationViewModel
 import ru.practicum.android.diploma.presentation.search.viewmodel.SearchViewModel
 import ru.practicum.android.diploma.presentation.worklocation.viewmodel.WorkLocationViewModel
 

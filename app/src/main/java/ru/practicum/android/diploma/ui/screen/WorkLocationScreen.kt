@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,71 +13,75 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.SharedFlow
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.domain.models.filters.FilterAddress
-import ru.practicum.android.diploma.domain.models.filters.FilterCountry
-import ru.practicum.android.diploma.domain.models.filters.FilterRegion
+import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationNavEvent
+import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationNavEvent.NavigateBack
+import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationNavEvent.NavigateToCountryScreen
+import ru.practicum.android.diploma.presentation.worklocation.models.WorkLocationNavEvent.NavigateToRegionScreen
 import ru.practicum.android.diploma.presentation.worklocation.viewmodel.WorkLocationViewModel
 import ru.practicum.android.diploma.ui.components.FilterListItem
 import ru.practicum.android.diploma.ui.components.topbar.SimpleTopBarWithBackIcon
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 import ru.practicum.android.diploma.ui.theme.LocalTypography
-// navigateToFilterCountry: () -> Unit,
-// navigateToFilterRegion: (Int?) -> Unit,
-// navigateBack: () -> Unit
-// колбэки пока нереализованы, потому что они связаны с навигациями на экраны,
-// которых пока нет. По ходу дела нужно будет доработать
+
 @Composable
 fun WorkLocationScreen(
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit,
-    onCountryClick: () -> Unit,
-    onRegionClick: () -> Unit,
-    onChoiceClick: (String?, String?) -> Unit // Передавать на экран или сохранять в SP?
+    navigateBack: () -> Unit,
+    navigateToFilterCountry: () -> Unit,
+    navigateToFilterRegion: (Int?) -> Unit,
 ) {
     val vm: WorkLocationViewModel = koinViewModel()
 
-    val countryData by vm.countryData.collectAsStateWithLifecycle()
-    val regionData by vm.regionData.collectAsStateWithLifecycle()
+    val workLocationNavEvent = vm.workLocationNavEvent
+    HandleWorkLocationNavigation(
+        workLocationNavEvent = workLocationNavEvent,
+        navigateBack = navigateBack,
+        navigateToFilterCountry = navigateToFilterCountry,
+        navigateToFilterRegion = navigateToFilterRegion
+    )
+
+    val workLocationUiState by vm.workLocationUiState.collectAsStateWithLifecycle()
 
     val onWorkLocationData = vm::clearWorkLocationData
     val onClearRegionData = vm::clearRegionData
+
+    val onCountryClick = vm::navigateToCountryScreen
+    val onRegionClick = vm::navigateToRegionScreen
+    val onFinishButtonClick = vm::finishWithResult
 
     Scaffold(
         topBar = {
             SimpleTopBarWithBackIcon(
                 title = stringResource(R.string.work_location_title),
-                onNavigationIconClick = onBackClick
+                onNavigationIconClick = navigateBack
             )
         }
     ) { innerPadding ->
         WorkLocationScreen(
             modifier = modifier.padding(innerPadding),
-            countryData = countryData,
-            regionData = regionData,
+            countryData = workLocationUiState.country?.name,
+            regionData = workLocationUiState.region?.name,
             onClearWorkLocationData = onWorkLocationData,
             onClearRegionData = onClearRegionData,
             onCountryClick = onCountryClick,
             onRegionClick = onRegionClick,
-            onChoiceClick = onChoiceClick
+            onFinishButtonClick = onFinishButtonClick
         )
     }
 }
-import ru.practicum.android.diploma.domain.models.filters.FilterAddress
-import ru.practicum.android.diploma.domain.models.filters.FilterCountry
-import ru.practicum.android.diploma.domain.models.filters.FilterRegion
-import ru.practicum.android.diploma.presentation.filters.viewmodel.WorkLocationViewModel
 
 @Composable
 fun WorkLocationScreen(
@@ -87,8 +92,10 @@ fun WorkLocationScreen(
     onClearRegionData: () -> Unit,
     onCountryClick: () -> Unit,
     onRegionClick: () -> Unit,
-    onChoiceClick: (String?, String?) -> Unit
-) {
+    onFinishButtonClick: () -> Unit
+) { 
+    val context = LocalContext.current
+
     val countryText = countryData ?: stringResource(R.string.country)
     val regionText = regionData ?: stringResource(R.string.region)
     val isCountryDataSelected = countryData != null
@@ -98,74 +105,69 @@ fun WorkLocationScreen(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        FilterCountryItem(
-            countryText = countryText,
-            isCountryDataSelected = isCountryDataSelected,
-            onCountryClick = onCountryClick,
-            onClearWorkLocationData = onClearWorkLocationData
+        FilterLocationItem(
+            label = stringResource(R.string.country),
+            locationText = countryText,
+            isLocationSelected = isCountryDataSelected,
+            onLocationClick = onCountryClick,
+            onClearLocationData = onClearWorkLocationData
         )
-        FilterRegionItem(
-            regionText = regionText,
-            isRegionDataSelected = isRegionDataSelected,
-            onRegionClick = { if (countryData != null) onRegionClick() },
-            onClearRegionData = onClearRegionData
+        FilterLocationItem(
+            label = stringResource(R.string.region),
+            locationText = regionText,
+            isLocationSelected = isRegionDataSelected,
+            onLocationClick = {
+                if (countryData != null) {
+                    onRegionClick
+                } else {
+                    Toast
+                        .makeText(
+                            context,
+                            R.string.country_unknown,
+                            Toast.LENGTH_SHORT
+                        )
+                        .show()
+                }
+            },
+            onClearLocationData = onClearRegionData
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         if (isCountryDataSelected) {
-            ChoiceButton(
-                countryData = countryData,
-                regionData = regionData,
-                onChoiceClick = onChoiceClick
+            FinishButton(
+                onFinishButtonClick = onFinishButtonClick
             )
         }
     }
 }
 
 @Composable
-fun FilterCountryItem(
-    countryText: String,
-    isCountryDataSelected: Boolean,
-    onCountryClick: () -> Unit,
-    onClearWorkLocationData: () -> Unit
+fun FilterLocationItem(
+    label: String,
+    locationText: String,
+    isLocationSelected: Boolean,
+    onLocationClick: () -> Unit = {},
+    onClearLocationData: () -> Unit
 ) {
     FilterListItem(
-        label = stringResource(R.string.country),
-        value = countryText,
-        isSelected = isCountryDataSelected,
-        onClick = onCountryClick,
-        onClearSelected = onClearWorkLocationData
+        label = label,
+        value = locationText,
+        isSelected = isLocationSelected,
+        onClick = onLocationClick,
+        onClearSelected = onClearLocationData
     )
 }
 
 @Composable
-fun FilterRegionItem(
-    regionText: String,
-    isRegionDataSelected: Boolean,
-    onRegionClick: () -> Unit = {},
-    onClearRegionData: () -> Unit
-) {
-    FilterListItem(
-        label = stringResource(R.string.region),
-        value = regionText,
-        isSelected = isRegionDataSelected,
-        onClick = onRegionClick,
-        onClearSelected = onClearRegionData
-    )
-}
-
-@Composable
-fun ChoiceButton(
-    countryData: String?,
-    regionData: String?,
-    onChoiceClick: (String?, String?) -> Unit,
+fun FinishButton(
+    onFinishButtonClick: () -> Unit
 ) {
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
 
     Button(
-        onClick = { onChoiceClick(countryData, regionData) },
+        onClick = onFinishButtonClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 17.dp, end = 17.dp, bottom = 24.dp)
@@ -183,13 +185,31 @@ fun ChoiceButton(
     }
 }
 
+@Composable
+private fun HandleWorkLocationNavigation(
+    workLocationNavEvent: SharedFlow<WorkLocationNavEvent>,
+    navigateBack: () -> Unit,
+    navigateToFilterCountry: () -> Unit,
+    navigateToFilterRegion: (Int?) -> Unit
+) {
+    LaunchedEffect(Unit) {
+        workLocationNavEvent.collect { event ->
+            when (event) {
+                NavigateBack -> navigateBack
+                NavigateToCountryScreen -> navigateToFilterCountry
+                is NavigateToRegionScreen -> navigateToFilterRegion(event.id)
+            }
+        }
+    }
+}
+
 @Preview(
     name = "Light list Item",
     showSystemUi = true,
     showBackground = true
 )
 @Composable
-fun LightWorkLocationScreenPreview() {
+private fun LightWorkLocationScreenPreview() {
     AppTheme(
         darkTheme = false
     ) {
@@ -204,7 +224,7 @@ fun LightWorkLocationScreenPreview() {
                 onClearRegionData = {},
                 onCountryClick = {},
                 onRegionClick = {},
-                onChoiceClick = { _, _ -> }
+                onFinishButtonClick = {}
             )
         }
     }
@@ -216,7 +236,7 @@ fun LightWorkLocationScreenPreview() {
     showBackground = true
 )
 @Composable
-fun DarkWorkLocationScreenPreview() {
+private fun DarkWorkLocationScreenPreview() {
     AppTheme(
         darkTheme = true
     ) {
@@ -231,118 +251,8 @@ fun DarkWorkLocationScreenPreview() {
                 onClearRegionData = {},
                 onCountryClick = {},
                 onRegionClick = {},
-                onChoiceClick = { _, _ -> }
+                onFinishButtonClick = {}
             )
         }
     }
 }
-
-//fun WorkLocationScreen(
-//    viewModel: WorkLocationViewModel = koinViewModel(),
-//    navigateToFilterCountry: () -> Unit,
-//    navigateToFilterRegion: (Int?) -> Unit,
-//    navigateBack: () -> Unit
-//) {
-//    // Сделала так для простоты, по-хорошему нужен один state
-//    val selectedCountry = viewModel.selectedCountry.collectAsState()
-//    val selectedRegion = viewModel.selectedRegion.collectAsState()
-//
-//    val shouldFinish = viewModel.shouldFinish.collectAsState(initial = false)
-//    if (shouldFinish.value) {
-//        viewModel.consumeFinishEvent()
-//        navigateBack()
-//    }
-//
-//    Column {
-//        Button(
-//            onClick = {
-//                navigateToFilterCountry()
-//            },
-//            modifier = Modifier.padding(top = 16.dp)
-//        ) {
-//            Text(
-//                text = "Перейти на экран страны"
-//            )
-//        }
-//
-//        Button(
-//            onClick = {
-//                navigateToFilterRegion(1)
-//            },
-//            modifier = Modifier.padding(top = 16.dp)
-//        ) {
-//            Text(
-//                text = "Перейти на экран региона с заданной странной"
-//            )
-//        }
-//
-//        Button(
-//            onClick = {
-//                navigateToFilterRegion(null)
-//            },
-//            modifier = Modifier.padding(top = 16.dp)
-//        ) {
-//            Text(
-//                text = "Перейти на экран региона без заданной странны"
-//            )
-//        }
-//
-//        Text(
-//            text = "Выбрана страна: ${
-//                selectedCountry.value
-//                    ?.name ?: "страна не задана"
-//            }",
-//            modifier = Modifier.padding(top = 16.dp)
-//        )
-//
-//        Text(
-//            text = "Выбран регион: ${
-//                selectedRegion.value
-//                    ?.name ?: "регион не задан"
-//            }",
-//            modifier = Modifier.padding(top = 16.dp)
-//        )
-//
-//        Button(
-//            onClick = {
-//                viewModel.onReturnWithParam(
-//                    FilterAddress(
-//                        country = FilterCountry(id = 1, name = "Испания")
-//                    )
-//                )
-//            },
-//            modifier = Modifier.padding(top = 16.dp)
-//        ) {
-//            Text(
-//                text = "Вернуться на предыдущий экран с параметром страны"
-//            )
-//        }
-//
-//        Button(
-//            onClick = {
-//                viewModel.onReturnWithParam(
-//                    FilterAddress(
-//                        country = FilterCountry(id = 1, name = "Россия"),
-//                        region = FilterRegion(id = 2, name = "Нижегородская область", parentId = 1)
-//                    )
-//                )
-//            },
-//            modifier = Modifier.padding(top = 16.dp)
-//        ) {
-//            Text(
-//                text = "Вернуться на предыдущий экран с параметром страны и региона"
-//            )
-//        }
-//
-//        Button(
-//            onClick = {
-//                viewModel.onReturnWithoutParam()
-//            },
-//            modifier = Modifier.padding(top = 16.dp)
-//        ) {
-//            Text(
-//                text = "Вернуться на предыдущий экран без параметров"
-//            )
-//        }
-//    }
-//}
