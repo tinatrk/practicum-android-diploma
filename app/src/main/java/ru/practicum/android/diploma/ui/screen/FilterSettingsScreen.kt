@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
@@ -317,9 +318,7 @@ private fun SettingsContentPreview() {
         )
 
         Button(
-            onClick = {
-                viewModel.setFilterSettings()
-            },
+            onClick = {},
             modifier = Modifier.padding(top = 16.dp)
         ) {
             Text(
@@ -328,9 +327,7 @@ private fun SettingsContentPreview() {
         }
 
         Button(
-            onClick = {
-                viewModel.clearFilterSettings()
-            },
+            onClick = {},
             modifier = Modifier.padding(top = 16.dp)
         ) {
             Text(

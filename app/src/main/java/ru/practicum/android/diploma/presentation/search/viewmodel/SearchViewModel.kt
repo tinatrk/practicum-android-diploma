@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.presentation.search.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.FlowPreview
@@ -48,7 +49,16 @@ class SearchViewModel(
         )
 
     val isFiltersSet: StateFlow<Boolean> = _filterSettings
-        .map { it != null }
+        .map { settings ->
+            settings?.let {
+                listOf(
+                    it.address,
+                    it.industry,
+                    it.salary,
+                    it.onlyWithSalary?.takeIf { only -> only }
+                ).any { value -> value != null }
+            } ?: false
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
@@ -65,6 +75,7 @@ class SearchViewModel(
     init {
         _filterSettings
             .onEach {
+                Log.d("MyTag", "viewModel -> $it")
                 isFilterSetChanged = true
                 searchVacancies(lastQuery.orEmpty())
             }
@@ -84,6 +95,7 @@ class SearchViewModel(
             return
         }
 
+        isFilterSetChanged = false
         currentPage = 0
         lastQuery = query
         vacanciesInfoList.clear()
