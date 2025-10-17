@@ -37,7 +37,7 @@ koinAndroid = "3.5.0"
 gson = "2.13.2"
 
 # KSP
-ksp = "1.9.0-1.0.13"
+ksp = "1.9.24-1.0.20"
 
 # Retrofit
 retrofit = "2.9.0"
