@@ -15,37 +15,37 @@ import ru.practicum.android.diploma.domain.search.api.interactor.VacancySearchIn
 import ru.practicum.android.diploma.domain.search.impl.VacancySearchInteractorImpl
 
 val interactorModule = module {
-    single<VacancySearchInteractor> {
+    factory<VacancySearchInteractor> {
         VacancySearchInteractorImpl(
             repository = get()
         )
     }
 
-    single<FavoritesInteractor> {
+    factory<FavoritesInteractor> {
         FavoritesInteractorImpl(
             favoritesRepository = get()
         )
     }
 
-    single<VacancyDetailsInteractor> {
+    factory<VacancyDetailsInteractor> {
         VacancyDetailsInteractorImpl(
             repository = get()
         )
     }
 
-    single<ExternalNavigatorInteractor> {
+    factory<ExternalNavigatorInteractor> {
         ExternalNavigatorInteractorImpl(
             externalNavigator = get()
         )
     }
 
-    single<FilterStorageInteractor> {
+    factory<FilterStorageInteractor> {
         FilterStorageInteractorImpl(
             filterStorageRepository = get()
         )
     }
 
-    single<FilterInteractor> {
+    factory<FilterInteractor> {
         FilterInteractorImpl(
             filterRepository = get()
         )
