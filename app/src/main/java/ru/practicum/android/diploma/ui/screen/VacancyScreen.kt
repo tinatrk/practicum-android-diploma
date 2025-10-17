@@ -58,21 +58,20 @@ fun VacancyScreen(
     val modifier = Modifier
 
     val state by viewModel.screenState.collectAsStateWithLifecycle()
-    val isFavorite = (state as? DetailsScreenState.Content)?.data?.isFavorite ?: false
 
     Scaffold(
         topBar = {
             when (state) {
-                is DetailsScreenState.Content, DetailsScreenState.Empty -> {
+                is DetailsScreenState.Content -> {
                     VacancyDetailsTopBar(
-                        isFavorite = isFavorite,
+                        isFavorite = (state as DetailsScreenState.Content).data.isFavorite,
                         onNavigationIconClick = onBackClick,
                         onShareIconClick = { viewModel.onShareClick() },
                         onFavoriteIconClick = { viewModel.onFavoriteClick() }
                     )
                 }
 
-                DetailsScreenState.Loading, DetailsScreenState.Error, DetailsScreenState.InternetError -> {
+                else -> {
                     SimpleTopBarWithBackIcon(
                         stringResource(R.string.vacancy_details_screen_title),
                         onNavigationIconClick = onBackClick
