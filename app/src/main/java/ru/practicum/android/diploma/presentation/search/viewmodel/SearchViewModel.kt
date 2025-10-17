@@ -96,7 +96,8 @@ class SearchViewModel(
         }
 
         isFilterSetChanged = false
-        currentPage = 1
+        currentPage = 0
+        maxPages = 1
         lastQuery = query
         vacanciesInfoList.clear()
         loadNextPage()
@@ -104,7 +105,7 @@ class SearchViewModel(
 
     fun loadNextPage() {
         val query = lastQuery ?: return
-        if (isNextPageLoading || currentPage > maxPages) return
+        if (isNextPageLoading || currentPage >= maxPages) return
 
         viewModelScope.launch {
             isNextPageLoading = true
@@ -113,16 +114,18 @@ class SearchViewModel(
                 page = currentPage,
                 filterSettings = _filterSettings.value
             )
-            if (currentPage == 1) _searchUiState.value = SearchUiState.Loading
+            if (currentPage == 0) _searchUiState.value = SearchUiState.Loading
 
             response.collect { resource ->
                 when (resource) {
                     is Resource.Success -> {
                         val vacanciesBriefInfo = converter.map(resource.data.vacancies)
 
+                        vacanciesInfoList = (vacanciesInfoList + vacanciesBriefInfo).toMutableList()
+
+                        currentPage = resource.data.page + 1
                         maxPages = resource.data.pages
                         val isLastPage = currentPage == maxPages
-                        vacanciesInfoList = (vacanciesInfoList + vacanciesBriefInfo).toMutableList()
 
                         _isNextPageError.value = false
                         _searchUiState.value = SearchUiState.Success(
@@ -130,7 +133,6 @@ class SearchViewModel(
                             resource.data.found,
                             isLastPage
                         )
-                        currentPage = resource.data.page + 1
                     }
 
                     is Resource.Error -> {
