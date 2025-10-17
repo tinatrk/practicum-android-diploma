@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -17,6 +16,7 @@ import kotlinx.collections.immutable.toImmutableList
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.ui.theme.AppTheme
+import ru.practicum.android.diploma.util.shouldLoadNextPageInList
 
 @Composable
 fun VacancyList(
@@ -30,13 +30,7 @@ fun VacancyList(
     val context = LocalContext.current
 
     val shouldLoadNext = remember {
-        derivedStateOf {
-            val lastVisibleItemIndex = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
-            val totalItemsCount = listState.layoutInfo.totalItemsCount
-
-            // true, если последний видимый элемент — последний в списке
-            lastVisibleItemIndex != null && lastVisibleItemIndex >= totalItemsCount - 1
-        }
+        shouldLoadNextPageInList(listState)
     }
 
     LaunchedEffect(shouldLoadNext.value) {
