@@ -97,7 +97,6 @@ class SearchViewModel(
 
         isFilterSetChanged = false
         currentPage = 1
-        maxPages = 1
         lastQuery = query
         vacanciesInfoList.clear()
         loadNextPage()
