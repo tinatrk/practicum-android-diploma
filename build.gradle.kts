@@ -2,5 +2,5 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false
-    id(libs.plugins.convention.detekt.get().pluginId) apply false
+    id(libs.plugins.convention.detekt.get().pluginId)
 }
