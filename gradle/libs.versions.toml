@@ -1,6 +1,6 @@
 [versions]
 
-java = "1.8"
+java = "VERSION_1_8"
 
 # Build constants
 minSdk = "26"
@@ -125,3 +125,7 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 devtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-room = { id = "androidx.room", version.ref = "roomRuntime" }
+developproperties = { id = "ru.practicum.android.diploma.plugins.developproperties", version = "unspecified" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-parcelize = { id = "kotlin-parcelize", version = "unspecified" }
+convention-detekt = { id = "convention.detekt", version = "unspecified" }

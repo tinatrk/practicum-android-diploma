@@ -1,9 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("ru.practicum.android.diploma.plugins.developproperties")
-    id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlin.get()
-    id("kotlin-parcelize")
+    alias(libs.plugins.developproperties)
+    alias(libs.plugins.kotlin.serialization)
+    id(libs.plugins.kotlin.parcelize.get().pluginId)
     alias(libs.plugins.androidx.room)
     alias(libs.plugins.devtoolsKsp)
 }
@@ -35,11 +35,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.valueOf(libs.versions.java.get())
+        targetCompatibility = JavaVersion.valueOf(libs.versions.java.get())
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.valueOf(libs.versions.java.get())
+            .toString()
+            .removePrefix("VERSION_")
+            .replace('_', '.')
     }
 
     buildFeatures {
