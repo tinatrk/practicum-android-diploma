@@ -6,7 +6,7 @@ import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import ru.practicum.android.diploma.data.db.embedd.FilterAreaEmbeddable
 import ru.practicum.android.diploma.data.dto.models.FilterAreaDto
-import ru.practicum.android.diploma.domain.models.FilterArea
+import ru.practicum.android.diploma.domain.models.vacancy.FilterArea
 import java.lang.reflect.Type
 
 class FilterAreaConverter(private val gson: Gson) {

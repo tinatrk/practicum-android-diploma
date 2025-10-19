@@ -33,7 +33,7 @@ fun SimpleTopBarWithBackIcon(
 
 @Preview("light theme", showSystemUi = true)
 @Composable
-fun SimpleTopBarWithBackIconPreviewLight() {
+private fun SimpleTopBarWithBackIconPreviewLight() {
     AppTheme(darkTheme = false) {
         SimpleTopBarWithBackIcon(stringResource(R.string.filter_settings_screen_title), onNavigationIconClick = {})
     }
@@ -41,7 +41,7 @@ fun SimpleTopBarWithBackIconPreviewLight() {
 
 @Preview("dark theme", showSystemUi = true)
 @Composable
-fun SimpleTopBarWithBackIconPreviewDark() {
+private fun SimpleTopBarWithBackIconPreviewDark() {
     AppTheme(darkTheme = true) {
         SimpleTopBarWithBackIcon(stringResource(R.string.filter_settings_screen_title), onNavigationIconClick = {})
     }

@@ -84,6 +84,11 @@ private val LightCustomColors = CustomColors(
     ),
 
     filterListItemColors = FilterListItemColors(
+        background = PrimaryLight,
+        headlineContent = OnPrimaryLight,
+        overlineContent = OnPrimaryLight,
+        trailingIcon = OnPrimaryLight,
+
         defaultFilterItem = FilterListItemStateColors(
             background = PrimaryLight,
             text = OnPrimaryContainer,
@@ -194,6 +199,10 @@ private val DarkCustomColors = CustomColors(
     ),
 
     filterListItemColors = FilterListItemColors(
+        background = PrimaryDark,
+        headlineContent = OnPrimaryDark,
+        overlineContent = OnPrimaryDark,
+        trailingIcon = OnPrimaryDark,
         defaultFilterItem = FilterListItemStateColors(
             background = PrimaryDark,
             text = OnPrimaryContainer,

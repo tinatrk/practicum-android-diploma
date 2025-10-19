@@ -1,7 +1,9 @@
 package ru.practicum.android.diploma.presentation.models
 
-import ru.practicum.android.diploma.domain.models.Contacts
+import androidx.compose.runtime.Immutable
+import ru.practicum.android.diploma.domain.models.vacancy.Contacts
 
+@Immutable
 data class VacancyInfo(
     val id: String,
     val name: String,

@@ -1,16 +1,19 @@
 package ru.practicum.android.diploma.ui.navigation
 
+import androidx.compose.runtime.Immutable
+import okhttp3.internal.immutableListOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.ui.navigation.util.AppNavDestination
 import kotlin.reflect.KClass
 
+@Immutable
 data class BottomTab<T : Any>(
     val destination: KClass<T>,
     val iconRes: Int,
     val labelRes: Int
 )
 
-val bottomTabs = listOf(
+val bottomTabs = immutableListOf(
     BottomTab(
         AppNavDestination.Home::class,
         R.drawable.main_24px,

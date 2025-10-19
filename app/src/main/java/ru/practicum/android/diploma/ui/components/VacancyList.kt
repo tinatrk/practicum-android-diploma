@@ -51,8 +51,7 @@ fun VacancyList(
                 context,
                 context.getString(R.string.pagination_load_error),
                 Toast.LENGTH_LONG
-            )
-                .show()
+            ).show()
         }
     }
 
@@ -60,7 +59,7 @@ fun VacancyList(
         state = listState,
         modifier = Modifier.fillMaxSize(),
     ) {
-        items(vacancies) { vacancy ->
+        items(items = vacancies, key = { it.id }, contentType = { it }) { vacancy ->
             VacancyListItem(vacancy, onVacancyClick)
         }
 
@@ -74,7 +73,7 @@ fun VacancyList(
 
 @Preview(name = "lightTheme", showSystemUi = true)
 @Composable
-fun VacancyListPreviewLight() {
+private fun VacancyListPreviewLight() {
     val list = listOf(
         getVacancyPreviewItem(),
         getVacancyPreviewItem(),
@@ -94,7 +93,7 @@ fun VacancyListPreviewLight() {
 
 @Preview(name = "darkTheme", showSystemUi = true)
 @Composable
-fun VacancyListPreviewDark() {
+private fun VacancyListPreviewDark() {
     val list = listOf(
         getVacancyPreviewItem(),
         getVacancyPreviewItem(),

@@ -8,9 +8,9 @@ import ru.practicum.android.diploma.data.db.dto.VacancyBriefDto
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 import ru.practicum.android.diploma.data.dto.response.VacancyDetailResponse
 import ru.practicum.android.diploma.data.dto.response.VacancyResponse
-import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.domain.models.VacancyBrief
-import ru.practicum.android.diploma.domain.models.VacancyPage
+import ru.practicum.android.diploma.domain.models.vacancy.Vacancy
+import ru.practicum.android.diploma.domain.models.vacancy.VacancyBrief
+import ru.practicum.android.diploma.domain.models.vacancy.VacancyPage
 import java.lang.reflect.Type
 
 class VacancyConverter(
