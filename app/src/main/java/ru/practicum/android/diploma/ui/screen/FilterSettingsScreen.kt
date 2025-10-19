@@ -172,7 +172,7 @@ private fun SettingsContent(
         Spacer(modifier = modifier.height(24.dp))
 
         SalaryCheckbox(
-            isChecked = state.onlyWithoutSalary,
+            isChecked = state.onlyWithSalary,
             onCheckedChange = { checked ->
                 onCheckedChange(checked)
             },
