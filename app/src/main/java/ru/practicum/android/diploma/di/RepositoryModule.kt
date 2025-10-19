@@ -47,7 +47,7 @@ val repositoryModule = module {
     single<FilterStorageRepository> {
         FilterStorageRepositoryImpl(
             sharedPrefs = get(),
-            gson = get(named(DI_GSON_WITH_NULL))
+            gson = get()
         )
     }
 

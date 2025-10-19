@@ -29,8 +29,6 @@ import ru.practicum.android.diploma.util.ResourceProvider
 
 private const val BASE_URL_API = "https://practicum-diploma-8bc38133faba.herokuapp.com/"
 private const val FILTER_SHARED_PREFERENCES_FILE = "shared_preferences_filter"
-const val DI_GSON = "gson"
-const val DI_GSON_WITH_NULL = "gson_with_null"
 
 val dataModule = module {
 
@@ -60,12 +58,8 @@ val dataModule = module {
         )
     }
 
-    factory(named(DI_GSON)) {
+    factory() {
         Gson()
-    }
-
-    factory(named(DI_GSON_WITH_NULL)) {
-        GsonBuilder().serializeNulls().create()
     }
 
     single {
@@ -85,7 +79,7 @@ val dataModule = module {
 
     single {
         ContactsConverter(
-            gson = get(named(DI_GSON))
+            gson = get()
         )
     }
 
@@ -95,7 +89,7 @@ val dataModule = module {
 
     single {
         FilterAreaConverter(
-            gson = get(named(DI_GSON))
+            gson = get()
         )
     }
 
@@ -105,7 +99,7 @@ val dataModule = module {
 
     single {
         VacancyConverter(
-            gson = get(named(DI_GSON)),
+            gson = get(),
             salaryConverter = get(),
             addressConverter = get(),
             contactsConverter = get(),
