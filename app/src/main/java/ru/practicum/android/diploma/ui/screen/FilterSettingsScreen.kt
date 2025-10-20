@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -74,6 +75,12 @@ fun FilterSettingsScreen(
         }
     }
 
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.clearSavedState()
+        }
+    }
+
     Scaffold(
         topBar = {
             SimpleTopBarWithBackIcon(
@@ -82,8 +89,8 @@ fun FilterSettingsScreen(
             )
         },
         bottomBar = {
-            if (state.showActionButtons) {
-                Column(modifier = Modifier.padding(bottom = 24.dp)) {
+            Column(modifier = Modifier.padding(bottom = 24.dp)) {
+                if (state.showApplyButton) {
                     CustomButton(
                         text = stringResource(R.string.btn_apply),
                         isPositiveType = true,
@@ -91,7 +98,9 @@ fun FilterSettingsScreen(
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
+                }
 
+                if (state.showCancelButton) {
                     CustomButton(
                         text = stringResource(R.string.btn_throw_off),
                         isPositiveType = false,
