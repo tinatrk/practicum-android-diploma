@@ -12,7 +12,9 @@ data class FilterSettingsUiState(
 ) {
     val salaryInt: Int? = salary.toIntOrNull()
 
-    val showActionButtons: Boolean = initial?.let { it != toFilterSettingsUi() } ?: hasAnyFilter()
+    val showApplyButton: Boolean = initial?.let { it != toFilterSettingsUi() } ?: hasAnyFilter()
+
+    val showCancelButton: Boolean = hasAnyFilter()
 }
 
 private fun FilterSettingsUiState.toFilterSettingsUi(): FilterSettingsUi = FilterSettingsUi(

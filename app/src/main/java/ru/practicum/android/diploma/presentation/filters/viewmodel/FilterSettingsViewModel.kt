@@ -149,4 +149,12 @@ class FilterSettingsViewModel(
             _events.emit(FilterSettingsEvent.NavigateToWorkLocation)
         }
     }
+
+    fun clearSavedState() {
+        viewModelScope.launch {
+            _events.emit(FilterSettingsEvent.NavigateBack)
+        }
+        savedStateHandle[NavResultKeys.SELECTED_WORK_ADDRESS] = null
+        savedStateHandle[NavResultKeys.SELECTED_INDUSTRY] = null
+    }
 }
