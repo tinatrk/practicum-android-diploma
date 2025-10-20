@@ -10,13 +10,14 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filters.api.interactor.FilterInteractor
 import ru.practicum.android.diploma.domain.models.filters.FilterCountry
 import ru.practicum.android.diploma.presentation.filters.models.CountryUiState
-import ru.practicum.android.diploma.presentation.mappers.toFilterCountryUiList
+import ru.practicum.android.diploma.presentation.mappers.FilterConverter
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 import ru.practicum.android.diploma.util.common.Resource
 
 class FilterCountryViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val interactor: FilterInteractor
+    private val interactor: FilterInteractor,
+    private val converter: FilterConverter
 ) : ViewModel() {
     private val _shouldFinish = MutableStateFlow(false)
     val shouldFinish: StateFlow<Boolean> = _shouldFinish
@@ -36,7 +37,7 @@ class FilterCountryViewModel(
                     when (resource) {
                         is Resource.Success -> {
                             _countryUiState.value = CountryUiState.Success(
-                                resource.data.toFilterCountryUiList()
+                                converter.toFilterCountryUiList(resource.data)
                             )
                         }
 
