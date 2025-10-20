@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.presentation.search.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.FlowPreview
@@ -75,7 +74,6 @@ class SearchViewModel(
     init {
         _filterSettings
             .onEach {
-                Log.d("MyTag", "viewModel -> $it")
                 isFilterSetChanged = true
                 searchVacancies(lastQuery.orEmpty())
             }
@@ -87,6 +85,7 @@ class SearchViewModel(
         debounceJob?.cancel()
 
         if (query.isEmpty()) {
+            lastQuery = null
             _searchUiState.value = SearchUiState.Idle
             return
         }
