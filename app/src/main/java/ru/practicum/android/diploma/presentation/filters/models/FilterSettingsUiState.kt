@@ -7,19 +7,20 @@ data class FilterSettingsUiState(
     val address: FilterAddressUi? = null,
     val industry: FilterIndustryUi? = null,
     val salary: String = "",
-    val onlyWithoutSalary: Boolean = false,
+    val onlyWithSalary: Boolean = false,
     val initial: FilterSettingsUi? = null
 ) {
     val salaryInt: Int? = salary.toIntOrNull()
 
-    val showActionButtons: Boolean = initial?.let { it != toFilterSettingsUi() } ?: run {
-        address != null || industry != null || salaryInt != null || onlyWithoutSalary
-    }
+    val showActionButtons: Boolean = initial?.let { it != toFilterSettingsUi() } ?: hasAnyFilter()
 }
 
 private fun FilterSettingsUiState.toFilterSettingsUi(): FilterSettingsUi = FilterSettingsUi(
     address = address,
     industry = industry,
     salary = salaryInt,
-    onlyWithSalary = onlyWithoutSalary
+    onlyWithSalary = onlyWithSalary
 )
+
+private fun FilterSettingsUiState.hasAnyFilter(): Boolean =
+    address != null || industry != null || salaryInt != null || onlyWithSalary
