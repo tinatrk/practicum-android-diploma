@@ -114,9 +114,10 @@ class FilterIndustryViewModel(
 
     fun onClearSearchQuery() {
         searchJob?.cancel()
+        displayedIndustries = _industries.value
         renderState(
             FilterIndustryUiState.Content(
-                data = converter.toFilterIndustryUiList(_industries.value),
+                data = converter.toFilterIndustryUiList(displayedIndustries),
                 curChoice = curChoice?.id
             )
         )
