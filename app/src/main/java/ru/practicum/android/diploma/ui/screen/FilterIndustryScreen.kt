@@ -30,8 +30,8 @@ import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.presentation.filters.models.FilterIndustryUiState
 import ru.practicum.android.diploma.presentation.filters.models.FilterIndustryUi
+import ru.practicum.android.diploma.presentation.filters.models.FilterIndustryUiState
 import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterIndustryViewModel
 import ru.practicum.android.diploma.ui.components.CustomButton
 import ru.practicum.android.diploma.ui.components.CustomSearchBar

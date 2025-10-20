@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.di
 
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import ru.practicum.android.diploma.data.details.impl.ExternalNavigatorRepositoryImpl
 import ru.practicum.android.diploma.data.details.impl.VacancyDetailsRepositoryImpl
