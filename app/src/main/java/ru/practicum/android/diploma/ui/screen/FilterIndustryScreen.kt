@@ -30,8 +30,8 @@ import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
-import ru.practicum.android.diploma.presentation.filters.models.FilterIndustryScreenState
+import ru.practicum.android.diploma.presentation.filters.models.FilterIndustryUiState
+import ru.practicum.android.diploma.presentation.filters.models.FilterIndustryUi
 import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterIndustryViewModel
 import ru.practicum.android.diploma.ui.components.CustomButton
 import ru.practicum.android.diploma.ui.components.CustomSearchBar
@@ -88,12 +88,12 @@ fun FilterIndustryScreen(
             )
 
             when (val curState = screenState.value) {
-                is FilterIndustryScreenState.Loading -> {
+                is FilterIndustryUiState.Loading -> {
                     keyboardController?.hide()
                     ProgressBar()
                 }
 
-                is FilterIndustryScreenState.Content -> {
+                is FilterIndustryUiState.Content -> {
                     FilterIndustryContent(
                         industries = curState.data.toImmutableList(),
                         checkedIndustryId = curState.curChoice,
@@ -102,7 +102,7 @@ fun FilterIndustryScreen(
                     )
                 }
 
-                is FilterIndustryScreenState.Error -> {
+                is FilterIndustryUiState.Error -> {
                     FilterIndustryError(
                         error = curState.error
                     )
@@ -114,9 +114,9 @@ fun FilterIndustryScreen(
 
 @Composable
 fun FilterIndustryContent(
-    industries: ImmutableList<FilterIndustry>,
+    industries: ImmutableList<FilterIndustryUi>,
     checkedIndustryId: Int?,
-    onIndustryClick: (FilterIndustry) -> Unit,
+    onIndustryClick: (FilterIndustryUi) -> Unit,
     onSaveChoiceClick: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -175,9 +175,9 @@ fun FilterIndustryError(error: Failure) {
 
 @Composable
 fun RoundToggleListItem(
-    item: FilterIndustry,
+    item: FilterIndustryUi,
     isActive: Boolean = false,
-    onItemClick: (FilterIndustry) -> Unit
+    onItemClick: (FilterIndustryUi) -> Unit
 ) {
     val colors = LocalCustomColors.current.filterListItemColors.filterItemWithCheckBox
     val typography = LocalTypography.current

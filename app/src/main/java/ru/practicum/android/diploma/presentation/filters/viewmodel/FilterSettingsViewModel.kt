@@ -15,7 +15,14 @@ import ru.practicum.android.diploma.domain.models.filters.FilterAddress
 import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
 import ru.practicum.android.diploma.domain.models.filters.FilterSettings
 import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsEvent
-import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsState
+import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsUiState
+import ru.practicum.android.diploma.presentation.mappers.toFilterAddress
+import ru.practicum.android.diploma.presentation.mappers.toFilterAddressUi
+import ru.practicum.android.diploma.presentation.mappers.toFilterCountry
+import ru.practicum.android.diploma.presentation.mappers.toFilterIndustry
+import ru.practicum.android.diploma.presentation.mappers.toFilterIndustryUi
+import ru.practicum.android.diploma.presentation.mappers.toFilterRegion
+import ru.practicum.android.diploma.presentation.mappers.toFilterSettingsUi
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 
 class FilterSettingsViewModel(
@@ -32,8 +39,8 @@ class FilterSettingsViewModel(
     private val navAddress: StateFlow<FilterAddress?> =
         savedStateHandle.getStateFlow(NavResultKeys.SELECTED_WORK_ADDRESS, null)
 
-    private val _screenState = MutableStateFlow(FilterSettingsState())
-    val screenState: StateFlow<FilterSettingsState> = _screenState
+    private val _screenState = MutableStateFlow(FilterSettingsUiState())
+    val screenState: StateFlow<FilterSettingsUiState> = _screenState
 
     init {
         viewModelScope.launch {
@@ -41,7 +48,7 @@ class FilterSettingsViewModel(
                 if (stored != null) {
                     applyFromStorage(stored)
                 } else {
-                    _screenState.update { FilterSettingsState(initial = null) }
+                    _screenState.update { FilterSettingsUiState(initial = null) }
                 }
             }
         }
@@ -52,8 +59,8 @@ class FilterSettingsViewModel(
                 navAddress
             ) { industry, address -> industry to address }.collect { (industry, address) ->
                 _screenState.update {
-                    val newAddress = address ?: it.address
-                    val newIndustry = industry ?: it.industry
+                    val newAddress = address?.toFilterAddressUi() ?: it.address
+                    val newIndustry = industry?.toFilterIndustryUi() ?: it.industry
                     if (newAddress == it.address && newIndustry == it.industry) {
                         it
                     } else {
@@ -70,11 +77,11 @@ class FilterSettingsViewModel(
     private fun applyFromStorage(storage: FilterSettings) {
         _screenState.update {
             it.copy(
-                address = storage.address,
-                industry = storage.industry,
+                address = storage.address?.toFilterAddressUi(),
+                industry = storage.industry?.toFilterIndustryUi(),
                 salary = storage.salary?.toString().orEmpty(),
                 onlyWithoutSalary = storage.onlyWithSalary ?: false,
-                initial = storage
+                initial = storage.toFilterSettingsUi()
             )
         }
     }
@@ -99,13 +106,13 @@ class FilterSettingsViewModel(
 
     fun onApply() {
         val filterSettings = FilterSettings(
-            address = _screenState.value.address,
-            industry = _screenState.value.industry,
+            address = _screenState.value.address?.toFilterAddress(),
+            industry = _screenState.value.industry?.toFilterIndustry(),
             salary = _screenState.value.salary.toIntOrNull(),
             onlyWithSalary = _screenState.value.onlyWithoutSalary
         )
         filterStorageInteractor.saveFilterSettings(filterSettings)
-        _screenState.update { it.copy(initial = filterSettings) }
+        _screenState.update { it.copy(initial = filterSettings.toFilterSettingsUi()) }
         viewModelScope.launch {
             _events.emit(FilterSettingsEvent.NavigateBack)
         }
@@ -113,7 +120,7 @@ class FilterSettingsViewModel(
 
     fun onReset() {
         filterStorageInteractor.clearFilterSettings()
-        _screenState.update { FilterSettingsState(initial = null) }
+        _screenState.update { FilterSettingsUiState(initial = null) }
         savedStateHandle[NavResultKeys.SELECTED_WORK_ADDRESS] = null
         savedStateHandle[NavResultKeys.SELECTED_INDUSTRY] = null
         viewModelScope.launch {
@@ -122,8 +129,8 @@ class FilterSettingsViewModel(
     }
 
     fun navigateToWorkLocation() {
-        savedStateHandle[NavResultKeys.SELECTED_COUNTRY] = _screenState.value.address?.country
-        savedStateHandle[NavResultKeys.SELECTED_REGION] = _screenState.value.address?.region
+        savedStateHandle[NavResultKeys.SELECTED_COUNTRY] = _screenState.value.address?.country?.toFilterCountry()
+        savedStateHandle[NavResultKeys.SELECTED_REGION] = _screenState.value.address?.region?.toFilterRegion()
 
         viewModelScope.launch {
             _events.emit(FilterSettingsEvent.NavigateToWorkLocation)

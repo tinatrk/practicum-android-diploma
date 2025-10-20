@@ -23,7 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.domain.models.filters.FilterRegion
+import ru.practicum.android.diploma.presentation.filters.models.FilterRegionUi
 import ru.practicum.android.diploma.presentation.filters.models.RegionUiState
 import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterRegionViewModel
 import ru.practicum.android.diploma.ui.components.CustomSearchBar
@@ -109,7 +109,7 @@ fun FilterRegionScreen(
 @Composable
 private fun RegionStateContent(
     state: RegionUiState,
-    onSelect: (FilterRegion) -> Unit
+    onSelect: (FilterRegionUi) -> Unit
 ) {
     when (state) {
         RegionUiState.Loading -> ProgressBar()

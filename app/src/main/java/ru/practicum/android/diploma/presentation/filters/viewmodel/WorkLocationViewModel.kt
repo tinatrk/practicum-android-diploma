@@ -21,6 +21,8 @@ import ru.practicum.android.diploma.domain.models.filters.FilterCountry
 import ru.practicum.android.diploma.domain.models.filters.FilterRegion
 import ru.practicum.android.diploma.presentation.filters.models.WorkLocationNavEvent
 import ru.practicum.android.diploma.presentation.filters.models.WorkLocationUiState
+import ru.practicum.android.diploma.presentation.mappers.toFilterCountryUi
+import ru.practicum.android.diploma.presentation.mappers.toFilterRegionUi
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 import ru.practicum.android.diploma.util.common.Resource
 
@@ -39,7 +41,10 @@ class WorkLocationViewModel(
             countryData,
             regionData
         ) { county, region ->
-            WorkLocationUiState(county, region)
+            WorkLocationUiState(
+                country = county?.toFilterCountryUi(),
+                region = region?.toFilterRegionUi()
+            )
         }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),

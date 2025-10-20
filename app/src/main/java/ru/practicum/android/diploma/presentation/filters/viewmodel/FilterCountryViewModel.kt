@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filters.api.interactor.FilterInteractor
 import ru.practicum.android.diploma.domain.models.filters.FilterCountry
 import ru.practicum.android.diploma.presentation.filters.models.CountryUiState
+import ru.practicum.android.diploma.presentation.mappers.toFilterCountryUiList
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 import ru.practicum.android.diploma.util.common.Resource
 
@@ -34,7 +35,9 @@ class FilterCountryViewModel(
                 .collect { resource ->
                     when (resource) {
                         is Resource.Success -> {
-                            _countryUiState.value = CountryUiState.Success(resource.data)
+                            _countryUiState.value = CountryUiState.Success(
+                                resource.data.toFilterCountryUiList()
+                            )
                         }
 
                         is Resource.Error -> {
