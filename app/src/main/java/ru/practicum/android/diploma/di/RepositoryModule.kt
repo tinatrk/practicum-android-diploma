@@ -17,41 +17,41 @@ import ru.practicum.android.diploma.domain.filters.api.repository.FilterStorageR
 import ru.practicum.android.diploma.domain.search.api.repository.VacancySearchRepository
 
 val repositoryModule = module {
-    single<VacancySearchRepository> {
+    factory<VacancySearchRepository> {
         VacancySearchRepositoryImpl(
             networkClient = get(),
             vacancyConverter = get()
         )
     }
 
-    single<FavoritesRepository> {
+    factory<FavoritesRepository> {
         FavoritesRepositoryImpl(
-            appDatabase = get(),
+            vacancyDao = get(),
             vacancyConverter = get()
         )
     }
 
-    single<VacancyDetailsRepository> {
+    factory<VacancyDetailsRepository> {
         VacancyDetailsRepositoryImpl(
             networkClient = get(),
             vacancyConverter = get()
         )
     }
 
-    single<ExternalNavigatorRepository> {
+    factory<ExternalNavigatorRepository> {
         ExternalNavigatorRepositoryImpl(
             context = androidContext()
         )
     }
 
-    single<FilterStorageRepository> {
+    factory<FilterStorageRepository> {
         FilterStorageRepositoryImpl(
             sharedPrefs = get(),
-            gson = get(named(DI_GSON_WITH_NULL))
+            gson = get()
         )
     }
 
-    single<FilterRepository> {
+    factory<FilterRepository> {
         FilterRepositoryImpl(
             networkClient = get(),
             areaExtractor = get(),

@@ -80,7 +80,7 @@ private fun AppNavHost(navController: NavHostController, modifier: Modifier) {
         startDestination = AppNavDestination.Home,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
-        modifier = Modifier
+        modifier = modifier
     ) {
         appGraph(
             actions = AppGraphActions(
