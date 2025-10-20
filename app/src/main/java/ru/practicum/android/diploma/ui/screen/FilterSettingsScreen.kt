@@ -42,7 +42,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsEvent
-import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsState
+import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsUiState
 import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterSettingsViewModel
 import ru.practicum.android.diploma.ui.components.CustomButton
 import ru.practicum.android.diploma.ui.components.FilterListItem
@@ -127,7 +127,7 @@ fun FilterSettingsScreen(
 @Composable
 private fun SettingsContent(
     modifier: Modifier = Modifier,
-    state: FilterSettingsState,
+    state: FilterSettingsUiState,
     onPlaceClick: () -> Unit,
     onIndustryClick: (Int?) -> Unit,
     onClearPlaceSelected: () -> Unit,
@@ -306,7 +306,7 @@ private fun SalaryCheckbox(
 private fun SettingsContentPreview() {
     AppTheme(darkTheme = false) {
         SettingsContent(
-            state = FilterSettingsState(),
+            state = FilterSettingsUiState(),
             onPlaceClick = {},
             onIndustryClick = {},
             colors = LocalCustomColors.current.filterListItemColors,

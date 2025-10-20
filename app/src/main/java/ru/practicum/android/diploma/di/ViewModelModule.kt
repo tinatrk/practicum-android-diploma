@@ -32,40 +32,27 @@ val viewModelModule = module {
 
     singleOf(::VacancyConverter)
 
-    viewModel {
-        FilterSettingsViewModel(
-            filterStorageInteractor = get(),
-            savedStateHandle = get()
-        )
-    }
+    viewModelOf(::FilterSettingsViewModel)
 
     viewModel { (selectedIndustryId: Int?) ->
         FilterIndustryViewModel(
             savedStateHandle = get(),
             selectedIndustryId = selectedIndustryId,
-            filterInteractor = get()
+            filterInteractor = get(),
+            converter = get()
         )
     }
 
-    viewModel {
-        WorkLocationViewModel(
-            savedStateHandle = get(),
-            filterInteractor = get()
-        )
-    }
+    viewModelOf(::WorkLocationViewModel)
 
-    viewModel {
-        FilterCountryViewModel(
-            interactor = get(),
-            savedStateHandle = get()
-        )
-    }
+    viewModelOf(::FilterCountryViewModel)
 
     viewModel { (selectedCountryId: Int?) ->
         FilterRegionViewModel(
             interactor = get(),
             savedStateHandle = get(),
-            selectedCountryId = selectedCountryId
+            selectedCountryId = selectedCountryId,
+            converter = get()
         )
     }
 

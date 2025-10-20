@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.ui.navigation
 
 import androidx.compose.runtime.Immutable
-import okhttp3.internal.immutableListOf
+import kotlinx.collections.immutable.toImmutableList
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.ui.navigation.util.AppNavDestination
 import kotlin.reflect.KClass
@@ -13,7 +13,7 @@ data class BottomTab<T : Any>(
     val labelRes: Int
 )
 
-val bottomTabs = immutableListOf(
+val bottomTabs = listOf(
     BottomTab(
         AppNavDestination.Home::class,
         R.drawable.main_24px,
@@ -29,4 +29,4 @@ val bottomTabs = immutableListOf(
         R.drawable.team_24px,
         R.string.theme_use_example_bottom_bor_label_team
     )
-)
+).toImmutableList()

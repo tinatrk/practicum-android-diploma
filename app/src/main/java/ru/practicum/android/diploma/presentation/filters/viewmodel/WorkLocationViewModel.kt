@@ -21,12 +21,14 @@ import ru.practicum.android.diploma.domain.models.filters.FilterCountry
 import ru.practicum.android.diploma.domain.models.filters.FilterRegion
 import ru.practicum.android.diploma.presentation.filters.models.WorkLocationNavEvent
 import ru.practicum.android.diploma.presentation.filters.models.WorkLocationUiState
+import ru.practicum.android.diploma.presentation.mappers.FilterConverter
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 import ru.practicum.android.diploma.util.common.Resource
 
 class WorkLocationViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val filterInteractor: FilterInteractor
+    private val filterInteractor: FilterInteractor,
+    private val converter: FilterConverter
 ) : ViewModel() {
     private var countryData: StateFlow<FilterCountry?> =
         savedStateHandle.getStateFlow(NavResultKeys.SELECTED_COUNTRY, null)
@@ -39,7 +41,10 @@ class WorkLocationViewModel(
             countryData,
             regionData
         ) { county, region ->
-            WorkLocationUiState(county, region)
+            WorkLocationUiState(
+                country = county?.let { converter.toFilterCountryUi(it) },
+                region = region?.let { converter.toFilterRegionUi(it) }
+            )
         }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
