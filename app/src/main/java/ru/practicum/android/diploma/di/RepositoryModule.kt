@@ -26,7 +26,7 @@ val repositoryModule = module {
 
     factory<FavoritesRepository> {
         FavoritesRepositoryImpl(
-            appDatabase = get(),
+            vacancyDao = get(),
             vacancyConverter = get()
         )
     }

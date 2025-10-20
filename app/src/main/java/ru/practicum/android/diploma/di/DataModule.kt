@@ -20,6 +20,7 @@ import ru.practicum.android.diploma.data.converter.VacancyConverter
 import ru.practicum.android.diploma.data.converter.filters.FilterAreaExtractor
 import ru.practicum.android.diploma.data.converter.filters.FilterIndustryConverter
 import ru.practicum.android.diploma.data.db.AppDatabase
+import ru.practicum.android.diploma.data.db.dao.VacancyDao
 import ru.practicum.android.diploma.data.network.AuthInterceptor
 import ru.practicum.android.diploma.data.network.DiplomaApi
 import ru.practicum.android.diploma.data.network.NetworkClient
@@ -65,6 +66,11 @@ val dataModule = module {
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database")
             .build()
+    }
+
+    single<VacancyDao> {
+        val database = get<AppDatabase>()
+        database.vacancyDao()
     }
 
     single {
