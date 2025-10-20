@@ -73,7 +73,7 @@ class FilterSettingsViewModel(
                 address = storage.address,
                 industry = storage.industry,
                 salary = storage.salary?.toString().orEmpty(),
-                onlyWithoutSalary = storage.onlyWithSalary ?: false,
+                onlyWithSalary = storage.onlyWithSalary ?: false,
                 initial = storage
             )
         }
@@ -84,7 +84,7 @@ class FilterSettingsViewModel(
     }
 
     fun onShowWithoutSalaryChange(showWithoutSalary: Boolean) {
-        _screenState.update { it.copy(onlyWithoutSalary = showWithoutSalary) }
+        _screenState.update { it.copy(onlyWithSalary = showWithoutSalary) }
     }
 
     fun onClearAddress() {
@@ -102,7 +102,7 @@ class FilterSettingsViewModel(
             address = _screenState.value.address,
             industry = _screenState.value.industry,
             salary = _screenState.value.salary.toIntOrNull(),
-            onlyWithSalary = _screenState.value.onlyWithoutSalary
+            onlyWithSalary = _screenState.value.onlyWithSalary
         )
         filterStorageInteractor.saveFilterSettings(filterSettings)
         _screenState.update { it.copy(initial = filterSettings) }
