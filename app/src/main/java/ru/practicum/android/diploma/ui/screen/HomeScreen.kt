@@ -52,7 +52,7 @@ fun HomeScreen(
 ) {
     val vm: SearchViewModel = koinViewModel()
     val state by vm.searchUiState.collectAsStateWithLifecycle()
-    val isNextPageError by vm.isNextPageError.collectAsStateWithLifecycle()
+    val isNextPageError by vm.isNextPageError.collectAsStateWithLifecycle(false)
     val isFiltersSet = vm.isFiltersSet.collectAsStateWithLifecycle()
 
     val onSearch = vm::searchVacancies
