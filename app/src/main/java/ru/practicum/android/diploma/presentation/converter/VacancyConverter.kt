@@ -1,11 +1,14 @@
 package ru.practicum.android.diploma.presentation.converter
 
+import android.icu.util.Currency
+import android.util.Log
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancy
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyBrief
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.presentation.models.VacancyInfo
 import ru.practicum.android.diploma.util.ResourceProvider
+import java.util.Locale
 
 class VacancyConverter(
     private val resourceProvider: ResourceProvider
@@ -48,26 +51,72 @@ class VacancyConverter(
 
     private fun getSalaryString(from: Int?, to: Int?, currency: String?): String {
         if (currency == null) return resourceProvider.getString(R.string.salary_unknown)
+        val currencySymbol = getCurrencySymbol(currencyCode = currency)
 
         return when {
             from != null && to != null && from == to ->
-                resourceProvider.getString(R.string.salary, getNumberStr(from), currency)
+                resourceProvider.getString(
+                    R.string.salary,
+                    getNumberStr(from),
+                    currencySymbol
+                )
 
             from != null && to != null ->
-                resourceProvider.getString(R.string.salary_from_to, getNumberStr(from), getNumberStr(to), currency)
+                resourceProvider.getString(
+                    R.string.salary_from_to,
+                    getNumberStr(from),
+                    getNumberStr(to),
+                    currencySymbol
+                )
 
             from != null ->
-                resourceProvider.getString(R.string.salary_from, getNumberStr(from), currency)
+                resourceProvider.getString(
+                    R.string.salary_from,
+                    getNumberStr(from),
+                    currencySymbol
+                )
 
             to != null ->
-                resourceProvider.getString(R.string.salary_to, getNumberStr(to), currency)
+                resourceProvider.getString(
+                    R.string.salary_to,
+                    getNumberStr(to),
+                    currencySymbol
+                )
 
             else ->
                 resourceProvider.getString(R.string.salary_unknown)
         }
     }
 
+    private fun getCurrencySymbol(currencyCode: String): String {
+        return try {
+            val currency = Currency.getInstance(currencyCode)
+
+            val locale = when (currencyCode.uppercase(Locale.ROOT)) {
+                "RUB" -> Locale("ru", "RU")
+                "SGD" -> Locale("en", "SG")
+                "SEK" -> Locale("sv", "SE")
+                "USD" -> Locale("en", "US")
+                "EUR" -> Locale("fr", "FR")
+                "GBP" -> Locale("en", "GB")
+                "HKD" -> Locale("zh", "HK")
+                "AUD" -> Locale("en", "AU")
+                "NZD" -> Locale("en", "NZ")
+                else -> Locale.getDefault(Locale.Category.DISPLAY)
+            }
+
+            currency.getSymbol(locale)
+        } catch (e: IllegalArgumentException) {
+            Log.e(VACANCY_CONVERTER_TAG, "Неизвестный код валюты $currencyCode", e)
+            currencyCode
+        }
+    }
+
     private fun getNumberStr(number: Int): String {
         return String.format(null, "%,d", number).replace(',', ' ')
+    }
+
+    companion object {
+        private const val VACANCY_CONVERTER_TAG = "vacancy_converter"
     }
 }
