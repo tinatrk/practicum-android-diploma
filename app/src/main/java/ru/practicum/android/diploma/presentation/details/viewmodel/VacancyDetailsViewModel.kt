@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.details.api.interactor.ExternalNavigatorInteractor
 import ru.practicum.android.diploma.domain.details.api.interactor.VacancyDetailsInteractor
@@ -19,12 +20,14 @@ import ru.practicum.android.diploma.domain.favorites.api.interactor.FavoritesInt
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancy
 import ru.practicum.android.diploma.presentation.converter.VacancyConverter
 import ru.practicum.android.diploma.presentation.details.models.DetailsScreenState
+import ru.practicum.android.diploma.ui.navigation.util.DetailsSource
 import ru.practicum.android.diploma.util.afterDebounce
 import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource
 
 class VacancyDetailsViewModel(
     private val vacancyId: String,
+    private val source: DetailsSource,
     private val detailsInteractor: VacancyDetailsInteractor,
     private val favoritesInteractor: FavoritesInteractor,
     private val externalNavigatorInteractor: ExternalNavigatorInteractor,
@@ -33,13 +36,26 @@ class VacancyDetailsViewModel(
 
     private var vacancy: Vacancy? = null
 
-    private val detailsState: Flow<DetailsScreenState> =
-        detailsInteractor.getVacancyDetails(vacancyId)
-            .map { result ->
-                processResult(result)
-            }.catch {
-                emit(DetailsScreenState.Error)
-            }
+    private val detailsState: Flow<DetailsScreenState> = when (source) {
+        DetailsSource.SEARCH -> {
+            detailsInteractor.getVacancyDetails(vacancyId)
+                .map { result ->
+                    processResult(result)
+                }.catch {
+                    emit(DetailsScreenState.Error)
+                }
+        }
+
+        DetailsSource.FAVORITE -> {
+            favoritesInteractor.getFavoriteVacancyById(vacancyId)
+                .take(1)
+                .map { localResult ->
+                    processLocalResult(localResult)
+                }.catch {
+                    emit(DetailsScreenState.Error)
+                }
+        }
+    }
 
     private val isFavorite: Flow<Boolean> =
         favoritesInteractor.isVacancyFavorite(vacancyId)
@@ -80,8 +96,25 @@ class VacancyDetailsViewModel(
         }
     }
 
-    private val onFavoriteClickDelay: (Unit) -> Unit =
-        afterDebounce(ON_FAVORITE_CLICK_DELAY_MILLIS, viewModelScope, false) {
+    private fun processLocalResult(localResult: Resource<Vacancy, Failure>): DetailsScreenState {
+        return when (localResult) {
+            is Resource.Success -> {
+                vacancy = localResult.data
+                DetailsScreenState.Content(data = vacancyConverter.map(vacancy!!))
+            }
+
+            is Resource.Error -> {
+                when (localResult.error) {
+                    is Failure.BadRequest -> DetailsScreenState.Error
+                    is Failure.NotFound -> DetailsScreenState.Empty
+                    else -> DetailsScreenState.Error
+                }
+            }
+        }
+    }
+
+    private val onFavoriteClickDelay: (Unit, Unit) -> Unit =
+        afterDebounce(ON_FAVORITE_CLICK_DELAY_MILLIS, viewModelScope, false) { _, _ ->
             viewModelScope.launch {
                 if (isFavorite.first()) {
                     vacancy?.let {
@@ -96,7 +129,7 @@ class VacancyDetailsViewModel(
         }
 
     fun onFavoriteClick() {
-        onFavoriteClickDelay(Unit)
+        onFavoriteClickDelay(Unit, Unit)
     }
 
     fun onShareClick() {

@@ -40,6 +40,7 @@ import ru.practicum.android.diploma.ui.components.Logo
 import ru.practicum.android.diploma.ui.components.ProgressBar
 import ru.practicum.android.diploma.ui.components.topbar.SimpleTopBarWithBackIcon
 import ru.practicum.android.diploma.ui.components.topbar.VacancyDetailsTopBar
+import ru.practicum.android.diploma.ui.navigation.util.DetailsSource
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.CustomColors
 import ru.practicum.android.diploma.ui.theme.CustomTypography
@@ -49,9 +50,10 @@ import ru.practicum.android.diploma.ui.theme.LocalTypography
 @Composable
 fun VacancyScreen(
     vacancyId: String,
+    source: DetailsSource,
     onBackClick: () -> Unit,
     viewModel: VacancyDetailsViewModel = koinViewModel(
-        parameters = { parametersOf(vacancyId) }
+        parameters = { parametersOf(vacancyId, source) }
     )
 ) {
     val colors = LocalCustomColors.current

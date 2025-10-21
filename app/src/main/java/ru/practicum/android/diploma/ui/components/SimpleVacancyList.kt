@@ -9,12 +9,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
+import ru.practicum.android.diploma.ui.navigation.util.DetailsSource
 import ru.practicum.android.diploma.ui.theme.AppTheme
 
 @Composable
 fun SimpleVacancyList(
     vacancies: ImmutableList<VacancyBriefInfo>,
-    onVacancyClick: (String) -> Unit,
+    source: DetailsSource,
+    onVacancyClick: (String, DetailsSource) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -26,7 +28,7 @@ fun SimpleVacancyList(
             key = { it.id },
             contentType = { it },
         ) { vacancy ->
-            VacancyListItem(vacancy, onVacancyClick)
+            VacancyListItem(vacancy, source, onVacancyClick)
         }
     }
 }
@@ -43,7 +45,8 @@ private fun SimpleVacancyListPreviewLight() {
     AppTheme(darkTheme = false) {
         VacancyList(
             vacancies = list.toImmutableList(),
-            onVacancyClick = {},
+            source = DetailsSource.SEARCH,
+            onVacancyClick = { _, _ -> },
             onLoadNextPage = {},
             isNextPageError = false,
             isLastPage = true
@@ -63,7 +66,8 @@ private fun SimpleVacancyListPreviewDark() {
     AppTheme(darkTheme = true) {
         VacancyList(
             vacancies = list.toImmutableList(),
-            onVacancyClick = {},
+            onVacancyClick = { _, _ -> },
+            source = DetailsSource.SEARCH,
             onLoadNextPage = {},
             isNextPageError = false,
             isLastPage = true

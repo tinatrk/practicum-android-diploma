@@ -21,6 +21,7 @@ import ru.practicum.android.diploma.ui.components.BottomNavigationBar
 import ru.practicum.android.diploma.ui.navigation.bottomTabs
 import ru.practicum.android.diploma.ui.navigation.util.AppGraphActions
 import ru.practicum.android.diploma.ui.navigation.util.AppNavDestination
+import ru.practicum.android.diploma.ui.navigation.util.DetailsSource
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 import ru.practicum.android.diploma.ui.navigation.util.appGraph
 import ru.practicum.android.diploma.ui.navigation.util.navigateToFavorite
@@ -84,8 +85,8 @@ private fun AppNavHost(navController: NavHostController, modifier: Modifier) {
     ) {
         appGraph(
             actions = AppGraphActions(
-                navigateToVacancy = { vacancyId ->
-                    navController.navigateToVacancy(vacancyId)
+                navigateToVacancy = { vacancyId, source ->
+                    navController.navigateToVacancy(vacancyId, source)
                 },
                 navigateToFilterSettings = {
                     navController.navigateToFilterSettings()

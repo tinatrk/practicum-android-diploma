@@ -14,15 +14,17 @@ import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterRegionV
 import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterSettingsViewModel
 import ru.practicum.android.diploma.presentation.filters.viewmodel.WorkLocationViewModel
 import ru.practicum.android.diploma.presentation.search.viewmodel.SearchViewModel
+import ru.practicum.android.diploma.ui.navigation.util.DetailsSource
 
 val viewModelModule = module {
     viewModelOf(::SearchViewModel)
 
     viewModelOf(::FavoritesViewModel)
 
-    viewModel { (vacancyId: String) ->
+    viewModel { (vacancyId: String, source: DetailsSource) ->
         VacancyDetailsViewModel(
             vacancyId = vacancyId,
+            source = source,
             detailsInteractor = get(),
             favoritesInteractor = get(),
             externalNavigatorInteractor = get(),
