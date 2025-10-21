@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
@@ -30,8 +32,8 @@ class SearchViewModel(
 ) : ViewModel() {
     private val _searchUiState = MutableStateFlow<SearchUiState>(SearchUiState.Idle)
     val searchUiState = _searchUiState.asStateFlow()
-    private val _isNextPageError = MutableStateFlow(false)
-    val isNextPageError = _isNextPageError.asStateFlow()
+    private val _isNextPageError = MutableSharedFlow<Boolean>()
+    val isNextPageError = _isNextPageError.asSharedFlow()
     private var debounceJob: Job? = null
     private val typedQuery = MutableStateFlow("")
     private var currentPage = -1
@@ -126,7 +128,7 @@ class SearchViewModel(
                         val isLastPage = currentPage == maxPages
                         currentPage = resource.data.page + 1
 
-                        _isNextPageError.value = false
+                        _isNextPageError.emit(false)
                         _searchUiState.value = SearchUiState.Success(
                             vacanciesInfoList,
                             resource.data.found,
@@ -136,7 +138,7 @@ class SearchViewModel(
 
                     is Resource.Error -> {
                         if (currentPage > 1) {
-                            _isNextPageError.value = true
+                            _isNextPageError.emit(true)
                         } else {
                             _searchUiState.value = SearchUiState.Error(resource.error)
                         }
