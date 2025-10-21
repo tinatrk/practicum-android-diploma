@@ -35,7 +35,7 @@ fun <A, B> afterDebounce(
 ): (A, B?) -> Unit {
     var debounceJob: Job? = null
 
-    return { firstParam: A, secondParam: B?  ->
+    return { firstParam: A, secondParam: B? ->
         if (useLastParam) {
             debounceJob?.cancel()
         }

@@ -34,7 +34,7 @@ fun FavoriteScreen(
         viewModel.navigationEvent.collect { event ->
             when (event) {
                 is NavigationEventToVacancy.OpenVacancyDetails ->
-                    navigateToVacancy(event.vacancyId , DetailsSource.FAVORITE)
+                    navigateToVacancy(event.vacancyId, DetailsSource.FAVORITE)
 
                 NavigationEventToVacancy.Idle -> Unit
             }
