@@ -113,12 +113,12 @@ class VacancyConverter(
         )
     }
 
-    private fun <T> convertListToString(list: List<T>?): String? {
+    private fun convertListToString(list: List<String>?): String? {
         return list?.let { gson.toJson(list) }
     }
 
-    private fun <T> getListFromString(str: String): List<T>? {
-        val type: Type = object : TypeToken<List<T>>() {}.type
+    private fun getListFromString(str: String): List<String>? {
+        val type: Type = object : TypeToken<List<String>>() {}.type
         return try {
             gson.fromJson(str, type)
         } catch (e: JsonSyntaxException) {

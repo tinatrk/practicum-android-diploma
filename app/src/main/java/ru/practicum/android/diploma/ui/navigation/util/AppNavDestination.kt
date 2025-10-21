@@ -29,7 +29,7 @@ sealed interface AppNavDestination {
     object Team : AppNavDestination
 
     @Serializable
-    data class Vacancy(val vacancyId: String) : AppNavDestination
+    data class Vacancy(val vacancyId: String, val source: DetailsSource) : AppNavDestination
 
     @Serializable
     data object FilterSettings : AppNavDestination
@@ -49,7 +49,7 @@ sealed interface AppNavDestination {
 
 /** Навигация для экрана: «Главная» */
 fun NavGraphBuilder.homeDestination(
-    navigateToVacancy: (String) -> Unit,
+    navigateToVacancy: (String, DetailsSource) -> Unit,
     navigateToFilterSettings: () -> Unit
 ) {
     composable<AppNavDestination.Home> {
@@ -73,7 +73,7 @@ fun NavHostController.navigateToHome() {
 
 /** Навигация для экрана: «Избранное» */
 fun NavGraphBuilder.favoriteDestination(
-    navigateToVacancy: (String) -> Unit
+    navigateToVacancy: (String, DetailsSource) -> Unit
 ) {
     composable<AppNavDestination.Favorite> {
         FavoriteScreen(navigateToVacancy = navigateToVacancy)
@@ -111,12 +111,13 @@ fun NavGraphBuilder.vacancyDestination(
 ) {
     composable<AppNavDestination.Vacancy> { navBackStackEntry ->
         val vacancyId = navBackStackEntry.toRoute<AppNavDestination.Vacancy>().vacancyId
-        VacancyScreen(vacancyId = vacancyId, onBackClick)
+        val source = navBackStackEntry.toRoute<AppNavDestination.Vacancy>().source
+        VacancyScreen(vacancyId = vacancyId, source, onBackClick)
     }
 }
 
-fun NavHostController.navigateToVacancy(vacancyId: String) {
-    navigate(AppNavDestination.Vacancy(vacancyId))
+fun NavHostController.navigateToVacancy(vacancyId: String, source: DetailsSource) {
+    navigate(AppNavDestination.Vacancy(vacancyId, source))
 }
 
 /** Навигация для экрана: «Настройки фильтрации» */

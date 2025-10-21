@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.ui.navigation.util
 
 data class AppGraphActions(
-    val navigateToVacancy: (String) -> Unit,
+    val navigateToVacancy: (String, DetailsSource) -> Unit,
     val navigateToFilterIndustry: (Int?) -> Unit,
     val navigateToFilterSettings: () -> Unit,
     val navigateToWorkLocation: () -> Unit,
