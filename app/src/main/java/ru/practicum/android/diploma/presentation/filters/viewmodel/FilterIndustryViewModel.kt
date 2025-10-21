@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filters.api.interactor.FilterInteractor
 import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
-import ru.practicum.android.diploma.presentation.filters.models.FilterIndustryScreenState
+import ru.practicum.android.diploma.presentation.filters.models.FilterIndustryUi
+import ru.practicum.android.diploma.presentation.filters.models.FilterIndustryUiState
+import ru.practicum.android.diploma.presentation.mappers.FilterConverter
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource
@@ -20,41 +22,42 @@ import ru.practicum.android.diploma.util.common.Resource
 class FilterIndustryViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val selectedIndustryId: Int?,
-    private val filterInteractor: FilterInteractor
+    private val filterInteractor: FilterInteractor,
+    private val converter: FilterConverter
 ) : ViewModel() {
 
     private val _shouldFinish = MutableStateFlow(false)
     val shouldFinish: StateFlow<Boolean> = _shouldFinish
 
     private val _screenState =
-        MutableStateFlow<FilterIndustryScreenState>(FilterIndustryScreenState.Loading)
+        MutableStateFlow<FilterIndustryUiState>(FilterIndustryUiState.Loading)
     val screenState = _screenState.asStateFlow()
     private val _industries = MutableStateFlow<List<FilterIndustry>>(emptyList())
     private var displayedIndustries: List<FilterIndustry> = listOf()
 
-    private var curChoice: FilterIndustry? = null
+    private var curChoice: FilterIndustryUi? = null
 
     private var searchJob: Job? = null
 
     init {
-        curChoice = selectedIndustryId?.let { FilterIndustry(id = it, name = "") }
+        curChoice = selectedIndustryId?.let { FilterIndustryUi(id = it, name = "") }
         loadIndustries()
     }
 
     private fun loadIndustries() {
         viewModelScope.launch {
             filterInteractor.getIndustries().collect { result ->
-                val state: FilterIndustryScreenState = when (result) {
+                val state: FilterIndustryUiState = when (result) {
                     is Resource.Success -> {
                         _industries.value = result.data.toList()
-                        FilterIndustryScreenState.Content(
-                            data = result.data,
+                        FilterIndustryUiState.Content(
+                            data = converter.toFilterIndustryUiList(result.data),
                             curChoice = curChoice?.id,
                         )
                     }
 
                     is Resource.Error -> {
-                        FilterIndustryScreenState.Error(
+                        FilterIndustryUiState.Error(
                             error = result.error,
                         )
                     }
@@ -64,7 +67,7 @@ class FilterIndustryViewModel(
         }
     }
 
-    private fun renderState(state: FilterIndustryScreenState) {
+    private fun renderState(state: FilterIndustryUiState) {
         _screenState.update {
             state
         }
@@ -97,29 +100,30 @@ class FilterIndustryViewModel(
     private fun updateDisplayList(newList: List<FilterIndustry>) {
         if (newList.isNotEmpty()) {
             renderState(
-                FilterIndustryScreenState.Content(
-                    data = newList,
+                FilterIndustryUiState.Content(
+                    data = converter.toFilterIndustryUiList(newList),
                     curChoice = curChoice?.id,
                 )
             )
         } else {
             renderState(
-                FilterIndustryScreenState.Error(error = Failure.NotFound)
+                FilterIndustryUiState.Error(error = Failure.NotFound)
             )
         }
     }
 
     fun onClearSearchQuery() {
         searchJob?.cancel()
+        displayedIndustries = _industries.value
         renderState(
-            FilterIndustryScreenState.Content(
-                data = _industries.value,
+            FilterIndustryUiState.Content(
+                data = converter.toFilterIndustryUiList(displayedIndustries),
                 curChoice = curChoice?.id
             )
         )
     }
 
-    fun onIndustryItemClick(filterIndustry: FilterIndustry?) {
+    fun onIndustryItemClick(filterIndustry: FilterIndustryUi?) {
         curChoice = if (curChoice?.id != filterIndustry?.id) {
             filterIndustry
         } else {
@@ -127,16 +131,28 @@ class FilterIndustryViewModel(
         }
 
         renderState(
-            FilterIndustryScreenState.Content(
-                data = displayedIndustries.ifEmpty { _industries.value },
+            FilterIndustryUiState.Content(
+                data = converter.toFilterIndustryUiList(
+                    displayedIndustries
+                        .ifEmpty {
+                            _industries.value
+                        }
+                ),
                 curChoice = curChoice?.id,
             )
         )
     }
 
     fun onSaveChoiceClick() {
-        curChoice?.let { if (it.name != "") onReturnWithParam(it) else onReturnWithoutParam() }
-            ?: onReturnWithoutParam()
+        curChoice?.let {
+            if (it.name != "") {
+                onReturnWithParam(
+                    converter.toFilterIndustry(it)
+                )
+            } else {
+                onReturnWithoutParam()
+            }
+        } ?: onReturnWithoutParam()
     }
 
     fun onBackNavigate() {

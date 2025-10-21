@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,7 +43,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsEvent
-import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsState
+import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsUiState
 import ru.practicum.android.diploma.presentation.filters.viewmodel.FilterSettingsViewModel
 import ru.practicum.android.diploma.ui.components.CustomButton
 import ru.practicum.android.diploma.ui.components.FilterListItem
@@ -74,6 +75,12 @@ fun FilterSettingsScreen(
         }
     }
 
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.clearSavedState()
+        }
+    }
+
     Scaffold(
         topBar = {
             SimpleTopBarWithBackIcon(
@@ -82,8 +89,8 @@ fun FilterSettingsScreen(
             )
         },
         bottomBar = {
-            if (state.showActionButtons) {
-                Column(modifier = Modifier.padding(bottom = 24.dp)) {
+            Column(modifier = Modifier.padding(bottom = 24.dp)) {
+                if (state.showApplyButton) {
                     CustomButton(
                         text = stringResource(R.string.btn_apply),
                         isPositiveType = true,
@@ -91,7 +98,9 @@ fun FilterSettingsScreen(
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
+                }
 
+                if (state.showCancelButton) {
                     CustomButton(
                         text = stringResource(R.string.btn_throw_off),
                         isPositiveType = false,
@@ -127,7 +136,7 @@ fun FilterSettingsScreen(
 @Composable
 private fun SettingsContent(
     modifier: Modifier = Modifier,
-    state: FilterSettingsState,
+    state: FilterSettingsUiState,
     onPlaceClick: () -> Unit,
     onIndustryClick: (Int?) -> Unit,
     onClearPlaceSelected: () -> Unit,
@@ -172,7 +181,7 @@ private fun SettingsContent(
         Spacer(modifier = modifier.height(24.dp))
 
         SalaryCheckbox(
-            isChecked = state.onlyWithoutSalary,
+            isChecked = state.onlyWithSalary,
             onCheckedChange = { checked ->
                 onCheckedChange(checked)
             },
@@ -306,7 +315,7 @@ private fun SalaryCheckbox(
 private fun SettingsContentPreview() {
     AppTheme(darkTheme = false) {
         SettingsContent(
-            state = FilterSettingsState(),
+            state = FilterSettingsUiState(),
             onPlaceClick = {},
             onIndustryClick = {},
             colors = LocalCustomColors.current.filterListItemColors,

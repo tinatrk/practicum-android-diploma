@@ -15,12 +15,14 @@ import ru.practicum.android.diploma.domain.models.filters.FilterAddress
 import ru.practicum.android.diploma.domain.models.filters.FilterIndustry
 import ru.practicum.android.diploma.domain.models.filters.FilterSettings
 import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsEvent
-import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsState
+import ru.practicum.android.diploma.presentation.filters.models.FilterSettingsUiState
+import ru.practicum.android.diploma.presentation.mappers.FilterConverter
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 
 class FilterSettingsViewModel(
     private val filterStorageInteractor: FilterStorageInteractor,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    private val converter: FilterConverter
 ) : ViewModel() {
 
     private val _events = MutableSharedFlow<FilterSettingsEvent>()
@@ -32,8 +34,8 @@ class FilterSettingsViewModel(
     private val navAddress: StateFlow<FilterAddress?> =
         savedStateHandle.getStateFlow(NavResultKeys.SELECTED_WORK_ADDRESS, null)
 
-    private val _screenState = MutableStateFlow(FilterSettingsState())
-    val screenState: StateFlow<FilterSettingsState> = _screenState
+    private val _screenState = MutableStateFlow(FilterSettingsUiState())
+    val screenState: StateFlow<FilterSettingsUiState> = _screenState
 
     init {
         viewModelScope.launch {
@@ -41,7 +43,7 @@ class FilterSettingsViewModel(
                 if (stored != null) {
                     applyFromStorage(stored)
                 } else {
-                    _screenState.update { FilterSettingsState(initial = null) }
+                    _screenState.update { FilterSettingsUiState(initial = null) }
                 }
             }
         }
@@ -52,8 +54,13 @@ class FilterSettingsViewModel(
                 navAddress
             ) { industry, address -> industry to address }.collect { (industry, address) ->
                 _screenState.update {
-                    val newAddress = address ?: it.address
-                    val newIndustry = industry ?: it.industry
+                    val newAddress = address?.let {
+                        converter.toFilterAddressUi(it)
+                    } ?: it.address
+                    val newIndustry = industry?.let {
+                        converter.toFilterIndustryUi(it)
+                    } ?: it.industry
+
                     if (newAddress == it.address && newIndustry == it.industry) {
                         it
                     } else {
@@ -68,13 +75,17 @@ class FilterSettingsViewModel(
     }
 
     private fun applyFromStorage(storage: FilterSettings) {
-        _screenState.update {
-            it.copy(
-                address = storage.address,
-                industry = storage.industry,
+        _screenState.update { state ->
+            state.copy(
+                address = storage.address?.let {
+                    converter.toFilterAddressUi(it)
+                },
+                industry = storage.industry?.let {
+                    converter.toFilterIndustryUi(it)
+                },
                 salary = storage.salary?.toString().orEmpty(),
-                onlyWithoutSalary = storage.onlyWithSalary ?: false,
-                initial = storage
+                onlyWithSalary = storage.onlyWithSalary ?: false,
+                initial = converter.toFilterSettingsUi(storage)
             )
         }
     }
@@ -84,7 +95,7 @@ class FilterSettingsViewModel(
     }
 
     fun onShowWithoutSalaryChange(showWithoutSalary: Boolean) {
-        _screenState.update { it.copy(onlyWithoutSalary = showWithoutSalary) }
+        _screenState.update { it.copy(onlyWithSalary = showWithoutSalary) }
     }
 
     fun onClearAddress() {
@@ -99,13 +110,17 @@ class FilterSettingsViewModel(
 
     fun onApply() {
         val filterSettings = FilterSettings(
-            address = _screenState.value.address,
-            industry = _screenState.value.industry,
+            address = _screenState.value.address?.let {
+                converter.toFilterAddress(it)
+            },
+            industry = _screenState.value.industry?.let {
+                converter.toFilterIndustry(it)
+            },
             salary = _screenState.value.salary.toIntOrNull(),
-            onlyWithSalary = _screenState.value.onlyWithoutSalary
+            onlyWithSalary = _screenState.value.onlyWithSalary
         )
         filterStorageInteractor.saveFilterSettings(filterSettings)
-        _screenState.update { it.copy(initial = filterSettings) }
+        _screenState.update { it.copy(initial = converter.toFilterSettingsUi(filterSettings)) }
         viewModelScope.launch {
             _events.emit(FilterSettingsEvent.NavigateBack)
         }
@@ -113,7 +128,7 @@ class FilterSettingsViewModel(
 
     fun onReset() {
         filterStorageInteractor.clearFilterSettings()
-        _screenState.update { FilterSettingsState(initial = null) }
+        _screenState.update { FilterSettingsUiState(initial = null) }
         savedStateHandle[NavResultKeys.SELECTED_WORK_ADDRESS] = null
         savedStateHandle[NavResultKeys.SELECTED_INDUSTRY] = null
         viewModelScope.launch {
@@ -122,11 +137,24 @@ class FilterSettingsViewModel(
     }
 
     fun navigateToWorkLocation() {
-        savedStateHandle[NavResultKeys.SELECTED_COUNTRY] = _screenState.value.address?.country
-        savedStateHandle[NavResultKeys.SELECTED_REGION] = _screenState.value.address?.region
+        savedStateHandle[NavResultKeys.SELECTED_COUNTRY] = _screenState.value.address?.country?.let {
+            converter.toFilterCountry(it)
+        }
+
+        savedStateHandle[NavResultKeys.SELECTED_REGION] = _screenState.value.address?.region?.let {
+            converter.toFilterRegion(it)
+        }
 
         viewModelScope.launch {
             _events.emit(FilterSettingsEvent.NavigateToWorkLocation)
         }
+    }
+
+    fun clearSavedState() {
+        viewModelScope.launch {
+            _events.emit(FilterSettingsEvent.NavigateBack)
+        }
+        savedStateHandle[NavResultKeys.SELECTED_WORK_ADDRESS] = null
+        savedStateHandle[NavResultKeys.SELECTED_INDUSTRY] = null
     }
 }

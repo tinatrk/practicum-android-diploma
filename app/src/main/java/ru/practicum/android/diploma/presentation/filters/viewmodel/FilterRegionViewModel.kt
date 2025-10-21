@@ -14,13 +14,15 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filters.api.interactor.FilterInteractor
 import ru.practicum.android.diploma.domain.models.filters.FilterRegion
 import ru.practicum.android.diploma.presentation.filters.models.RegionUiState
+import ru.practicum.android.diploma.presentation.mappers.FilterConverter
 import ru.practicum.android.diploma.ui.navigation.util.NavResultKeys
 import ru.practicum.android.diploma.util.common.Resource
 
 class FilterRegionViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val interactor: FilterInteractor,
-    private val selectedCountryId: Int?
+    private val selectedCountryId: Int?,
+    private val converter: FilterConverter
 ) : ViewModel() {
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
@@ -45,7 +47,9 @@ class FilterRegionViewModel(
                     when (resource) {
                         is Resource.Success -> {
                             _regions.value = resource.data.toList()
-                            _regionUiState.value = RegionUiState.Success(_regions.value)
+                            _regionUiState.value = RegionUiState.Success(
+                                converter.toFilterRegionUiList(_regions.value)
+                            )
                         }
 
                         is Resource.Error -> {
@@ -70,7 +74,9 @@ class FilterRegionViewModel(
     fun onQueryCleared() {
         _query.value = ""
         debounceJob?.cancel()
-        _regionUiState.value = RegionUiState.Success(_regions.value)
+        _regionUiState.value = RegionUiState.Success(
+            converter.toFilterRegionUiList(_regions.value)
+        )
     }
 
     fun search(query: String?) {
@@ -85,7 +91,9 @@ class FilterRegionViewModel(
             }.thenBy { it.name })
         }
 
-        _regionUiState.value = RegionUiState.Success(result)
+        _regionUiState.value = RegionUiState.Success(
+            converter.toFilterRegionUiList(result)
+        )
     }
 
     fun onReturnWithParam(id: Int, name: String, parentId: Int) {

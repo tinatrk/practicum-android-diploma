@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.presentation.search.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.FlowPreview
@@ -35,7 +34,7 @@ class SearchViewModel(
     val isNextPageError = _isNextPageError.asStateFlow()
     private var debounceJob: Job? = null
     private val typedQuery = MutableStateFlow("")
-    private var currentPage = 1
+    private var currentPage = -1
     private var maxPages = Int.MAX_VALUE
     private var lastQuery: String? = null
     private var isNextPageLoading = false
@@ -75,7 +74,6 @@ class SearchViewModel(
     init {
         _filterSettings
             .onEach {
-                Log.d("MyTag", "viewModel -> $it")
                 isFilterSetChanged = true
                 searchVacancies(lastQuery.orEmpty())
             }
@@ -87,6 +85,7 @@ class SearchViewModel(
         debounceJob?.cancel()
 
         if (query.isEmpty()) {
+            lastQuery = null
             _searchUiState.value = SearchUiState.Idle
             return
         }
@@ -97,6 +96,7 @@ class SearchViewModel(
 
         isFilterSetChanged = false
         currentPage = 1
+        maxPages = 1
         lastQuery = query
         vacanciesInfoList.clear()
         loadNextPage()
@@ -113,16 +113,18 @@ class SearchViewModel(
                 page = currentPage,
                 filterSettings = _filterSettings.value
             )
-            if (currentPage == 0) _searchUiState.value = SearchUiState.Loading
+            if (currentPage == 1) _searchUiState.value = SearchUiState.Loading
 
             response.collect { resource ->
                 when (resource) {
                     is Resource.Success -> {
                         val vacanciesBriefInfo = converter.map(resource.data.vacancies)
 
+                        vacanciesInfoList = (vacanciesInfoList + vacanciesBriefInfo).toMutableList()
+
                         maxPages = resource.data.pages
                         val isLastPage = currentPage == maxPages
-                        vacanciesInfoList = (vacanciesInfoList + vacanciesBriefInfo).toMutableList()
+                        currentPage = resource.data.page + 1
 
                         _isNextPageError.value = false
                         _searchUiState.value = SearchUiState.Success(
@@ -130,11 +132,10 @@ class SearchViewModel(
                             resource.data.found,
                             isLastPage
                         )
-                        currentPage = resource.data.page + 1
                     }
 
                     is Resource.Error -> {
-                        if (currentPage > 0) {
+                        if (currentPage > 1) {
                             _isNextPageError.value = true
                         } else {
                             _searchUiState.value = SearchUiState.Error(resource.error)

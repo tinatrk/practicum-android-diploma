@@ -6,7 +6,6 @@ import ru.practicum.android.diploma.data.converter.VacancyConverter
 import ru.practicum.android.diploma.data.dto.request.VacancyRequest
 import ru.practicum.android.diploma.data.dto.response.VacancyResponse
 import ru.practicum.android.diploma.data.network.NetworkClient
-import ru.practicum.android.diploma.data.network.RequestOptionKeys
 import ru.practicum.android.diploma.domain.models.filters.FilterSettings
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyPage
 import ru.practicum.android.diploma.domain.search.api.repository.VacancySearchRepository
@@ -67,10 +66,10 @@ class VacancySearchRepositoryImpl(
         filterSettings: FilterSettings?
     ): Map<String, String> {
         val options: MutableMap<String, String> = mutableMapOf()
-        options[RequestOptionKeys.PAGE] = page.toString()
-        if (filterSettings?.salary != null) options[RequestOptionKeys.SALARY] = filterSettings.salary.toString()
+        options[PAGE] = page.toString()
+        if (filterSettings?.salary != null) options[SALARY] = filterSettings.salary.toString()
         if (filterSettings?.industry != null) {
-            options[RequestOptionKeys.INDUSTRY] =
+            options[INDUSTRY] =
                 filterSettings.industry.id.toString()
         }
         if (filterSettings?.address != null) {
@@ -79,8 +78,15 @@ class VacancySearchRepositoryImpl(
             } else {
                 filterSettings.address.country.id
             }
-            options[RequestOptionKeys.AREA] = areaId.toString()
+            options[AREA] = areaId.toString()
         }
         return options
+    }
+
+    private companion object {
+        const val AREA = "area"
+        const val INDUSTRY = "industry"
+        const val SALARY = "salary"
+        const val PAGE = "page"
     }
 }
