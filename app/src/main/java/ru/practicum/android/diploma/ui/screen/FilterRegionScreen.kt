@@ -62,6 +62,7 @@ fun FilterRegionScreen(
 
     val state by viewModel.regionUiState.collectAsStateWithLifecycle()
     val query = viewModel.query.collectAsState().value
+    val isNeedShowSearchBar = (state as? RegionUiState.Error)?.failure !is Failure.Network
 
     Scaffold(
         containerColor = LocalCustomColors.current.screenBackground,
@@ -73,19 +74,21 @@ fun FilterRegionScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            CustomSearchBar(
-                text = query,
-                placeholderText = stringResource(R.string.search_bar_region_hint),
-                onTextChanged = { query ->
-                    viewModel.onSearchTextChange(query)
-                },
-                onClearTextClick = {
-                    viewModel.onQueryCleared()
-                },
-                onSearch = { query ->
-                    viewModel.onSearchTextChange(query)
-                }
-            )
+            if (isNeedShowSearchBar) {
+                CustomSearchBar(
+                    text = query,
+                    placeholderText = stringResource(R.string.search_bar_region_hint),
+                    onTextChanged = { query ->
+                        viewModel.onSearchTextChange(query)
+                    },
+                    onClearTextClick = {
+                        viewModel.onQueryCleared()
+                    },
+                    onSearch = { query ->
+                        viewModel.onSearchTextChange(query)
+                    }
+                )
+            }
 
             Box(
                 modifier = Modifier.fillMaxSize(),
