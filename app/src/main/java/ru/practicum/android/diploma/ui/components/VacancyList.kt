@@ -15,6 +15,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
+import ru.practicum.android.diploma.ui.navigation.util.DetailsSource
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.util.shouldLoadNextPageInList
 
@@ -24,7 +25,8 @@ fun VacancyList(
     onLoadNextPage: () -> Unit,
     isNextPageError: Boolean,
     isLastPage: Boolean,
-    onVacancyClick: (String) -> Unit,
+    source: DetailsSource,
+    onVacancyClick: (String, DetailsSource) -> Unit,
 ) {
     val listState = rememberLazyListState()
     val context = LocalContext.current
@@ -54,7 +56,7 @@ fun VacancyList(
         modifier = Modifier.fillMaxSize(),
     ) {
         items(items = vacancies, key = { it.id }, contentType = { it }) { vacancy ->
-            VacancyListItem(vacancy, onVacancyClick)
+            VacancyListItem(vacancy, source, onVacancyClick)
         }
 
         if (!isNextPageError && !isLastPage) {
@@ -80,7 +82,8 @@ private fun VacancyListPreviewLight() {
             onLoadNextPage = {},
             isNextPageError = false,
             isLastPage = false,
-            onVacancyClick = {}
+            source = DetailsSource.SEARCH,
+            onVacancyClick = { _, _ -> }
         )
     }
 }
@@ -100,7 +103,8 @@ private fun VacancyListPreviewDark() {
             onLoadNextPage = {},
             isNextPageError = false,
             isLastPage = false,
-            onVacancyClick = {}
+            source = DetailsSource.SEARCH,
+            onVacancyClick = { _, _ -> }
         )
     }
 }

@@ -20,12 +20,13 @@ import ru.practicum.android.diploma.ui.components.ErrorMessage
 import ru.practicum.android.diploma.ui.components.ProgressBar
 import ru.practicum.android.diploma.ui.components.SimpleVacancyList
 import ru.practicum.android.diploma.ui.components.topbar.SimpleTopBar
+import ru.practicum.android.diploma.ui.navigation.util.DetailsSource
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 
 @Composable
 fun FavoriteScreen(
     viewModel: FavoritesViewModel = koinViewModel(),
-    navigateToVacancy: (String) -> Unit
+    navigateToVacancy: (String, DetailsSource) -> Unit
 ) {
     val screenState by viewModel.screenStateFlow.collectAsStateWithLifecycle()
 
@@ -33,7 +34,7 @@ fun FavoriteScreen(
         viewModel.navigationEvent.collect { event ->
             when (event) {
                 is NavigationEventToVacancy.OpenVacancyDetails ->
-                    navigateToVacancy(event.vacancyId)
+                    navigateToVacancy(event.vacancyId, DetailsSource.FAVORITE)
 
                 NavigationEventToVacancy.Idle -> Unit
             }
@@ -76,6 +77,7 @@ fun FavoriteScreen(
             is FavoritesScreenState.Content -> {
                 SimpleVacancyList(
                     vacancies = (screenState as FavoritesScreenState.Content).data.toImmutableList(),
+                    source = DetailsSource.FAVORITE,
                     onVacancyClick = viewModel::onVacancyClick,
                     modifier = Modifier
                         .padding(it)

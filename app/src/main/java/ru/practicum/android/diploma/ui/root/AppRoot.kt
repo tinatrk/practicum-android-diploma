@@ -84,8 +84,8 @@ private fun AppNavHost(navController: NavHostController, modifier: Modifier) {
     ) {
         appGraph(
             actions = AppGraphActions(
-                navigateToVacancy = { vacancyId ->
-                    navController.navigateToVacancy(vacancyId)
+                navigateToVacancy = { vacancyId, source ->
+                    navController.navigateToVacancy(vacancyId, source)
                 },
                 navigateToFilterSettings = {
                     navController.navigateToFilterSettings()

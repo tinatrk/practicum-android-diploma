@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
+import ru.practicum.android.diploma.ui.navigation.util.DetailsSource
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
 import ru.practicum.android.diploma.ui.theme.LocalTypography
@@ -24,7 +25,8 @@ import ru.practicum.android.diploma.ui.theme.LocalTypography
 @Composable
 fun VacancyListItem(
     vacancyInfo: VacancyBriefInfo,
-    onVacancyClick: (String) -> Unit
+    source: DetailsSource,
+    onVacancyClick: (String, DetailsSource) -> Unit
 ) {
     val colors = LocalCustomColors.current
     val typography = LocalTypography.current
@@ -35,7 +37,7 @@ fun VacancyListItem(
         modifier = Modifier
             .fillMaxWidth()
             .background(colors.vacancyListItemColors.background)
-            .clickable { onVacancyClick(vacancyInfo.id) }
+            .clickable { onVacancyClick(vacancyInfo.id, source) }
             .padding(horizontal = 16.dp, vertical = 9.dp)
             .wrapContentHeight()
     ) {
@@ -83,7 +85,8 @@ private fun VacancyListItemPreviewLight() {
     AppTheme(darkTheme = false) {
         VacancyListItem(
             vacancyInfo = getVacancyPreviewItem(),
-            onVacancyClick = {}
+            onVacancyClick = { _, _ -> },
+            source = DetailsSource.SEARCH
         )
     }
 }
@@ -94,7 +97,8 @@ private fun VacancyListItemPreviewDark() {
     AppTheme(darkTheme = true) {
         VacancyListItem(
             vacancyInfo = getVacancyPreviewItem(),
-            onVacancyClick = {}
+            onVacancyClick = { _, _ -> },
+            source = DetailsSource.SEARCH
         )
     }
 }

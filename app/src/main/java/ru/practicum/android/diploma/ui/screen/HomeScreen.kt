@@ -36,6 +36,7 @@ import ru.practicum.android.diploma.ui.components.ProgressBar
 import ru.practicum.android.diploma.ui.components.ScreenMessage
 import ru.practicum.android.diploma.ui.components.VacancyList
 import ru.practicum.android.diploma.ui.components.topbar.SearchScreenTopBar
+import ru.practicum.android.diploma.ui.navigation.util.DetailsSource
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.Blue
 import ru.practicum.android.diploma.ui.theme.LocalCustomColors
@@ -46,12 +47,12 @@ import ru.practicum.android.diploma.util.common.Failure
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    navigateToVacancy: (String) -> Unit,
+    navigateToVacancy: (String, DetailsSource) -> Unit,
     navigateToFilterSettings: () -> Unit
 ) {
     val vm: SearchViewModel = koinViewModel()
     val state by vm.searchUiState.collectAsStateWithLifecycle()
-    val isNextPageError by vm.isNextPageError.collectAsStateWithLifecycle()
+    val isNextPageError by vm.isNextPageError.collectAsStateWithLifecycle(false)
     val isFiltersSet = vm.isFiltersSet.collectAsStateWithLifecycle()
 
     val onSearch = vm::searchVacancies
@@ -84,7 +85,7 @@ fun HomeScreen(
     onSearch: (String) -> Unit,
     onLoadNextPage: () -> Unit,
     isNextPageError: Boolean,
-    onVacancyClick: (String) -> Unit,
+    onVacancyClick: (String, DetailsSource) -> Unit,
     onQueryChanged: (String) -> Unit,
     onClearQueryClick: () -> Unit,
     modifier: Modifier
@@ -210,14 +211,15 @@ fun FoundVacanciesList(
     isLastPage: Boolean,
     onLoadNextPage: () -> Unit,
     isNextPageError: Boolean,
-    onVacancyClick: (String) -> Unit
+    onVacancyClick: (String, DetailsSource) -> Unit
 ) {
     VacancyList(
         vacancies = vacancies.toImmutableList(),
         onVacancyClick = onVacancyClick,
         onLoadNextPage = onLoadNextPage,
         isNextPageError = isNextPageError,
-        isLastPage = isLastPage
+        isLastPage = isLastPage,
+        source = DetailsSource.SEARCH
     )
 }
 
@@ -280,7 +282,7 @@ private fun SearchFieldPreview() {
                 { },
                 { },
                 false,
-                { },
+                { _, _ -> },
                 { },
                 { },
                 modifier = Modifier

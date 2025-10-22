@@ -17,6 +17,7 @@ import ru.practicum.android.diploma.domain.models.vacancy.VacancyBrief
 import ru.practicum.android.diploma.presentation.converter.VacancyConverter
 import ru.practicum.android.diploma.presentation.favorites.models.FavoritesScreenState
 import ru.practicum.android.diploma.presentation.models.NavigationEventToVacancy
+import ru.practicum.android.diploma.ui.navigation.util.DetailsSource
 import ru.practicum.android.diploma.util.afterDebounce
 import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource
@@ -61,18 +62,23 @@ class FavoritesViewModel(
         }
     }
 
-    private val onVacancyClickDebounce: (String) -> Unit =
-        afterDebounce(ON_VACANCY_CLICK_DELAY_MILLIS, viewModelScope, false) { vacancyId ->
+    private val onVacancyClickDebounce: (String, DetailsSource) -> Unit =
+        afterDebounce(ON_VACANCY_CLICK_DELAY_MILLIS, viewModelScope, false) { vacancyId, source ->
             viewModelScope.launch {
-                _navigationEvent.emit(NavigationEventToVacancy.OpenVacancyDetails(vacancyId = vacancyId))
+                _navigationEvent.emit(
+                    NavigationEventToVacancy.OpenVacancyDetails(
+                        vacancyId = vacancyId,
+                        source = source
+                    )
+                )
             }
         }
 
-    fun onVacancyClick(vacancyId: String) {
+    fun onVacancyClick(vacancyId: String, source: DetailsSource) {
         viewModelScope.launch {
             _navigationEvent.emit(NavigationEventToVacancy.Idle)
         }
-        onVacancyClickDebounce(vacancyId)
+        onVacancyClickDebounce(vacancyId, source)
     }
 
     companion object {

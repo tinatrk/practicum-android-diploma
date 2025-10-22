@@ -45,12 +45,12 @@ class FilterAreaConverter(private val gson: Gson) {
         }
     }
 
-    private fun <T> convertListToString(list: List<T>?): String? {
+    private fun convertListToString(list: List<FilterArea>?): String? {
         return list?.let { gson.toJson(list) }
     }
 
-    private fun <T> getListFromString(str: String): List<T>? {
-        val type: Type = object : TypeToken<List<T>>() {}.type
+    private fun getListFromString(str: String): List<FilterArea>? {
+        val type: Type = object : TypeToken<List<FilterArea>>() {}.type
         return try {
             gson.fromJson(str, type)
         } catch (e: JsonSyntaxException) {
