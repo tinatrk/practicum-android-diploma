@@ -60,6 +60,8 @@ fun FilterIndustryScreen(
     val screenState = viewModel.screenState.collectAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    val isNeedShowSearchBar = (screenState.value as? FilterIndustryUiState.Error)?.error !is Failure.Network
+
     Scaffold(
         topBar = {
             SimpleTopBarWithBackIcon(
@@ -75,17 +77,19 @@ fun FilterIndustryScreen(
                 .fillMaxSize()
                 .background(LocalCustomColors.current.screenBackground)
         ) {
-            CustomSearchField(
-                placeholderText = stringResource(R.string.industry_search_bar_placeholder),
-                onQueryChanged = viewModel::onSearchTextChanged,
-                onClearQueryClick = viewModel::onClearSearchQuery,
-                onSearch = viewModel::onSearchTextChanged,
-            )
-            Spacer(
-                modifier = Modifier
-                    .height(8.dp)
-                    .background(LocalCustomColors.current.screenBackground)
-            )
+            if (isNeedShowSearchBar) {
+                CustomSearchField(
+                    placeholderText = stringResource(R.string.industry_search_bar_placeholder),
+                    onQueryChanged = viewModel::onSearchTextChanged,
+                    onClearQueryClick = viewModel::onClearSearchQuery,
+                    onSearch = viewModel::onSearchTextChanged,
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(8.dp)
+                        .background(LocalCustomColors.current.screenBackground)
+                )
+            }
 
             when (val curState = screenState.value) {
                 is FilterIndustryUiState.Loading -> {
