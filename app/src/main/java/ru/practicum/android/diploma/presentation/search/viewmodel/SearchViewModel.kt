@@ -129,18 +129,29 @@ class SearchViewModel(
                         currentPage = resource.data.page + 1
 
                         _isNextPageError.emit(false)
-                        _searchUiState.value = SearchUiState.Success(
-                            vacanciesInfoList,
-                            resource.data.found,
-                            isLastPage
-                        )
+
+                        // Если к моменту получения результата, пользователь очистил поисковую строку
+                        if (lastQuery.isNullOrEmpty()) {
+                            _searchUiState.value = SearchUiState.Idle
+                        } else {
+                            _searchUiState.value = SearchUiState.Success(
+                                vacanciesInfoList,
+                                resource.data.found,
+                                isLastPage
+                            )
+                        }
                     }
 
                     is Resource.Error -> {
-                        if (currentPage > 1) {
-                            _isNextPageError.emit(true)
+                        // Если к моменту получения результата, пользователь очистил поисковую строку
+                        if (lastQuery.isNullOrEmpty()) {
+                            _searchUiState.value = SearchUiState.Idle
                         } else {
-                            _searchUiState.value = SearchUiState.Error(resource.error)
+                            if (currentPage > 1) {
+                                _isNextPageError.emit(true)
+                            } else {
+                                _searchUiState.value = SearchUiState.Error(resource.error)
+                            }
                         }
                     }
                 }
@@ -155,6 +166,7 @@ class SearchViewModel(
     }
 
     fun clearTextClick() {
+        debounceJob?.cancel()
         lastQuery = ""
         _searchUiState.value = SearchUiState.Idle
     }
