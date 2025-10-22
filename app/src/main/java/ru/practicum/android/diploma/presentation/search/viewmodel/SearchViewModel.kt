@@ -19,10 +19,12 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.filters.api.interactor.FilterStorageInteractor
+import ru.practicum.android.diploma.domain.models.vacancy.VacancyPage
 import ru.practicum.android.diploma.domain.search.api.interactor.VacancySearchInteractor
 import ru.practicum.android.diploma.presentation.converter.VacancyConverter
 import ru.practicum.android.diploma.presentation.models.VacancyBriefInfo
 import ru.practicum.android.diploma.presentation.search.models.SearchUiState
+import ru.practicum.android.diploma.util.common.Failure
 import ru.practicum.android.diploma.util.common.Resource
 
 class SearchViewModel(
@@ -120,42 +122,50 @@ class SearchViewModel(
             response.collect { resource ->
                 when (resource) {
                     is Resource.Success -> {
-                        val vacanciesBriefInfo = converter.map(resource.data.vacancies)
-
-                        vacanciesInfoList = (vacanciesInfoList + vacanciesBriefInfo).toMutableList()
-
-                        maxPages = resource.data.pages
-                        val isLastPage = currentPage == maxPages
-                        currentPage = resource.data.page + 1
-
-                        _isNextPageError.emit(false)
-
-                        // Если к моменту получения результата, пользователь очистил поисковую строку
-                        if (lastQuery.isNullOrEmpty()) {
-                            _searchUiState.value = SearchUiState.Idle
-                        } else {
-                            _searchUiState.value = SearchUiState.Success(
-                                vacanciesInfoList,
-                                resource.data.found,
-                                isLastPage
-                            )
-                        }
+                        handleSuccess(resource)
                     }
 
                     is Resource.Error -> {
-                        // Если к моменту получения результата, пользователь очистил поисковую строку
-                        if (lastQuery.isNullOrEmpty()) {
-                            _searchUiState.value = SearchUiState.Idle
-                        } else {
-                            if (currentPage > 1) {
-                                _isNextPageError.emit(true)
-                            } else {
-                                _searchUiState.value = SearchUiState.Error(resource.error)
-                            }
-                        }
+                        handleError(resource)
                     }
                 }
                 isNextPageLoading = false
+            }
+        }
+    }
+
+    private suspend fun handleSuccess(resource: Resource.Success<VacancyPage>) {
+        val vacanciesBriefInfo = converter.map(resource.data.vacancies)
+
+        vacanciesInfoList = (vacanciesInfoList + vacanciesBriefInfo).toMutableList()
+
+        maxPages = resource.data.pages
+        val isLastPage = currentPage == maxPages
+        currentPage = resource.data.page + 1
+
+        _isNextPageError.emit(false)
+
+        // Если к моменту получения результата, пользователь очистил поисковую строку
+        if (lastQuery.isNullOrEmpty()) {
+            _searchUiState.value = SearchUiState.Idle
+        } else {
+            _searchUiState.value = SearchUiState.Success(
+                vacanciesInfoList,
+                resource.data.found,
+                isLastPage
+            )
+        }
+    }
+
+    private suspend fun handleError(resource: Resource.Error<Failure>) {
+        // Если к моменту получения результата, пользователь очистил поисковую строку
+        if (lastQuery.isNullOrEmpty()) {
+            _searchUiState.value = SearchUiState.Idle
+        } else {
+            if (currentPage > 1) {
+                _isNextPageError.emit(true)
+            } else {
+                _searchUiState.value = SearchUiState.Error(resource.error)
             }
         }
     }
